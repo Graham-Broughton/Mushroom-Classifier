@@ -1,18 +1,28 @@
+import os
+import imghdr
+import pandas as pd
+import regex as re
+import pickle
 
 def rename_images(fpath, label):
+    """
+    renames the files for a given directory
+    """
     for num, fname in enumerate(os.listdir(fpath)[1:-2]):
         new_name = re.sub('\.\d+', '', fname)
         new_name = str(num)+new_name
         new_name = new_name + label
         os.rename(os.path.join(fpath, fname), os.path.join(fpath, new_name))
 
-def return_labeled_df(filepath, cloud_path, label):
-    dir_list = []
-    for fname in os.listdir(filepath):
-        new = fname + ',' + label
-        new = cloud_path + new
-        dir_list.append(new)
-    return pd.DataFrame(dir_list)
+def return__df(filepath, label):
+    """
+    takes a GCS directory and returns a df with the filepath of everything in the gcloud directory
+    with a column containging a given label
+    """
+    dir_list = !gsutil ls filepath
+    df = pd.DataFrame(dir_list)[1:, :]
+    df['label'] = label
+    return df
 
 def fix_filename(size, filepath=filepath, df=df):
     for fname in os.listdir(filepath):
@@ -22,28 +32,48 @@ def fix_filename(size, filepath=filepath, df=df):
     df[0] = df[0].apply(lambda x: re.sub('({size}.png)\.(\d)', r'\2\1', x))
     return df
 
-def csv_to_txt(f1, f2, f3, f4, source, dest):
-	"""
-	"""
-	asco = pd.read_csv(source + f1 + '.csv', header=None)[0].values.tolist()
-	basidio = pd.read_csv(source + f2 + '.csv', header=None)[0].values.tolist()
-	gyro = pd.read_csv(source + f3 + '.csv', header=None)[0].values.tolist()
-	morel = pd.read_csv(source + f4 + '.csv', header=None)[0].values.tolist()
+def split_file_name(df):
+    """ splits a df on / and selects the last item, good for grabbing just the file name
+    """
+    df1['split'] = df1['file_name'].apply(lambda x: x.split('/')[-1])
+    return df
 
-	with open(dest+f1+'.txt', 'w') as f:
-		for item in asco:
-        	f.write(f'{item}\n')
+def to_content(df1, df2):
+    """
+    takes two dfs (train and val) and replaces the GCS prefix with the local dir
+    """
+    df1['file_name'] = df1['file_name'].replace('gs://medium_mush', '/content/mush', regex=True)
+    df2['file_name'] = df2['file_name'].replace('gs://medium_mush', '/content/mush', regex=True)
+    return df1, df2
 
-	with open(dest+f2+'.txt', 'w') as f:
-	    for item in nb:
-        	f.write('%s\n' % item)
 
-	with open(dest+f3+'.txt', 'w') as f:
-	    for item in gyro:
-	        f.write(f'{item}\n')
+def break_dfs_smaller(train, val, lower_limit, upper_limit):
+    """
+    takes two dfs (train and val) and selects for category_ids counts above the lower limit
+    then selects the top upper limit of category ids.
+    So it selects the range of counts for category ID you want.
+    """
+    counts = df1.groupby(['category_id', 'name']).count().reset_index()
+    counts = counts[counts['id_x'] > lower_limit]
+    df1 = df1[df1['name'].isin(counts['name'])]
+    df2 = df2[df2['name'].isin(counts['name'])]
+    df1.groupby('category_id').head(upper_limit)
+    return df1, df2
 
-	with open(dest+f4+'.txt', 'w') as f:
-	    for item in morel:
-	        f.write(f'{item}\n')
-    return
+def remove_corrupted_images(path, dir):
+    """
+    check for and remove corrupted images in given directory
+    """
+    for image in dir:
+        file = os.path.join(path, image)
+        if not imghdr.what(file):
+            print(file)
+            os.remove(file)
 
+def save_list(list_, path):
+    with open(path, 'wb') as f:
+        pickle.dump(list_, f)
+
+def load_list(path):
+    with open(path, 'rb') as f:
+        return pickle.load(f)
