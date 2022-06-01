@@ -5,6 +5,7 @@ Hello and welcome to my mushroom classification project. This was my final proje
 1. [__Overview__](https://github.com/Graham-Broughton/mushroom_classification#Overview)
 2. [__Obtaining Images__](https://github.com/Graham-Broughton/mushroom_classification#Images)
 3. [__YOLOv5__](https://github.com/Graham-Broughton/mushroom_classification#YOLOv5)
+4. [__CNN__](https://github.com/Graham-Broughton/mushroom_classification#CNN)
 
 ## **Overview**
 I explored this subject on two levels: 
@@ -38,12 +39,22 @@ Three sources were used for the primary training and one source to train the YOL
     * [Fiftyone](https://voxel51.com/docs/fiftyone/) was used to download the subsection of Open Images V6 that had the label "Mushroom"
 
 ## __YOLOv5__
-As previously stated, YOLOv5 is a neural network for object detection: given an image it places a boudning box around any objects it identifies for a chosen label. I thought it would improve my model on two fronts. The first, 
+As previously stated, YOLOv5 is a neural network for object detection: given an image it places a boudning box around any objects it identifies for a chosen label. I thought it would improve my model on two fronts.
 * some photos were not even of mushrooms but spores instead. 
-* 'standardizing' the images should improve accuracy by having the mushroom in a similar area of the image.
+* 'standardizing' the images should improve accuracy by having the mushroom in a similar area in each image.
 
 Training this network required images with labeled bounding box coordinates. I used OpenImagesV6 which had ~1700 labeled mushrooms images. Here are the results of the training:
 ![YOLOv5 results](src/yolo_stuff/YOLO_results.png)
-As you can see, I could have trained it for another 5-10 epochs but unfortunately time was running out.
+
+As you can see, I could have trained it for another 5-10 epochs but unfortunately time was running out. YOLOv5 was applied to each of the ~100000 images present.
 
 ## __CNN__
+The CNN that gave the best results was EffecientNetV2L, although it is very choppy and I cannot think of a reason why. I did two runs for the morel and false morel model: one using the cropped images and one without.
+![cnn_no_yolo](src/visualization/CNN_noyolo.png)
+![cnn_yolo](src/visualization/CNN_yolo.png)
+I was expecting a higher accuracy for both of them considering it was just a binary classification. The model without YOLO preprocessing was no better than a coin toss!
+
+I do not have any visuals to show for my general model as the accuracy was essentially zero and I was trying to improve it until I ran out of time. The TPU was able to process the 15 000 images quite quickly at a batch size of 64, so I decided to train it on the whole dataset - ~90 000 images. It was able to train up to a batch size of 1024, taking about an hour an epoch. I am thoroughly impressed with TPU's and look forward to testing Google Cloud's.
+
+Thanks for staying until the end!
+Graham 
