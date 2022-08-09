@@ -42,42 +42,59 @@ def merge_dfs(images, annotation, category):
     df.drop(['id_y', 'license', 'rights_holder', 'file_name'], axis=1, inplace=True)
     return df
 
+def read_aws_jsons(filepath):
 
-train_URL = 'https://labs.gbif.org/fgvcx/2018/fungi_train_val.tgz'
-test_URL = 'https://labs.gbif.org/fgvcx/2018/fungi_test.tgz'
-annotation_URL = 'https://labs.gbif.org/fgvcx/2018/train_val_annotations.tgz'
-test_info_URL = 'https://raw.githubusercontent.com/visipedia/fgvcx_fungi_comp/master/data/test_information.tgz'
+    annot, cat, info, images, license = read_jsons(filepath)
 
-wget.download(train_URL)
-wget.download(test_URL)
-wget.download(annotation_URL)
-wget.download(test_info_URL)
+    df = merge_dfs(images, annot, cat)
 
-with tarfile.open('train_val_annotations.tgz') as f:
-    f.extractall()
-with tarfile.open('fungi_test.tgz') as f:
-    f.extractall()
-with tarfile.open('fungi_train_val.tgz') as f:
-    f.extractall()
-with tarfile.open('test_information.tgz') as f:
-    f.extractall()
+    df = df[df['kingdom'] == 'Fungi']
+    df['year'] = pd.to_datetime(df['date']).dt.year
+    df['day'] = pd.to_datetime(df['date']).dt.dayofyear
+    df['date'] = pd.to_datetime(df['date']).dt.date
 
-tr_annotation, tr_category, tr_info, tr_images, tr_licenses = read_jsons('train.json')
-val_annotation, val_category, val_info, val_images, val_licenses = read_jsons('val.json')
-test_info, test_images, test_licenses = read_jsons('test.json')
+    df.drop(['year', 'image_dir_name', 'kingdom', 'phylum', 'class', 'order', 'family', 'common_name', 'supercategory', 'location_uncertainty'], axis=1, inplace=True)
+    df.set_index('id_x', inplace=True)
+    return df
 
-train_annot = merge_dfs(tr_images, tr_annotation, tr_category)
-val_annot = merge_dfs(val_images, val_annotation, val_category)
+def get_images():
+    train_URL = 'https://labs.gbif.org/fgvcx/2018/fungi_train_val.tgz'
+    test_URL = 'https://labs.gbif.org/fgvcx/2018/fungi_test.tgz'
+    annotation_URL = 'https://labs.gbif.org/fgvcx/2018/train_val_annotations.tgz'
+    test_info_URL = 'https://raw.githubusercontent.com/visipedia/fgvcx_fungi_comp/master/data/test_information.tgz'
 
-test_images['new_filename'] = 'test/' + test_images['id'].astype(str) + '.jpg'
+    wget.download(train_URL)
+    wget.download(test_URL)
+    wget.download(annotation_URL)
+    wget.download(test_info_URL)
 
-test_images.to_csv('test.csv', index=False)
-train_annot.to_csv('train.csv', index=False)
-val_annot.to_csv('val.csv', index=False)
+    with tarfile.open('train_val_annotations.tgz') as f:
+        f.extractall()
+    with tarfile.open('fungi_test.tgz') as f:
+        f.extractall()
+    with tarfile.open('fungi_train_val.tgz') as f:
+        f.extractall()
+    with tarfile.open('test_information.tgz') as f:
+        f.extractall()
 
-for filename in os.listdir('test'):
-    try:
-        new_file = test_images[test_images['file_name'].str.split('/').str[-1] == filename]['new_filename'].values[0]
-        os.rename('test/'+filename, new_file)
-    except IndexError:
-        continue
+    tr_annotation, tr_category, tr_info, tr_images, tr_licenses = read_jsons('train.json')
+    val_annotation, val_category, val_info, val_images, val_licenses = read_jsons('val.json')
+    test_info, test_images, test_licenses = read_jsons('test.json')
+
+    train_annot = merge_dfs(tr_images, tr_annotation, tr_category)
+    val_annot = merge_dfs(val_images, val_annotation, val_category)
+
+    test_images['new_filename'] = 'test/' + test_images['id'].astype(str) + '.jpg'
+
+    test_images.to_csv('test.csv', index=False)
+    train_annot.to_csv('train.csv', index=False)
+    val_annot.to_csv('val.csv', index=False)
+
+    for filename in os.listdir('test'):
+        try:
+            new_file = test_images[test_images['file_name'].str.split('/').str[-1] == filename]['new_filename'].values[0]
+            os.rename('test/'+filename, new_file)
+        except IndexError:
+            continue
+
+    return train_annot, val_annot, test_images
