@@ -7,6 +7,6 @@ LR_DECAY_FACTOR    : 0.97
 EPOCHS_PER_DECAY   : 2
 ES_PATIENCE        : 1
 
-IMAGE_SIZE         : [150, 150]
+IMAGE_SIZE         : [256, 256]
 DROPOUT_PERCENT    : 0.2
 BATCH_SIZE         : 64
