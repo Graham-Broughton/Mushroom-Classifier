@@ -1,0 +1,13 @@
+INITIAL_LR_RATE    : 0.001
+LR_DECAY_FACTOR    : 0.96
+EPOCHS_PER_DECAY   : 3
+ES_PATIENCE        : 5
+IMAGE_SIZE         : [512, 512]
+DROPOUT_PERCENT    : 0.1
+BATCH_SIZE         : 16 * 8 * 3
+EPOCHS             : 100
+HEIGHT             : 512
+SEED               : 42
+NUM_TRAIN_IMAGES   : 85578
+NUM_VAL_IMAGES     : 4182
+CLASSES            : 1394
