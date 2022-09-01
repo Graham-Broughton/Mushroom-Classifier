@@ -8,13 +8,13 @@ from flask import Flask, request, jsonify, render_template
 
 from form import ImageForm
 
-config = yaml.safe_load(open('config.yaml'))
-label_dict = pickle.load(open(config['label_dict_path'], 'rb'))
+config = yaml.safe_load(open('config.YAML'))
+label_dict = pickle.load(open(config['LABEL_DICT_PATH'], 'rb'))
 
 app = Flask(__name__)
 UPLOAD_FOLDER = 'static/'
 
-model = keras.models.load_model(config['model_path'])
+model = keras.models.load_model(config['MODEL_PATH'])
 
 @app.route('/', methods=['GET', 'POST'])
 def classify(file):
@@ -33,6 +33,11 @@ def classify(file):
         preds = model.predict(img)
         sorted_preds = preds[0].argsort()[::-1][:100]
 
-        predictions = {label_dict[pred]: round(preds[0][pred] * 100, 4) for pred in sorted_preds[:10]}
+        predictions = jsonify(dict({label_dict[pred]: round(preds[0][pred] * 100, 4) for pred in sorted_preds[:10]}))
 
         return predictions
+    else:
+        render_template('home.html')
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=6006, debug=True)
