@@ -1,28 +1,36 @@
 [tool.poetry]
 name = "MushroomClassifier"
-version = "0.4.0"
+version = "0.8.0"
 description = "EffecientNet fine tuned on 80 000 images of ~1400 species with deployable framework"
-authors = ["Graham Broughton <broughton.graha@gmail.com>"]
+authors = ["Graham Broughton <broughton.graham@gmail.com>"]
 readme = "README.md"
 packages = [
 	{include = "training", from = "src"},
 	{include = "deployment", from = "src"}]
 
 [tool.poetry.dependencies]
-python = ">=3.8,<3.11"
-tensorflow = "^2.8"
-Flask = "^1.1.4"
-Pillow = "^9.2.0"
-PyYAML = "^6"
-pandas = "^1.4.4"
-tensorflow-addons = "^0.16.1"
-regex = "^2022"
-wget = "^3.2"
+python = {version=">3", source = "pyp"}
+tensorflow = {version="*", source = "pyp"}
+Flask = {version="*", source = "pyp"}
+Pillow = {version="*", source = "pyp"}
+PyYAML = {version="*", source = "pyp"}
+pandas = {version="*", source = "pyp"}
+tensorflow-addons = {version="*", source = "pyp"}
+regex = {version="*", source = "pyp"}
+wget = {version="*", source = "pyp"}
 
 
-[tool.poetry.group.dev.dependencies]
-pendulum = "^2.1.2"
-pytest = "^7.1.3"
+[[tool.poetry.source]]
+name = "packagr"
+url = "https://api.packagr.app/G9aT9cXx"
+default = false
+secondary = true
+
+[[tool.poetry.source]]
+name = "pyp"
+url = "https://pypi.org/"
+default = true
+secondary = false
 
 [build-system]
 requires = ["poetry-core"]

@@ -17,11 +17,11 @@ from tensorflow.keras.preprocessing import image
 app = Flask(__name__)
 
 def get_image_class_dict():
-    image_class_dict = pickle.load(open('labels_inat.pkl', 'rb'))
+    image_class_dict = pickle.load(open(config['LABEL_DICT_PATH'], 'rb'))
     return image_class_dict
 
 def get_ImageClassifierModel():
-    model = load_model('TPU_test_1')
+    model = load_model(config['MODEL_PATH'])
 
     return model  
 
@@ -79,4 +79,4 @@ def predict():
     return None
 
 if __name__ == '__main__':
-    app.run(port=5002, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
