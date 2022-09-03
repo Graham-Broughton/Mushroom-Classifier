@@ -2,7 +2,7 @@
 import os
 import numpy as np
 import pickle
-from util import base64_to_pil
+from src.util import base64_to_pil
 
 # Flask
 from flask import Flask, redirect, url_for, request, render_template, Response, jsonify, redirect

@@ -2,7 +2,6 @@ import os, yaml, datetime
 import numpy as np
 
 import tensorflow as tf
-#from tensorflow import keras
 from tensorflow.keras import applications, layers
 import tensorflow_addons as tfa
 AUTOTUNE = tf.data.experimental.AUTOTUNE
@@ -13,6 +12,10 @@ from src import functions
 from src import NN
 from src import datasets
 
+try:
+  cluster_resolver = tf.distribute.cluster_resolver.TPUClusterResolver() # TPU detection
+except ValueError: # If TPU not found
+  cluster_resolver = None
 cluster_resolver = tf.distribute.cluster_resolver.TPUClusterResolver(tpu='local')
 tf.tpu.experimental.initialize_tpu_system(cluster_resolver)
 strategy = tf.distribute.TPUStrategy(cluster_resolver)
@@ -20,14 +23,20 @@ strategy = tf.distribute.TPUStrategy(cluster_resolver)
 CFG = yaml.safe_load(open('src/config.YAML', 'rb'))
 functions.set_seeds(seed=CFG['SEED'])
 
-train_filenames = tf.io.gfile.glob("gs://mushy_class/tfrecords/train/*FGVC*.tfrec")
-val_filenames = tf.io.gfile.glob("gs://mushy_class/tfrecords/val/*FGVC*.tfrec")
+if config['TRAINING_SET'] == 'fgvc':
+    train_filenames = tf.io.gfile.glob(config['FGVC_TRAIN_FILENAMES'])
+    val_filenames = tf.io.gfile.glob(config['FGVC_VAL_FILENAMES'])
+elif config['TRAINING_SET'] == 'inat':
+    train_filenames = tf.io.gfile.glob(config['INAT_TRAIN_FILENAMES'])
+    val_filenames = tf.io.gfile.glob(config['INAT_VAL_FILENAMES'])
+else:
+    print("Training set does not exist")
 
 STEPS_PER_EPOCH = CFG['NUM_TRAIN_IMAGES'] // CFG['BATCH_SIZE']
 VAL_STEPS = CFG['NUM_VAL_IMAGES'] // CFG["BATCH_SIZE"]
 
 def make_callbacks(CFG):
-    log_dir="gs://mushmush/logs/fit/" + datetime.datetime.now().strftime("%m%d-%H%M")
+    log_dir="gs://mushmush/" + config['TRAINING_SET'] + "/logs/fit/" + datetime.datetime.now().strftime("%m%d-%H%M")
     def lr_scheduler(epoch):
         return CFG['INITIAL_LR_RATE'] * tf.math.pow(CFG['LR_DECAY_FACTOR'], epoch // CFG['EPOCHS_PER_DECAY'])
 
@@ -38,7 +47,7 @@ def make_callbacks(CFG):
         tf.keras.callbacks.LearningRateScheduler(
             lr_scheduler, verbose=1),
 
-        tf.keras.callbacks.TensorBoard(log_dir=log_dir, profile_batch=(50, 250))
+        tf.keras.callbacks.TensorBoard(log_dir=log_dir, profile_batch=(50, 250)),
 
         tf.keras.callbacks.CSVLogger(filename='gs://mushmush/csv_log.csv', seperator=',', append=False)
     ]
