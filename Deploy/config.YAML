@@ -1,0 +1,17 @@
+INITIAL_LR_RATE    : 0.001
+LR_DECAY_FACTOR    : 0.96
+EPOCHS_PER_DECAY   : 3
+ES_PATIENCE        : 5
+IMAGE_SIZE         : [512, 512]
+DROPOUT_PCT        : 0.1
+BATCH_SIZE         : 384
+EPOCHS             : 100
+HEIGHT             : 512
+SEED               : 42
+NUM_TRAIN_IMAGES   : 85578
+NUM_VAL_IMAGES     : 4182
+CLASSES            : 1394
+
+# FLASK
+MODEL_PATH         : "src/TPU_test_1"
+LABEL_DICT_PATH    : "src/labels_inat.pkl"
