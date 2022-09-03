@@ -5,6 +5,7 @@ import pandas as pd
 from PIL import Image
 import uuid, os, yaml, pickle, json
 from flask import Flask, request, jsonify, render_template
+from flask_uploads import UploadSet, IMAGES, configure_uploads
 
 from form import ImageForm
 
@@ -12,12 +13,16 @@ config = yaml.safe_load(open('config.YAML'))
 label_dict = pickle.load(open(config['LABEL_DICT_PATH'], 'rb'))
 
 app = Flask(__name__)
-UPLOAD_FOLDER = 'static/'
+app.config['SECRET_KEY'] = 'super_secret_password'
+app.config['UPLOADED_PHOTOS_DEST'] = 'uploads'
+
+photos = UploadSet('uploads', IMAGES)
+configure_uploads(app, photos)
 
 model = keras.models.load_model(config['MODEL_PATH'])
 
 @app.route('/', methods=['GET', 'POST'])
-def classify(file):
+def classify():
     form = ImageForm()
     if request.method == 'POST':
         img_file = form.image.data
