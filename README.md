@@ -16,14 +16,20 @@ For deployment, you will also need to create a config file with your choice of d
 
 <table>
   <tr>
-    <td><img src="github_images/Screenshot (105).png"></td>
+    <td>
+    <table>
+      <tr>
+        <td><img src=="github_images/Screenshot (105).png"></td>
+      </tr>
+      <tr>
+        <td><img src="github_images/Screenshot (106).png"></td>
+      </tr>
+    </table>
+    </td>
     <td><img src="github_images/Screenshot (107).png"></td>
     <td><img src="github_images/Screenshot (108).png"></td>
     <td><img src="github_images/Screenshot (109).png"></td>
     <td><img src="github_images/Screenshot (110).png"></td>
-  </tr>
-  <tr>
-    <td><img src="github_images/Screenshot (106).png"></td>
   </tr>
 </table>
 
