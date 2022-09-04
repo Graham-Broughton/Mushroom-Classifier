@@ -25,7 +25,7 @@ For deployment, you will also need to create a config file with your choice of d
 
 <table>
     <tr>
-        <td><img src=="github_images/Screenshot (105).png"></td>
+        <td><img src="github_images/Screenshot (105).png"></td>
     </tr>
     <tr>
         <td><img src="github_images/Screenshot (106).png"></td>
