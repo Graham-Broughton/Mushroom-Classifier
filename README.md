@@ -12,6 +12,7 @@ For deployment, you will also need to create a config file with your choice of d
 
 | <img src="github_images/Screenshot (105).png" height="40%" width="50%"> | <img src="github_images/Screenshot (106).png" height="40%" width="50%">|
 | --- | --- |
+
 | Image Preview | Loading Results | Correct Classification | Incorrect Classification |
 | --- | --- | --- | --- |
 | <img src="github_images/Screenshot (107).png"> | <img src="github_images/Screenshot (108).png"> | <img src="github_images/Screenshot (110).png"> | <img src="github_images/Screenshot (109).png"> |
