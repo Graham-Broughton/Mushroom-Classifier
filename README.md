@@ -9,9 +9,9 @@ Deployment requirements:
 - Ability to launch a VM if you require remote inference
 
 For deployment, you will also need to create a config file with your choice of dataset and model path if you decided to train as well. Further, you will need some local images (JPEG) of fungi to upload to the server once the model is deployed to make predictions on. This process was made painless by having a drag-and-drop feature for uploading images instead of web scraping them or uploading a directory with a specific structure. Once you upload an image, the model with return the top three predictions as well as the percent confidence for each.
-
-| <img src="github_images/Screenshot (105).png" height="40%" width="50%"> | <img src="github_images/Screenshot (106).png" height="40%" width="50%">|
+| Starting Screen | Drag and Drop Feature |
 | --- | --- |
+| <img src="github_images/Screenshot (105).png" height="40%" width="50%"> | <img src="github_images/Screenshot (106).png" height="40%" width="50%">|
 
 | Image Preview | Loading Results | Correct Classification | Incorrect Classification |
 | --- | --- | --- | --- |
