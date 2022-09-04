@@ -29,22 +29,7 @@ For deployment, you will also need to create a config file with your choice of d
   </tr>
 </table>
 
-<div class="row" style="width:100% height:150px;"><HI>
-  <div class="column" width="20%" float="left" height="150px" margin="auto auto">
-    <img src="github_images/Screenshot (107).png" width="20%" object-fit="contain">
-  </div>
-  <div class="column" width="20%" float="left" height="150px" margin="auto auto">
-    <img src="github_images/Screenshot (108).png" width="20%" object-fit="contain">
-  </div>
-  <div class="column" width="20%" float="left" margin="auto auto">
-    <img src="github_images/Screenshot (109).png" width="20%" object-fit="contain">
-  </div>  
-  <div class="column" width="20%" float="left" margin="auto auto">
-    <img src="github_images/Screenshot (110).png" width="20%" object-fit="contain">
-  </div>
-</div>
-
-| <img src="github_images/Screenshot (105).png" align="top" margin-bottom="5px"> <img src="github_images/Screenshot (106).png" align="bottom"> | <img src="github_images/Screenshot (107).png"> | <img src="github_images/Screenshot (108).png"> | <img src="github_images/Screenshot (109).png"> | <img src="github_images/Screenshot (110).png"> | 
+| <img src="github_images/Screenshot (105).png" align="top" margin-bottom="5"> <img src="github_images/Screenshot (106).png" align="bottom"> | <img src="github_images/Screenshot (107).png"> | <img src="github_images/Screenshot (108).png"> | <img src="github_images/Screenshot (109).png"> | <img src="github_images/Screenshot (110).png"> | 
 | --- | --- | --- | --- | --- |
 
 
