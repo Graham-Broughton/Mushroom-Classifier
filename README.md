@@ -10,7 +10,7 @@ Deployment requirements:
 
 For deployment, you will also need to create a config file with your choice of dataset and model path if you decided to train as well. Further, you will need some local images (JPEG) of fungi to upload to the server once the model is deployed to make predictions on. This process was made painless by having a drag-and-drop feature for uploading images instead of web scraping them or uploading a directory with a specific structure. Once you upload an image, the model with return the top three predictions as well as the percent confidence for each.
 
-| <img src="github_images/Screenshot (105).png" align="top" height="60%"> &nbsp; <img src="github_images/Screenshot (106).png" align="bottom" height="60%"> | <img src="github_images/Screenshot (107).png"> | <img src="github_images/Screenshot (108).png"> | <img src="github_images/Screenshot (109).png"> | <img src="github_images/Screenshot (110).png"> | 
+| <img src="github_images/Screenshot (105).png" align="top" height="40%"> &nbsp; <img src="github_images/Screenshot (106).png" align="bottom" height="40%"> | <img src="github_images/Screenshot (107).png"> | <img src="github_images/Screenshot (108).png"> | <img src="github_images/Screenshot (109).png"> | <img src="github_images/Screenshot (110).png"> | 
 | --- | --- | --- | --- | --- |
 
 
