@@ -13,7 +13,7 @@ For deployment, you will also need to create a config file with your choice of d
 Table 1: Starting screen (left) and the drag and drop image upload feature (right).
 | Starting Screen | Drag and Drop Feature |
 | --- | --- |
-| <p align="center"><img src="github_images/Screenshot (105).png" height="50%" width="50%"></p> | <p align="center"><img src="github_images/Screenshot (106).png" height="50%" width="50%"></p> |
+| <p align="center"><img src="github_images/Screenshot (105).png" width="50%"></p> | <p align="center"><img src="github_images/Screenshot (106).png" width="50%"></p> |
 
 Table 2: The rest of the webpage's screens from left to right including: image preview after uploading, dynamic loading page, results (correct and incorrect). For the incorrect classification, the first guess was not even in the correct genus but the other two are much closer with the third being correct.
 | Image Preview | Loading Results | Correct Classification | Incorrect Classification |
