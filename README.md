@@ -30,17 +30,17 @@ For deployment, you will also need to create a config file with your choice of d
 </table>
 
 <div class="row" width="100%">
-  <div class="column" width="20%">
-  <div class="column" width="20%">
+  <div class="column" width="20%" float="left">
+  <div class="column" width="20%" float="left">
     <img src="github_images/Screenshot (107).png">
   </div>
-  <div class="column" width="20%">
+  <div class="column" width="20%" float="left">
     <img src="github_images/Screenshot (108).png">
   </div>
-  <div class="column" width="20%">
+  <div class="column" width="20%" float="left">
     <img src="github_images/Screenshot (109).png">
   </div>  
-  <div class="column" width="20%">
+  <div class="column" width="20%" float="left">
     <img src="github_images/Screenshot (110).png">
   </div>
 </div>
