@@ -10,12 +10,12 @@ Deployment requirements:
 
 For deployment, you will also need to create a config file with your choice of dataset and model path if you decided to train as well. Further, you will need some local images (JPEG) of fungi to upload to the server once the model is deployed to make predictions on. This process was made painless by having a drag-and-drop feature for uploading images instead of web scraping them or uploading a directory with a specific structure. Once you upload an image, the model with return the top three predictions as well as the percent confidence for each.
 
-Table 1: Starting screen (left) and the drag and drop image upload feature (right).
+**Table 1:** Starting screen (left) and the drag and drop image upload feature (right).
 | Starting Screen | Drag and Drop Feature |
 | --- | --- |
 | <p align="center"><img src="github_images/Screenshot (105).png" width="60%"></p> | <p align="center"><img src="github_images/Screenshot (106).png" width="60%"></p> |
 
-Table 2: The rest of the webpage's screens from left to right including: image preview after uploading, dynamic loading page, results (correct and incorrect). For the incorrect classification, the first guess was not even in the correct genus but the other two are much closer with the third being correct.
+**Table 2:** The rest of the webpage's screens from left to right including: image preview after uploading, dynamic loading page, results (correct and incorrect). For the incorrect classification, the first guess was not even in the correct genus but the other two are much closer with the third being correct.
 | Image Preview | Loading Results | Correct Classification | Incorrect Classification |
 | --- | --- | --- | --- |
 | <img src="github_images/Screenshot (107).png"> | <img src="github_images/Screenshot (108).png"> | <img src="github_images/Screenshot (110).png"> | <img src="github_images/Screenshot (109).png"> |
