@@ -8,5 +8,5 @@ RUN pip install markupsafe==2.0.1
 
 EXPOSE 80
 
-CMD ["./app.py", "--host", "0.0.0.0", "--port", "80"]
+CMD ["app.py", "--host", "0.0.0.0", "--port", "80"]
 ENTRYPOINT ["python"]
