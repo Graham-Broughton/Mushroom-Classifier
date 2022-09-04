@@ -29,7 +29,7 @@ For deployment, you will also need to create a config file with your choice of d
   </tr>
 </table>
 
-| <img src="github_images/Screenshot (105).png" align="top" padding="0 0 5 0"> <img src="github_images/Screenshot (106).png" align="bottom"> | <img src="github_images/Screenshot (107).png"> | <img src="github_images/Screenshot (108).png"> | <img src="github_images/Screenshot (109).png"> | <img src="github_images/Screenshot (110).png"> | 
+| <img src="github_images/Screenshot (105).png" align="top" padding="5"> <img src="github_images/Screenshot (106).png" align="bottom"> | <img src="github_images/Screenshot (107).png"> | <img src="github_images/Screenshot (108).png"> | <img src="github_images/Screenshot (109).png"> | <img src="github_images/Screenshot (110).png"> | 
 | --- | --- | --- | --- | --- |
 
 
