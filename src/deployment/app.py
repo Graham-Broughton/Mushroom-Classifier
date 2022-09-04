@@ -1,8 +1,9 @@
 # some utilities
-import os
+import os, yaml
 import numpy as np
 import pickle
 from src.util import base64_to_pil
+
 
 # Flask
 from flask import Flask, redirect, url_for, request, render_template, Response, jsonify, redirect
@@ -12,7 +13,7 @@ import tensorflow as tf
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 
-
+config = yaml.safe_load(open("inat_config.YAML", 'rb'))
 # Declare a flask app
 app = Flask(__name__)
 
@@ -79,4 +80,4 @@ def predict():
     return None
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0')
