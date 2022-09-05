@@ -2,7 +2,7 @@
 import os, yaml
 import numpy as np
 import pickle
-from src.util import base64_to_pil
+from .src.util import base64_to_pil
 
 
 # Flask
@@ -13,7 +13,7 @@ import tensorflow as tf
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 
-config = yaml.safe_load(open("inat_config.YAML", 'rb'))
+config = yaml.safe_load(open("deploy/src/inat_config.YAML", 'rb'))
 # Declare a flask app
 app = Flask(__name__)
 

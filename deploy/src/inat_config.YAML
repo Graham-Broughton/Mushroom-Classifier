@@ -20,5 +20,5 @@ INAT_VAL_FILENAMES  : "gs://mushy_class/tfrecords/val/*inat*.tfrec"
 
 
 # FLASK
-MODEL_PATH         : "models/inat_TPU_1/"
+MODEL_PATH         : "models/inat_TPU_1"
 LABEL_DICT_PATH    : "src/labels_inat.pkl"
