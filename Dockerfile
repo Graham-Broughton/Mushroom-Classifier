@@ -8,7 +8,6 @@ WORKDIR /app
 RUN pip install -r requirements.txt
 RUN pip install markupsafe==2.0.1
 
-WORKDIR /src/deployment
 EXPOSE 5000
 
 RUN export FLASK_APP="app.py"
