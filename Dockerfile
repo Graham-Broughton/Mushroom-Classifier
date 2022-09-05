@@ -1,12 +1,14 @@
+# syntax=docker/dockerfile:1
 FROM python:3.9.13-buster
 
-COPY src/deployment .
+RUN mkdir app
+COPY . /app
+WORKDIR /app
 
-COPY requirements.txt ./requirements.txt
 RUN pip install -r requirements.txt
 RUN pip install markupsafe==2.0.1
 
-EXPOSE 80
+WORKDIR /src/deployment
+EXPOSE 5000
 
-CMD ["app.py", "--host", "0.0.0.0", "--port", "80"]
-ENTRYPOINT ["python"]
+CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0"]
