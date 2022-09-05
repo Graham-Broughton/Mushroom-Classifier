@@ -10,6 +10,4 @@ RUN pip install markupsafe==2.0.1
 
 EXPOSE 5000
 
-RUN export FLASK_APP="app.py"
-
 CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0"]
