@@ -8,6 +8,6 @@ WORKDIR /app/deployment
 RUN pip install -r requirements.txt
 RUN pip install markupsafe==2.0.1
 
-EXPOSE 5000
+EXPOSE 8181
 
-CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0"]
+CMD ["python3", "gunicorn.app.wsgiapp", "deploy:app", "--bind=0.0.0.0:8181"]
