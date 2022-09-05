@@ -1,0 +1,5 @@
+flask==1.1.4
+pillow==9.2.0
+pyyaml==6.0
+regex==2022.8.17
+tensorflow==2.9.2
