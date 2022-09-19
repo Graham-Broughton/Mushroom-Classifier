@@ -1,46 +1,30 @@
 # some utilities
-import os
+import os, yaml
 import numpy as np
 import pickle
-from src.util import base64_to_pil
+from .src.util import base64_to_pil
+
 
 # Flask
 from flask import Flask, redirect, url_for, request, render_template, Response, jsonify, redirect
 
 #tensorflow
 import tensorflow as tf
-from tensorflow.keras.applications.imagenet_utils import preprocess_input, decode_predictions
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
-from tensorflow.keras.applications.mobilenet_v2 import MobileNetV2
 
-
-# Variables 
-# Change them if you are using custom model or pretrained model with saved weigths
-Model_json = ".json"
-Model_weigths = ".h5"
-
-
+config = yaml.safe_load(open("deploy/src/inat_config.YAML", 'rb'))
 # Declare a flask app
 app = Flask(__name__)
 
 def get_image_class_dict():
-    image_class_dict = pickle.load(open('labels_inat.pkl', 'rb'))
+    image_class_dict = pickle.load(open(config['LABEL_DICT_PATH'], 'rb'))
     return image_class_dict
 
 def get_ImageClassifierModel():
-    model = load_model('TPU_test_1')
-
-    # Loading the pretrained model
-    # model_json = open(Model_json, 'r')
-    # loaded_model_json = model_json.read()
-    # model_json.close()
-    # model = model_from_json(loaded_model_json)
-    # model.load_weights(Model_weigths)
+    model = load_model(config['MODEL_PATH'])
 
     return model  
-    
-
 
 def model_predict(img, model):
     '''
@@ -53,12 +37,7 @@ def model_predict(img, model):
 
     # Preprocessing the image
     x = image.img_to_array(img)
-    # x = np.true_divide(x, 255)
     x = np.expand_dims(x, axis=0)
-
-    # Be careful how your trained model deals with the input
-    # otherwise, it won't make correct prediction!
-    # x = preprocess_input(x, mode='tf')
 
     preds = model.predict(x)
     return preds
@@ -93,23 +72,12 @@ def predict():
         sorted_preds = preds[0].argsort()[::-1][:100]
         predictions = list(str(label_dict[pred]) for pred in sorted_preds[:3])
         probas = list(str(round(preds[0][pred] * 100, 4))+'%\n' for pred in sorted_preds[:3])
+
         preds = list(zip(predictions, probas))
-        # prediction = label_dict[sorted_preds[0]]
-        # proba = str(round(preds[0][sorted_preds[0]] * 100, 2)) + '%'
-        # pred = (prediction, proba)
-        # predictions = dict({label_dict[pred]: round(preds[0][pred] * 100, 4) for pred in sorted_preds[:10]})
-
-        # pred_proba = "{:.3f}".format(np.amax(preds))    # Max probability
-        # pred_class = decode_predictions(preds, top=1)   # ImageNet Decode
-
-        # result = str(pred_class[0][0][1])               # Convert to string
-        # result = result.replace('_', ' ').capitalize()
         
         # Serialize the result, you can add additional fields
-        return jsonify(result=preds) #, probability=probas
+        return jsonify(result=preds)
     return None
 
-
 if __name__ == '__main__':
-    # app.run(port=5002)
-    app.run(debug=True)
+    app.run(host="0.0.0.0")
