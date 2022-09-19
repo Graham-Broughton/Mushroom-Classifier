@@ -3,8 +3,16 @@ import json
 import wget
 import tarfile
 import os
-import tensorflow as tf
-from tensorflow.keras import applications
+import awscli
+
+with tarfile.open('train_mini.tar.gz') as f:
+    f.extractall()
+with tarfile.open('val.tar.gz') as f:
+    f.extractall()
+with tarfile.open('val.json.tar.gz') as f:
+    f.extractall()
+with tarfile.open('train_mini.json.tar.gz') as f:
+    f.extractall()
 
 def read_jsons(filepath):
     """

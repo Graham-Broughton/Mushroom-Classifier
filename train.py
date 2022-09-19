@@ -1,5 +1,6 @@
 import os, yaml, datetime
 import numpy as np
+import argparser
 
 import tensorflow as tf
 from tensorflow.keras import applications, layers
@@ -19,6 +20,7 @@ except ValueError: # If TPU not found
 cluster_resolver = tf.distribute.cluster_resolver.TPUClusterResolver(tpu='local')
 tf.tpu.experimental.initialize_tpu_system(cluster_resolver)
 strategy = tf.distribute.TPUStrategy(cluster_resolver)
+
 
 CFG = yaml.safe_load(open('src/config.YAML', 'rb'))
 functions.set_seeds(seed=CFG['SEED'])
