@@ -18,13 +18,10 @@ config = yaml.safe_load(open("deploy/src/inat_config.YAML", 'rb'))
 app = Flask(__name__)
 
 def get_image_class_dict():
-    image_class_dict = pickle.load(open(config['LABEL_DICT_PATH'], 'rb'))
-    return image_class_dict
+    return pickle.load(open(config['LABEL_DICT_PATH'], 'rb'))
 
 def get_ImageClassifierModel():
-    model = load_model(config['MODEL_PATH'])
-
-    return model  
+    return load_model(config['MODEL_PATH'])  
 
 def model_predict(img, model):
     '''
@@ -39,8 +36,7 @@ def model_predict(img, model):
     x = image.img_to_array(img)
     x = np.expand_dims(x, axis=0)
 
-    preds = model.predict(x)
-    return preds
+    return model.predict(x)
 
 
 @app.route('/', methods=['GET'])
@@ -57,27 +53,31 @@ def predict():
     predict function to predict the image
     Api hits this function when someone clicks submit.
     '''
-    if request.method == 'POST':
-        # Get the image from post request
-        img = base64_to_pil(request.json)
-        
-        # initialize model
-        model = get_ImageClassifierModel()
+    if request.method != 'POST':
+        return None
+    # Get the image from post request
+    img = base64_to_pil(request.json)
 
-        # Make prediction
-        preds = model_predict(img, model)
-        
-        label_dict = get_image_class_dict()
-        
-        sorted_preds = preds[0].argsort()[::-1][:100]
-        predictions = list(str(label_dict[pred]) for pred in sorted_preds[:3])
-        probas = list(str(round(preds[0][pred] * 100, 4))+'%\n' for pred in sorted_preds[:3])
+    # initialize model
+    model = get_ImageClassifierModel()
 
-        preds = list(zip(predictions, probas))
-        
-        # Serialize the result, you can add additional fields
-        return jsonify(result=preds)
-    return None
+    # Make prediction
+    preds = model_predict(img, model)
+
+    label_dict = get_image_class_dict()
+
+    sorted_preds = preds[0].argsort()[::-1][:100]
+    predictions = [str(label_dict[pred]) for pred in sorted_preds[:3]]
+    probas = [
+        str(round(preds[0][pred] * 100, 4)) + '%\n'
+        for pred in sorted_preds[:3]
+    ]
+
+
+    preds = list(zip(predictions, probas))
+
+    # Serialize the result, you can add additional fields
+    return jsonify(result=preds)
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0")
