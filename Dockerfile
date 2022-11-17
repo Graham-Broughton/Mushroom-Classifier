@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM python:3.9.13-buster
+FROM python:3.10-buster
 
 RUN mkdir app
 ADD . /app
