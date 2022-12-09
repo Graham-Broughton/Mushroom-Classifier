@@ -13,12 +13,12 @@ For deployment, you will also need to create a config file with your choice of d
 **Table 1:** Starting screen (left) and the drag and drop image upload feature (right).
 | Starting Screen | Drag and Drop Feature |
 | --- | --- |
-| <p align="center"><img src="https://github.com/Graham-Broughton/Mushroom-Classifier/blob/images/github_images/Screenshot%20(105).png" width="60%"></p> | <p align="center"><img src="github_images/Screenshot (106).png" width="60%"></p> |
+| <p align="center"><img src="https://github.com/Graham-Broughton/Mushroom-Classifier/blob/images/github_images/Screenshot%20(105).png" width="60%"></p> | <p align="center"><img src="https://github.com/Graham-Broughton/Mushroom-Classifier/blob/images/github_images/Screenshot%20(106).png" width="60%"></p> |
 
 **Table 2:** The rest of the webpage's screens from left to right including: image preview after uploading, dynamic loading page, results (correct and incorrect). For the incorrect classification, the first guess was not even in the correct genus but the other two are much closer with the third being correct.
 | Image Preview | Loading Results | Correct Classification | Incorrect Classification |
 | --- | --- | --- | --- |
-| <img src="github_images/Screenshot (107).png"> | <img src="github_images/Screenshot (108).png"> | <img src="github_images/Screenshot (110).png"> | <img src="github_images/Screenshot (109).png"> |
+| <img src="https://github.com/Graham-Broughton/Mushroom-Classifier/blob/images/github_images/Screenshot%20(107).png"> | <img src="https://github.com/Graham-Broughton/Mushroom-Classifier/blob/images/github_images/Screenshot%20(108).png"> | <img src="https://github.com/Graham-Broughton/Mushroom-Classifier/blob/images/github_images/Screenshot%20(110).png"> | <img src="https://github.com/Graham-Broughton/Mushroom-Classifier/blob/images/github_images/Screenshot%20(109).png"> |
 
 To run the training .py file you will need to choose which training set to use - inat or FGVC. You will do so by creating a config file following the template, along with any other modifications to the training protocol you so desire. Due to the massive size of the datasets, the training protocol is meant to be run using a TPU. It would be well worth your time to utilize the TFRecord notebooks to convert the datasets into TFRecords and store them in your Google Cloud Storage bucket. You will need to move the datasets into the storage bucket anyway since Google Cloud's TPU require training data to be in one of thier buckets.
 
