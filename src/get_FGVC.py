@@ -5,6 +5,7 @@ import tarfile
 import os
 import tensorflow as tf
 
+
 def read_jsons(filepath):
     """
     Reads the unzipped tar json files and saves the information from each key in a data frame
@@ -26,6 +27,7 @@ def read_jsons(filepath):
         licenses = pd.DataFrame(data['licenses'])
         return info, images, licenses
 
+
 def merge_dfs(images, annotation, category):
     """
     takes the three useful dataframes: images, annotations and categories, and merges them into one
@@ -43,6 +45,7 @@ def merge_dfs(images, annotation, category):
     df.drop(['id_y', 'license', 'rights_holder', 'file_name'], axis=1, inplace=True)
     return df
 
+
 def get_images():
     train_URL = 'https://labs.gbif.org/fgvcx/2018/fungi_train_val.tgz'
     test_URL = 'https://labs.gbif.org/fgvcx/2018/fungi_test.tgz'
@@ -55,88 +58,80 @@ def get_images():
     wget.download(test_info_URL)
 
     with tarfile.open('train_val_annotations.tgz') as f:
+
         def is_within_directory(directory, target):
-            
             abs_directory = os.path.abspath(directory)
             abs_target = os.path.abspath(target)
-        
+
             prefix = os.path.commonprefix([abs_directory, abs_target])
-            
+
             return prefix == abs_directory
-        
+
         def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
-        
             for member in tar.getmembers():
                 member_path = os.path.join(path, member.name)
                 if not is_within_directory(path, member_path):
                     raise Exception("Attempted Path Traversal in Tar File")
-        
-            tar.extractall(path, members, numeric_owner=numeric_owner) 
-            
-        
+
+            tar.extractall(path, members, numeric_owner=numeric_owner)
+
         safe_extract(f)
     with tarfile.open('fungi_test.tgz') as f:
+
         def is_within_directory(directory, target):
-            
             abs_directory = os.path.abspath(directory)
             abs_target = os.path.abspath(target)
-        
+
             prefix = os.path.commonprefix([abs_directory, abs_target])
-            
+
             return prefix == abs_directory
-        
+
         def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
-        
             for member in tar.getmembers():
                 member_path = os.path.join(path, member.name)
                 if not is_within_directory(path, member_path):
                     raise Exception("Attempted Path Traversal in Tar File")
-        
-            tar.extractall(path, members, numeric_owner=numeric_owner) 
-            
-        
+
+            tar.extractall(path, members, numeric_owner=numeric_owner)
+
         safe_extract(f)
     with tarfile.open('fungi_train_val.tgz') as f:
+
         def is_within_directory(directory, target):
-            
             abs_directory = os.path.abspath(directory)
             abs_target = os.path.abspath(target)
-        
+
             prefix = os.path.commonprefix([abs_directory, abs_target])
-            
+
             return prefix == abs_directory
-        
+
         def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
-        
             for member in tar.getmembers():
                 member_path = os.path.join(path, member.name)
                 if not is_within_directory(path, member_path):
                     raise Exception("Attempted Path Traversal in Tar File")
-        
-            tar.extractall(path, members, numeric_owner=numeric_owner) 
-            
-        
+
+            tar.extractall(path, members, numeric_owner=numeric_owner)
+
         safe_extract(f)
     with tarfile.open('test_information.tgz') as f:
+
         def is_within_directory(directory, target):
-            
             abs_directory = os.path.abspath(directory)
             abs_target = os.path.abspath(target)
-        
+
             prefix = os.path.commonprefix([abs_directory, abs_target])
-            
+
             return prefix == abs_directory
-        
+
         def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
-        
             for member in tar.getmembers():
                 member_path = os.path.join(path, member.name)
                 if not is_within_directory(path, member_path):
                     raise Exception("Attempted Path Traversal in Tar File")
-        
-            tar.extractall(path, members, numeric_owner=numeric_owner) 
-            
-        
+
+            tar.extractall(path, members, numeric_owner=numeric_owner)
+
         safe_extract(f)
 
     tr_annotation, tr_category, tr_info, tr_images, tr_licenses = read_jsons('train.json')
@@ -155,11 +150,12 @@ def get_images():
     for filename in os.listdir('test'):
         try:
             new_file = test_images[test_images['file_name'].str.split('/').str[-1] == filename]['new_filename'].values[0]
-            os.rename('test/'+filename, new_file)
+            os.rename('test/' + filename, new_file)
         except IndexError:
             continue
 
     return train_annot, val_annot, test_images
+
 
 def create_val_dir(train, val, img_list):
     new_images = img_list
@@ -182,6 +178,7 @@ def create_val_dir(train, val, img_list):
             os.rename(row['filepath'], row['new_filepath'])
         except FileNotFoundError:
             missing_list.append(row['new_filepath'])
+
 
 # TF Dataset
 def create_filepaths(train, val):
