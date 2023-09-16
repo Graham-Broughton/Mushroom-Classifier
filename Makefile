@@ -8,6 +8,9 @@ build: Pipfile.lock
 	@pip install pipenv
 	@pipenv install --ignore-pipfile
 	@pipenv shell
+	@curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh"
+	@./Mambaforge-$(uname)-$(uname -m).sh
+	@mamba install s5cmd
 
 # Download the datasets
 .PHONY: all_datasets
