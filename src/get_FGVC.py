@@ -45,6 +45,21 @@ def merge_dfs(images, annotation, category):
     df.drop(['id_y', 'license', 'rights_holder', 'file_name'], axis=1, inplace=True)
     return df
 
+def is_within_directory(directory, target):
+    abs_directory = os.path.abspath(directory)
+    abs_target = os.path.abspath(target)
+
+    prefix = os.path.commonprefix([abs_directory, abs_target])
+
+    return prefix == abs_directory
+
+def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
+    for member in tar.getmembers():
+        member_path = os.path.join(path, member.name)
+        if not is_within_directory(path, member_path):
+            raise Exception("Attempted Path Traversal in Tar File")
+
+    tar.extractall(path, members, numeric_owner=numeric_owner)
 
 def get_images():
     train_URL = 'https://labs.gbif.org/fgvcx/2018/fungi_train_val.tgz'
@@ -58,80 +73,12 @@ def get_images():
     wget.download(test_info_URL)
 
     with tarfile.open('train_val_annotations.tgz') as f:
-
-        def is_within_directory(directory, target):
-            abs_directory = os.path.abspath(directory)
-            abs_target = os.path.abspath(target)
-
-            prefix = os.path.commonprefix([abs_directory, abs_target])
-
-            return prefix == abs_directory
-
-        def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
-            for member in tar.getmembers():
-                member_path = os.path.join(path, member.name)
-                if not is_within_directory(path, member_path):
-                    raise Exception("Attempted Path Traversal in Tar File")
-
-            tar.extractall(path, members, numeric_owner=numeric_owner)
-
         safe_extract(f)
     with tarfile.open('fungi_test.tgz') as f:
-
-        def is_within_directory(directory, target):
-            abs_directory = os.path.abspath(directory)
-            abs_target = os.path.abspath(target)
-
-            prefix = os.path.commonprefix([abs_directory, abs_target])
-
-            return prefix == abs_directory
-
-        def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
-            for member in tar.getmembers():
-                member_path = os.path.join(path, member.name)
-                if not is_within_directory(path, member_path):
-                    raise Exception("Attempted Path Traversal in Tar File")
-
-            tar.extractall(path, members, numeric_owner=numeric_owner)
-
         safe_extract(f)
     with tarfile.open('fungi_train_val.tgz') as f:
-
-        def is_within_directory(directory, target):
-            abs_directory = os.path.abspath(directory)
-            abs_target = os.path.abspath(target)
-
-            prefix = os.path.commonprefix([abs_directory, abs_target])
-
-            return prefix == abs_directory
-
-        def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
-            for member in tar.getmembers():
-                member_path = os.path.join(path, member.name)
-                if not is_within_directory(path, member_path):
-                    raise Exception("Attempted Path Traversal in Tar File")
-
-            tar.extractall(path, members, numeric_owner=numeric_owner)
-
         safe_extract(f)
     with tarfile.open('test_information.tgz') as f:
-
-        def is_within_directory(directory, target):
-            abs_directory = os.path.abspath(directory)
-            abs_target = os.path.abspath(target)
-
-            prefix = os.path.commonprefix([abs_directory, abs_target])
-
-            return prefix == abs_directory
-
-        def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
-            for member in tar.getmembers():
-                member_path = os.path.join(path, member.name)
-                if not is_within_directory(path, member_path):
-                    raise Exception("Attempted Path Traversal in Tar File")
-
-            tar.extractall(path, members, numeric_owner=numeric_owner)
-
         safe_extract(f)
 
     tr_annotation, tr_category, tr_info, tr_images, tr_licenses = read_jsons('train.json')
