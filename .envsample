@@ -1,0 +1,4 @@
+GCS_BUCKET: str = 
+GCS_PROJECT_ID: str =
+GCS_CREDENTIALS: Pathlib.Path =
+DEVICE = ['TPU', 'GPU', 'CPU']
