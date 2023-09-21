@@ -28,5 +28,13 @@ class Config:
     EPOCHS: int = 12 * FOLDS
     WGTS = [1 / FOLDS] * FOLDS
     # If ViT:
-    PATCH_SIZE: int
+    PATCH_SIZE: int = 16
     NUM_PATCHES = (IMG_SIZES // PATCH_SIZE) ** 2
+
+    # Rotational Matrix Settings
+    ROT_: float = 180.0
+    SHR_: float = 2.0
+    HZOOM_: float = 8.0
+    WZOOM_: float = 8.0
+    HSHIFT_: float = 8.0
+    WSHIFT_: float = 8.0    

@@ -17,17 +17,17 @@ BASE="s3://ml-inat-competition-datasets"
 
 dl_fgvcx_2018() {
     echo "Downloading the FGVCX 2018 data"
-    s5cmd --no-sign-request sync --concurrency 10 $BASE/2018/* ./data/raw/2018/
+    s5cmd --no-sign-request cp --concurrency 20 $BASE/2018/* ./data/raw/2018/
 }
 
 dl_fgvcx_2019() {
     echo "Downloading the FGVCX 2019 data"
-    s5cmd --no-sign-request sync --concurrency 10 $BASE/2019/* ./data/raw/2019/
+    s5cmd --no-sign-request cp --sp --concurrency 20 $BASE/2019/* ./data/raw/2019/
 }
 
 dl_fgvcx_2021() {
     echo "Downloading the FGVCX 2021 data"
-    s5cmd --no-sign-request sync --concurrency 10 $BASE/2021/* ./data/raw/2021/
+    s5cmd --no-sign-request cp --sp --concurrency 20 $BASE/2021/* ./data/raw/2021/
 }
 
 ############################################################
@@ -64,12 +64,6 @@ while getopts ':y:ah' opt; do
     esac
 done
 
-echo "Number of arguments: ${#array[@]}"
-echo -n "Arguments are:"
-for i in "${array[@]}"; do
-    echo -n " ${i},"
-done
-echo ''
 ############################################################
 
 echo "Downloading images from FGVCX.."

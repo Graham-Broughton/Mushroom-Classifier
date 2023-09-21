@@ -1,5 +1,10 @@
 {
   "cSpell.words": [
+    "HSHIFT",
+    "HZOOM",
+    "imencode",
+    "imread",
+    "IMWRITE",
     "inat",
     "istest",
     "supercategory",
@@ -10,10 +15,14 @@
     "timages",
     "tinfo",
     "tloc",
+    "tobytes",
     "vanno",
     "vcat",
     "vimages",
     "vinfo",
-    "vloc"
+    "vloc",
+    "WGTS",
+    "WSHIFT",
+    "WZOOM"
   ]
 }
