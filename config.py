@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 from pathlib import Path
-from typing import List
 
 root = Path.cwd().parent
 data = root / "data"
@@ -8,7 +7,7 @@ train = data / "train"
 
 
 @dataclass
-class Config:
+class CFG:
     # General Settings
     SEED: int = 42
     VERBOSE: int = 2
@@ -21,15 +20,15 @@ class Config:
     DISPLAY_PLOT: bool = True
 
     # Model Settings
-    MODELS: List[str] = []
-    IMG_SIZES: List[int] = [128, 128, 128, 128, 128]  #  Choose number of sizes corresponding to number of folds
+    MODELS: str = 'swin_tiny_patch4_window7_224_fe'
+    IMG_SIZES: int = 128
     FOLDS: int = 5
-    BATCH_SIZE: int = 32 * FOLDS
-    EPOCHS: int = 12 * FOLDS
-    WGTS = [1 / FOLDS] * FOLDS
+    BATCH_SIZE: int = 32
+    EPOCHS: int = 12
+    WGTS = 1 / FOLDS
     # If ViT:
-    PATCH_SIZE: int = 16
-    NUM_PATCHES = (IMG_SIZES // PATCH_SIZE) ** 2
+    # PATCH_SIZE: int = map([16] * FOLDS)
+    # NUM_PATCHES = (IMG_SIZES // PATCH_SIZE) ** 2
 
     # Rotational Matrix Settings
     ROT_: float = 180.0
@@ -37,4 +36,4 @@ class Config:
     HZOOM_: float = 8.0
     WZOOM_: float = 8.0
     HSHIFT_: float = 8.0
-    WSHIFT_: float = 8.0    
+    WSHIFT_: float = 8.0
