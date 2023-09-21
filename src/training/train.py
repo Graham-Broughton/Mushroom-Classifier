@@ -11,19 +11,19 @@ from loguru import logger
 
 from config import CFG
 from src.visuals.training_viz import plot_training
-from dataset import get_dataset
-from utils import count_data_items, tpu_test
+from src.training.dataset import get_dataset
+from src.training.utils import count_data_items, tpu_test
 
 CFG = CFG()
 load_dotenv()
 
-logger.remove(0)
+# logger.remove(0)
 
-GCS_PATH = os.environ['GCS_PATH']
+GCS_PATH = os.environ['GCS_BUCKET']
 AUTO = tf.data.experimental.AUTOTUNE
 
 
-def build_model(CFG, dim=128, ef=0):
+# def build_model(CFG, dim=128, ef=0):
     
 
 def sv(fold):

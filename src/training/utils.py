@@ -1,5 +1,5 @@
 import numpy as np
-from luguru import logger
+from loguru import logger
 import tensorflow as tf
 from dotenv import load_dotenv, set_key
 import os
