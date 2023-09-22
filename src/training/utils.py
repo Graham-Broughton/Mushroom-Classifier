@@ -8,6 +8,7 @@ load_dotenv()
 
 
 def tpu_test(CFG):
+    load_dotenv()
     DEVICE = os.environ['DEVICE']
     if DEVICE == "TPU":
         logger.info("connecting to TPU...")
@@ -32,10 +33,12 @@ def tpu_test(CFG):
 
     if os.environ['DEVICE'] != "TPU":
         logger.info("Using default strategy for CPU and single GPU")
+        tpu = None
         strategy = tf.distribute.get_strategy()
 
     if os.environ['DEVICE'] == "GPU":
         logger.info("Num GPUs Available: ", len(tf.config.experimental.list_physical_devices('GPU')))
+        tpu = None
 
     CFG.REPLICAS = strategy.num_replicas_in_sync
     return strategy, tpu

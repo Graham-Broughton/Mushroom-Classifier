@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from pathlib import Path
+import tensorflow_hub as hub
 
 root = Path.cwd().parent
 data = root / "data"
@@ -20,10 +21,10 @@ class CFG:
     DISPLAY_PLOT: bool = True
 
     # Model Settings
-    MODELS: str = 'swin_tiny_patch4_window7_224_fe'
-    IMG_SIZES: int = 128
+    MODELS: str = "https://tfhub.dev/sayakpaul/swin_tiny_patch4_window7_224_fe"
+    IMG_SIZES: int = 224
     FOLDS: int = 5
-    BATCH_SIZE: int = 32
+    BATCH_SIZES: int = 32
     EPOCHS: int = 12
     WGTS = 1 / FOLDS
     # If ViT:
