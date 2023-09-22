@@ -44,3 +44,8 @@ def serialize_example(feature0, feature1, feature2, feature3, feature4, feature5
     return example_proto.SerializeToString()
 
 
+# active, VERBOSE=2 for commit
+# from dotenv import load_dotenv, set_key
+# from sklearn.model_selection import KFold
+# import numpy as np
+# import tensorflow.keras.backend as
