@@ -1,6 +1,6 @@
 import tensorflow as tf
-import tensorflow.keras.backend as K
-import math
+import cv2
+
 
 AUTO = tf.data.experimental.AUTOTUNE
 
@@ -12,7 +12,7 @@ def image_feature(value):
 
 def bytes_feature(value):
     """Returns a bytes_list from a string / byte."""
-    return tf.train.Feature(bytes_list=tf.train.BytesList(value=[value.encode()]))
+    return tf.train.Feature(bytes_list=tf.train.BytesList(value=[value]))
 
 
 def float_feature(value):
@@ -33,19 +33,37 @@ def float_feature_list(value):
 def serialize_example(feature0, feature1, feature2, feature3, feature4, feature5, feature6):
     feature = {
         'image': bytes_feature(feature0),
-        'longitude': float_feature(feature1),
-        'latitude': float_feature(feature2),
-        'data_normed': float_feature(feature3),
-        'dataset': float_feature(feature4),
-        'set': bytes_feature(feature5),
+        'dataset': int64_feature(feature1),
+        'set': bytes_feature(feature2),
+        'longitude': float_feature(feature3),
+        'latitude': float_feature(feature4),
+        'data_normed': float_feature(feature5),
         'target': int64_feature(feature6),
     }
     example_proto = tf.train.Example(features=tf.train.Features(feature=feature))
     return example_proto.SerializeToString()
 
 
-# active, VERBOSE=2 for commit
-# from dotenv import load_dotenv, set_key
-# from sklearn.model_selection import KFold
-# import numpy as np
-# import tensorflow.keras.backend as
+def write_records(df, CT, SIZE, IMGS, set, path):
+    for j in range(CT):
+        print()
+        print(f'Writing TFRecord {j} of {CT}...')
+        CT2 = min(SIZE, len(IMGS) - j * SIZE)
+        with tf.io.TFRecordWriter(f'{str(path)}/tfrec/' + f'{set}{j:02d}-{CT2}.tfrec') as writer:
+            for k in range(CT2):
+                img = cv2.imread(f'../{IMGS[SIZE * j + k]}')
+                img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)  # Fix incorrect colors
+                img = cv2.imencode('.jpg', img, (cv2.IMWRITE_JPEG_QUALITY, 94))[1].tobytes()
+                row = df.loc[df.file_path == IMGS[SIZE * j + k]]
+                example = serialize_example(
+                    img,
+                    row.dataset.values[0],
+                    str.encode(row.set.values[0]),
+                    row.longitude.values[0],
+                    row.latitude.values[0],
+                    row.norm_date.values[0],
+                    row.class_id.values[0],
+                )
+                writer.write(example)
+                if k % 100 == 0:
+                    print(k, ', ', end='')

@@ -20,7 +20,7 @@ def read_labeled_tfrecord(example):
     return example['image'], example['target']
 
 
-def read_unlabeled_tfrecord(example, return_image_name):
+def read_unlabeled_tfrecord(example):
     tfrec_format = {
         'image': tf.io.FixedLenFeature([], tf.string),
         'longitude': tf.io.FixedLenFeature([], tf.float32),
@@ -28,11 +28,11 @@ def read_unlabeled_tfrecord(example, return_image_name):
         'norm_date': tf.io.FixedLenFeature([], tf.float32),
     }
     example = tf.io.parse_single_example(example, tfrec_format)
-    return example['image'], example['image_name'] if return_image_name else 0
+    return example['image']
 
 
 def get_mat(rotation, shear, height_zoom, width_zoom, height_shift, width_shift):
-    # returns 3x3 transformmatrix which transforms indicies
+    # returns 3x3 transform matrix which transforms indices
 
     # CONVERT DEGREES TO RADIANS
     rotation = math.pi * rotation / 180.0
@@ -112,7 +112,7 @@ def prepare_image(img, augment=True, dim=256):
 
 
 def get_dataset(
-    files, CFG, augment=False, shuffle=False, repeat=False, labeled=True, return_image_names=True, batch_size=16, dim=256):
+    files, CFG, augment=False, shuffle=False, repeat=False, labeled=True, batch_size=16, dim=256):
     ds = tf.data.TFRecordDataset(files, num_parallel_reads=AUTO)
     ds = ds.cache()
 
@@ -128,7 +128,7 @@ def get_dataset(
     if labeled:
         ds = ds.map(read_labeled_tfrecord, num_parallel_calls=AUTO)
     else:
-        ds = ds.map(lambda example: read_unlabeled_tfrecord(example, return_image_names), num_parallel_calls=AUTO)
+        ds = ds.map(lambda example: read_unlabeled_tfrecord(example), num_parallel_calls=AUTO)
 
     ds = ds.map(
         lambda img, imgname_or_label: (prepare_image(

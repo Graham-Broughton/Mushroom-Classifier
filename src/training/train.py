@@ -4,6 +4,7 @@ from sklearn.model_selection import KFold
 import numpy as np
 import tensorflow.keras.backend as K
 import tensorflow as tf
+import tensorflow_hub as hub
 from transformers import ViTImageProcessor, ViTForImageClassification
 from sklearn.metrics import roc_auc_score
 import os
@@ -15,15 +16,23 @@ from src.training.dataset import get_dataset
 from src.training.utils import count_data_items, tpu_test
 
 CFG = CFG()
-load_dotenv()
 
 # logger.remove(0)
 
-GCS_PATH = os.environ['GCS_BUCKET']
+GCS_PATH = os.environ['GCS_PATH']
 AUTO = tf.data.experimental.AUTOTUNE
 
 
-# def build_model(CFG, dim=128, ef=0):
+def build_model(model, num_classes, dim=128):
+    inp = tf.keras.layers.Input(shape=(dim,dim,3))
+    base = hub.KerasLayer(model, trainable=True)#(input_shape=(dim,dim,3),weights='imagenet',include_top=False)
+    x = base(inp, training=False)
+    outputs = tf.keras.layers.Dense(num_classes, activation="softmax")(x)
+    model = tf.keras.Model(inp, outputs)
+    opt = tf.keras.optimizers.Adam(learning_rate=0.001)
+    loss = tf.keras.losses.SparseCategoricalCrossentropy()
+    model.compile(optimizer=opt,loss=loss,metrics=['accuracy'])
+    return model
     
 
 def sv(fold):
@@ -66,13 +75,13 @@ def get_history(model, fold, files_train, files_valid, CFG):
     logger.info("Training...")
     history = model.fit(
         get_dataset(
-            files_train, CFG, augment=True, shuffle=True, repeat=True, dim=CFG.IMG_SIZES[fold], batch_size=CFG.BATCH_SIZES[fold]
+            files_train, CFG, augment=True, shuffle=True, repeat=True, dim=CFG.IMG_SIZES, batch_size=CFG.BATCH_SIZES
         ),
-        epochs=CFG.EPOCHS[fold],
-        callbacks=[sv(fold), get_lr_callback(CFG.BATCH_SIZES[fold])],
-        steps_per_epoch=count_data_items(files_train) / CFG.BATCH_SIZES[fold] // CFG.REPLICAS,
+        epochs=CFG.EPOCHS,
+        callbacks=[sv(fold), get_lr_callback(CFG.BATCH_SIZES)],
+        steps_per_epoch=count_data_items(files_train) / CFG.BATCH_SIZES // CFG.REPLICAS,
         validation_data=get_dataset(
-            files_valid, CFG, augment=False, shuffle=False, repeat=False, dim=CFG.IMG_SIZES[fold]
+            files_valid, CFG, augment=False, shuffle=False, repeat=False, dim=CFG.IMG_SIZES
         ),  # class_weight = {0:1,1:2},
         verbose=CFG.VERBOSE,
     )
@@ -88,35 +97,34 @@ def train(CFG, strategy):
     oof_folds = []
     # preds = np.zeros((count_data_items(files_test), 1))
 
-    for fold, (idxT, idxV) in enumerate(skf.split(np.arange(15))):
+    for fold, (idxT, idxV) in enumerate(skf.split(np.arange(107))):
         # DISPLAY FOLD INFO
         print('#' * 25)
         print('#### FOLD', fold + 1)
         print(
-            '#### Image Size %i with EfficientNet B%i and batch_size %i'
-            % (CFG.IMG_SIZES[fold], CFG.MODELS[fold], CFG.BATCH_SIZES[fold] * CFG.REPLICAS)
+            f'#### Image Size {CFG.IMG_SIZES} with {CFG.MODELS} and batch_size {CFG.BATCH_SIZES * CFG.REPLICAS}'
         )
         logger.info(
-            f"# Image Size {CFG.IMG_SIZES[fold]} with Model {CFG.MODELS[fold]} and batch_sz {CFG.BATCH_SIZES[fold]*CFG.REPLICAS}"
+            f"# Image Size {CFG.IMG_SIZES} with Model {CFG.MODELS} and batch_sz {CFG.BATCH_SIZES*CFG.REPLICAS}"
         )
 
         # CREATE TRAIN AND VALIDATION SUBSETS
-        files_train = tf.io.gfile.glob([GCS_PATH[fold] + '/train%.2i*.tfrec' % x for x in idxT])
+        files_train = tf.io.gfile.glob([f'{GCS_PATH}/train{x:02d}*.tfrec' for x in idxT])
         np.random.shuffle(files_train)
         print('#' * 25)
-        files_valid = tf.io.gfile.glob([GCS_PATH[fold] + '/train%.2i*.tfrec' % x for x in idxV])
+        files_valid = tf.io.gfile.glob([f'{GCS_PATH}/train{x:02d}*.tfrec' for x in idxV])
+        files_test = tf.io.gfile.glob(f'{GCS_PATH}/val*.tfrec')
 
         # BUILD MODEL
         K.clear_session()
         with strategy.scope():
-            model = build_model(dim=CFG.IMG_SIZES[fold], ef=CFG.MODELS[fold])
-
+            model = build_model(CFG.MODELS, CFG.NUM_CLASSES, dim=CFG.IMG_SIZES)
 
         # TRAIN
         history = get_history(model)
 
         logger.info("Loading best model...")
-        model.load_weights('fold-%i.h5' % fold)
+        model.load_weights(f'fold-{fold}.h5' % fold)
 
         # PREDICT OOF USING TTA
         logger.info("Predicting OOF with TTA...")
@@ -128,21 +136,21 @@ def train(CFG, strategy):
             augment=True,
             repeat=True,
             shuffle=False,
-            dim=CFG.IMG_SIZES[fold],
-            batch_size=CFG.BATCH_SIZES[fold] * 4,
+            dim=CFG.IMG_SIZES,
+            batch_size=CFG.BATCH_SIZES * 4,
         )
         ct_valid = count_data_items(files_valid)
-        STEPS = CFG.TTA * ct_valid / CFG.BATCH_SIZES[fold] / 4 / CFG.REPLICAS
+        STEPS = CFG.TTA * ct_valid / CFG.BATCH_SIZES / 4 / CFG.REPLICAS
         pred = model.predict(ds_valid, steps=STEPS, verbose=CFG.VERBOSE)[: CFG.TTA * ct_valid,]
         oof_pred.append(np.mean(pred.reshape((ct_valid, CFG.TTA), order='F'), axis=1))
-        # oof_pred.append(model.predict(get_dataset(files_valid,dim=CFG.IMG_SIZES[fold]),verbose=1))
+        # oof_pred.append(model.predict(get_dataset(files_valid,dim=CFG.IMG_SIZES),verbose=1))
 
         # GET OOF TARGETS AND NAMES
         ds_valid = get_dataset(
             files_valid, CFG, 
             augment=False, 
             repeat=False, 
-            dim=CFG.IMG_SIZES[fold], 
+            dim=CFG.IMG_SIZES, 
             labeled=True, 
             return_image_names=True
         )
@@ -152,7 +160,7 @@ def train(CFG, strategy):
             files_valid, CFG, 
             augment=False, 
             repeat=False, 
-            dim=CFG.IMG_SIZES[fold], 
+            dim=CFG.IMG_SIZES, 
             labeled=False, 
             return_image_names=True
         )
@@ -166,3 +174,8 @@ def train(CFG, strategy):
         # PLOT TRAINING
         if CFG.DISPLAY_PLOT:
             plot_training(history, fold, CFG)
+
+
+if __name__ == '__main__':
+    strategy = tpu_test(CFG)
+    train(CFG, strategy)
