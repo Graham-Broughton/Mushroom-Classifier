@@ -121,7 +121,7 @@ def train(CFG, strategy):
             model = build_model(CFG.MODELS, CFG.NUM_CLASSES, dim=CFG.IMG_SIZES)
 
         # TRAIN
-        history = get_history(model)
+        history = get_history(model, fold, files_train, files_valid, CFG)
 
         logger.info("Loading best model...")
         model.load_weights(f'fold-{fold}.h5' % fold)

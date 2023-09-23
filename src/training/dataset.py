@@ -94,12 +94,12 @@ def transform(image, CFG, DIM=256):
     return tf.reshape(d, [DIM, DIM, 3])
 
 
-def prepare_image(img, augment=True, dim=256):
+def prepare_image(img, CFG, augment=True, dim=256):
     img = tf.image.decode_jpeg(img, channels=3)
     img = tf.cast(img, tf.float32) / 255.0
 
     if augment:
-        img = transform(img, DIM=dim)
+        img = transform(img, CFG, DIM=dim)
         img = tf.image.random_flip_left_right(img)
         # img = tf.image.random_hue(img, 0.01)
         img = tf.image.random_saturation(img, 0.7, 1.3)

@@ -21,7 +21,7 @@ class CFG:
     DISPLAY_PLOT: bool = True
 
     # Model Settings
-    MODELS: str = "https://tfhub.dev/sayakpaul/swin_tiny_patch4_window7_224_fe"
+    MODELS: str = "https://tfhub.dev/sayakpaul/swin_tiny_patch4_window7_224_fe/1"
     IMG_SIZES: int = 224
     FOLDS: int = 5
     BATCH_SIZES: int = 32

@@ -37,7 +37,7 @@ def serialize_example(feature0, feature1, feature2, feature3, feature4, feature5
         'set': bytes_feature(feature2),
         'longitude': float_feature(feature3),
         'latitude': float_feature(feature4),
-        'data_normed': float_feature(feature5),
+        'norm_date': float_feature(feature5),
         'target': int64_feature(feature6),
     }
     example_proto = tf.train.Example(features=tf.train.Features(feature=feature))
