@@ -13,7 +13,7 @@ def tpu_test(CFG):
     if DEVICE == "TPU":
         logger.info("connecting to TPU...")
         try:
-            tpu = tf.distribute.cluster_resolver.TPUClusterResolver()
+            tpu = tf.distribute.cluster_resolver.TPUClusterResolver('local')
             logger.info('Running on TPU ', tpu.master())
         except ValueError:
             logger.info("Could not connect to TPU")
