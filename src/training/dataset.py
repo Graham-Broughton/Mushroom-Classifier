@@ -14,7 +14,7 @@ def read_labeled_tfrecord(example):
         'longitude': tf.io.FixedLenFeature([], tf.float32),
         'latitude': tf.io.FixedLenFeature([], tf.float32),
         'norm_date': tf.io.FixedLenFeature([], tf.float32),
-        'target': tf.io.FixedLenFeature([], tf.int64),
+        'target': tf.io.FixedLenFeature([], tf.float32),
     }
     example = tf.io.parse_single_example(example, tfrec_format)
     return example['image'], example['target']

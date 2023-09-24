@@ -5,11 +5,12 @@ import numpy as np
 import tensorflow.keras.backend as K
 import tensorflow as tf
 import tensorflow_hub as hub
-from transformers import ViTImageProcessor, ViTForImageClassification
 from sklearn.metrics import roc_auc_score
 import os
 from loguru import logger
 
+import sys
+# sys.path.append('../..')
 from config import CFG
 from src.visuals.training_viz import plot_training
 from src.training.dataset import get_dataset
@@ -177,5 +178,5 @@ def train(CFG, strategy):
 
 
 if __name__ == '__main__':
-    strategy = tpu_test(CFG)
+    strategy, tpu = tpu_test(CFG)
     train(CFG, strategy)

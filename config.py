@@ -38,3 +38,5 @@ class CFG:
     WZOOM_: float = 8.0
     HSHIFT_: float = 8.0
     WSHIFT_: float = 8.0
+
+    NUM_CLASSES: int = 489
