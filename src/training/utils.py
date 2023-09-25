@@ -1,7 +1,7 @@
 import numpy as np
 from loguru import logger
 import tensorflow as tf
-from dotenv import load_dotenv, set_key
+from dotenv import load_dotenv, set_key, find_dotenv
 import os
 
 load_dotenv()
@@ -29,7 +29,7 @@ def tpu_test(CFG):
             except _:
                 logger.info("failed to initialize TPU")
         else:
-            set_key(CFG['ROOT'], 'DEVICE', "GPU")
+            set_key(find_dotenv(), 'DEVICE', "GPU")
 
     if os.environ['DEVICE'] != "TPU":
         logger.info("Using default strategy for CPU and single GPU")

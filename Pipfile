@@ -5,6 +5,20 @@ name = "pypi"
 
 [packages]
 tqdm = "*"
+tensorflow = "==2.13.0"
+opencv-python = "*"
+matplotlib = "*"
+seaborn = "*"
+plotly = "*"
+dash = "*"
+pandas = "*"
+numpy = "*"
+python-dotenv = "*"
+tensorflow-hub = "*"
+scikit-learn = "*"
+loguru = "*"
+prefect = "*"
+wandb = "*"
 
 [dev-packages]
 
