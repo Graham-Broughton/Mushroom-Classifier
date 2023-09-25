@@ -15,18 +15,23 @@ def read_labeled_tfrecord(example):
         'longitude': tf.io.FixedLenFeature([], tf.float32),
         'latitude': tf.io.FixedLenFeature([], tf.float32),
         'norm_date': tf.io.FixedLenFeature([], tf.float32),
-        'target': tf.io.FixedLenFeature([], tf.float32),
+        'class_priors': tf.io.FixedLenFeature([], tf.float32),
+        'class_id': tf.io.FixedLenFeature([], tf.int64),
     }
     example = tf.io.parse_single_example(example, tfrec_format)
-    return example['image'], example['target']
+    return example['image'], example['class_id']
 
 
 def read_unlabeled_tfrecord(example):
     tfrec_format = {
         'image': tf.io.FixedLenFeature([], tf.string),
+        'dataset': tf.io.FixedLenFeature([], tf.int64),
+        'set': tf.io.FixedLenFeature([], tf.string),
         'longitude': tf.io.FixedLenFeature([], tf.float32),
         'latitude': tf.io.FixedLenFeature([], tf.float32),
         'norm_date': tf.io.FixedLenFeature([], tf.float32),
+        'class_priors': tf.io.FixedLenFeature([], tf.float32),
+        'class_id': tf.io.FixedLenFeature([], tf.int64),
     }
     example = tf.io.parse_single_example(example, tfrec_format)
     return example['image']
