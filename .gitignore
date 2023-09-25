@@ -130,4 +130,5 @@ dmypy.json
 
 *.gz
 train_mini/
-data
+data/*
+!**/train.csv
