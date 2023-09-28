@@ -15,18 +15,23 @@ def read_labeled_tfrecord(example):
         'longitude': tf.io.FixedLenFeature([], tf.float32),
         'latitude': tf.io.FixedLenFeature([], tf.float32),
         'norm_date': tf.io.FixedLenFeature([], tf.float32),
-        'target': tf.io.FixedLenFeature([], tf.float32),
+        'class_priors': tf.io.FixedLenFeature([], tf.float32),
+        'class_id': tf.io.FixedLenFeature([], tf.int64),
     }
     example = tf.io.parse_single_example(example, tfrec_format)
-    return example['image'], example['target']
+    return example['image'], example['class_id']
 
 
 def read_unlabeled_tfrecord(example):
     tfrec_format = {
         'image': tf.io.FixedLenFeature([], tf.string),
+        'dataset': tf.io.FixedLenFeature([], tf.int64),
+        'set': tf.io.FixedLenFeature([], tf.string),
         'longitude': tf.io.FixedLenFeature([], tf.float32),
         'latitude': tf.io.FixedLenFeature([], tf.float32),
         'norm_date': tf.io.FixedLenFeature([], tf.float32),
+        'class_priors': tf.io.FixedLenFeature([], tf.float32),
+        'class_id': tf.io.FixedLenFeature([], tf.int64),
     }
     example = tf.io.parse_single_example(example, tfrec_format)
     return example['image']
@@ -111,7 +116,7 @@ def prepare_image(img, CFG, augment=True, dim=256):
 
     return img
 
-
+@tf.function
 def get_dataset(
     files, CFG, augment=False, shuffle=False, repeat=False, labeled=True, batch_size=16, dim=256):
     ds = tf.data.TFRecordDataset(files, num_parallel_reads=AUTO)
@@ -126,10 +131,10 @@ def get_dataset(
         opt.experimental_deterministic = False
         ds = ds.with_options(opt)
 
-    if labeled:
-        ds = ds.map(read_labeled_tfrecord, num_parallel_calls=AUTO)
-    else:
-        ds = ds.map(lambda example: read_unlabeled_tfrecord(example), num_parallel_calls=AUTO)
+    # if labeled:
+    ds = ds.map(read_labeled_tfrecord, num_parallel_calls=AUTO)
+    # else:
+    #     ds = ds.map(lambda example: read_unlabeled_tfrecord(example), num_parallel_calls=AUTO)
 
     ds = ds.map(
         lambda img, imgname_or_label: (prepare_image(

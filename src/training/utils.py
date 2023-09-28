@@ -1,19 +1,15 @@
 import numpy as np
 from loguru import logger
 import tensorflow as tf
-from dotenv import load_dotenv, set_key, find_dotenv
 import os
 
-load_dotenv()
 
-
-def tpu_test(CFG):
-    load_dotenv()
+def tpu_test():
     DEVICE = os.environ['DEVICE']
     if DEVICE == "TPU":
         logger.info("connecting to TPU...")
         try:
-            tpu = tf.distribute.cluster_resolver.TPUClusterResolver('local')
+            tpu = tf.distribute.cluster_resolver.TPUClusterResolver()
             logger.info('Running on TPU ', tpu.master())
         except ValueError:
             logger.info("Could not connect to TPU")
@@ -26,10 +22,10 @@ def tpu_test(CFG):
                 tf.tpu.experimental.initialize_tpu_system(tpu)
                 strategy = tf.distribute.experimental.TPUStrategy(tpu)
                 logger.info("TPU initialized")
-            except _:
+            except:
                 logger.info("failed to initialize TPU")
         else:
-            set_key(find_dotenv(), 'DEVICE', "GPU")
+            os.environ['DEVICE']="GPU"
 
     if os.environ['DEVICE'] != "TPU":
         logger.info("Using default strategy for CPU and single GPU")
@@ -40,7 +36,6 @@ def tpu_test(CFG):
         logger.info("Num GPUs Available: ", len(tf.config.experimental.list_physical_devices('GPU')))
         tpu = None
 
-    CFG.REPLICAS = strategy.num_replicas_in_sync
     return strategy, tpu
 
 
