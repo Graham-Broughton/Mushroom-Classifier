@@ -24,8 +24,8 @@ class CFG:
     MODELS: str = "https://tfhub.dev/sayakpaul/swin_tiny_patch4_window7_224_fe/1"
     IMG_SIZES: int = 224
     FOLDS: int = 5
-    BATCH_SIZES: int = 32
-    EPOCHS: int = 12
+    BATCH_SIZES: int = 128
+    EPOCHS: int = 20
     WGTS = 1 / FOLDS
     # If ViT:
     # PATCH_SIZE: int = map([16] * FOLDS)
