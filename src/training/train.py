@@ -23,13 +23,8 @@ AUTO = tf.data.experimental.AUTOTUNE
 
 def build_model(model, num_classes, dim=128):
     inp = tf.keras.layers.Input(shape=(dim,dim,3))
-    load_locally = tf.saved_model.LoadOptions(experimental_io_device='/job:localhost')
-    base = hub.KerasLayer(
-        model,
-        trainable=True,
-        load_options=load_locally
-    )#(input_shape=(dim,dim,3),weights='imagenet',include_top=False)
-    x = base(inp, training=False)
+    base = hub.KerasLayer(model, trainable=True)#(input_shape=(dim,dim,3),weights='imagenet',include_top=False)
+    x = base(inp, training=True)
     outputs = tf.keras.layers.Dense(num_classes, activation="softmax")(x)
     model = tf.keras.Model(inp, outputs)
     opt = tf.keras.optimizers.Adam(learning_rate=0.001)
@@ -38,9 +33,9 @@ def build_model(model, num_classes, dim=128):
     return model
     
 
-def sv(img_size):
+def sv(fold):
     return tf.keras.callbacks.ModelCheckpoint(
-        f'gs://mush-img-repo/model/swin-{img_size}.h5',
+        f'{GCS_PATH}/models/-{CFG.IMG_SIZES}fold-{fold}.h5',
         monitor='val_loss',
         verbose=0,
         save_best_only=True,
@@ -74,15 +69,14 @@ def get_lr_callback(batch_size=8):
     return lr_callback
     
 
-def get_history(model, files_train, files_valid, CFG):
+def get_history(model, fold, files_train, files_valid, CFG):
     logger.info("Training...")
-    
     history = model.fit(
         get_dataset(
             files_train, CFG, augment=True, shuffle=True, repeat=True, dim=CFG.IMG_SIZES, batch_size=CFG.BATCH_SIZES
         ),
         epochs=CFG.EPOCHS,
-        callbacks=[sv(CFG.IMG_SIZES), get_lr_callback(CFG.BATCH_SIZES)],
+        callbacks=[sv(fold), get_lr_callback(CFG.BATCH_SIZES)],
         steps_per_epoch=count_data_items(files_train) / CFG.BATCH_SIZES // CFG.REPLICAS,
         validation_data=get_dataset(
             files_valid, CFG, augment=False, shuffle=False, repeat=False, dim=CFG.IMG_SIZES
@@ -101,8 +95,10 @@ def train(CFG, strategy):
     oof_folds = []
     # preds = np.zeros((count_data_items(files_test), 1))
 
-    for (idxT, idxV) in skf.split(np.arange(107)):
+    for fold, (idxT, idxV) in enumerate(skf.split(np.arange(107))):
+        # DISPLAY FOLD INFO
         print('#' * 25)
+        print('#### FOLD', fold + 1)
         print(
             f'#### Image Size {CFG.IMG_SIZES} with {CFG.MODELS} and batch_size {CFG.BATCH_SIZES * CFG.REPLICAS}'
         )
@@ -111,11 +107,11 @@ def train(CFG, strategy):
         )
 
         # CREATE TRAIN AND VALIDATION SUBSETS
-        files_train = tf.io.gfile.glob([f'{GCS_PATH}/tfrec/train{x:02d}*.tfrec' for x in idxT])
+        files_train = tf.io.gfile.glob([f'{GCS_PATH}/train{x:02d}*.tfrec' for x in idxT])
         np.random.shuffle(files_train)
         print('#' * 25)
-        files_valid = tf.io.gfile.glob([f'{GCS_PATH}/tfrec/train{x:02d}*.tfrec' for x in idxV])
-        files_test = tf.io.gfile.glob(f'{GCS_PATH}/tfrec/val*.tfrec')
+        files_valid = tf.io.gfile.glob([f'{GCS_PATH}/train{x:02d}*.tfrec' for x in idxV])
+        files_test = tf.io.gfile.glob(f'{GCS_PATH}/val*.tfrec')
 
         # BUILD MODEL
         K.clear_session()
@@ -123,10 +119,11 @@ def train(CFG, strategy):
             model = build_model(CFG.MODELS, CFG.NUM_CLASSES, dim=CFG.IMG_SIZES)
 
         # TRAIN
-        history = get_history(model, files_train, files_valid, CFG)
+        history = get_history(model, fold, files_train, files_valid, CFG)
 
         logger.info("Loading best model...")
-        model.load_weights(f'{GCS_PATH}/models/swin-{CFG.IMG_SIZES}.h5') 
+        model.load_weights(f'fold-{fold}.h5')
+
         # PREDICT OOF USING TTA
         logger.info("Predicting OOF with TTA...")
         ds_valid = get_dataset(
@@ -156,6 +153,7 @@ def train(CFG, strategy):
             return_image_names=True
         )
         oof_tar.append(np.array([target.numpy() for img, target in iter(ds_valid.unbatch())]))
+        oof_folds.append(np.ones_like(oof_tar[-1], dtype='int8') * fold)
         ds = get_dataset(
             files_valid, CFG, 
             augment=False, 
@@ -169,11 +167,11 @@ def train(CFG, strategy):
         # REPORT RESULTS
         auc = roc_auc_score(oof_tar[-1], oof_pred[-1])
         oof_val.append(np.max(history.history['val_auc']))
-        logger.info(f"#### OOF AUC without TTA = {oof_val[-1]}, with TTA = {auc}")
+        logger.info(f"#### FOLD {fold + 1} OOF AUC without TTA = {oof_val[-1]}, with TTA = {auc}")
 
         # PLOT TRAINING
         if CFG.DISPLAY_PLOT:
-            plot_training(history, CFG)
+            plot_training(history, fold, CFG)
 
 
 if __name__ == '__main__':
