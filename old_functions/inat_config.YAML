@@ -1,24 +1,32 @@
-INITIAL_LR_RATE     : 0.001
+INITIAL_LR_RATE     : 0.01
 LR_DECAY_FACTOR     : 0.96
 EPOCHS_PER_DECAY    : 3
 ES_PATIENCE         : 5
-IMAGE_SIZE          : [512, 512]
+IMAGE_SIZE          : [224, 224]
 DROPOUT_PCT         : 0.1
-BATCH_SIZE          : 384
-EPOCHS              : 100
-HEIGHT              : 512
+BATCH_SIZE          : 128
+EPOCHS              : 20
+TTAs                : 11
 SEED                : 42
-NUM_TRAIN_IMAGES    : 85578
-NUM_VAL_IMAGES      : 4182
-CLASSES             : 1394
-LOGGING_PATH        : 'gs://mushmush/csv_log.csv'
-TRAINING_SET        : 'inat'
-FGVC_TRAIN_FILENAMES: "gs://mushy_class/tfrecords/train/*FGVC*.tfrec"
-FGVC_VAL_FILENAMES  : "gs://mushy_class/tfrecords/val/*FGVC*.tfrec"
-INAT_TRAIN_FILENAMES: "gs://mushy_class/tfrecords/train/*inat*.tfrec"
-INAT_VAL_FILENAMES  : "gs://mushy_class/tfrecords/val/*inat*.tfrec"
+VERBOSE             : 2
+
+CLASSES             : 476
+GS_BUCKET           : 'gs://mush-img-repo'
+LOGGING_PATH        : 'gs://mush-img-repo/logs'
+TRAIN_FILENAMES     : "gs://mush-img-repo/tfrec/train*.tfrec"
+VAL_FILENAMES       : "gs://mush-img-repo/tfrec/val*.tfrec"
+TRAINING_SET        : 'both'
+MODEL               : "https://tfhub.dev/sayakpaul/swin_tiny_patch4_window7_224_fe/1"
+
+
+# FGVC_TRAIN_FILENAMES: "gs://mushy_class/tfrecords/train/*FGVC*.tfrec"
+# FGVC_VAL_FILENAMES  : "gs://mushy_class/tfrecords/val/*FGVC*.tfrec"
+# INAT_TRAIN_FILENAMES: "gs://mushy_class/tfrecords/train/*inat*.tfrec"
+# INAT_VAL_FILENAMES  : "gs://mushy_class/tfrecords/val/*inat*.tfrec"
+# NUM_TRAIN_IMAGES    : 85578
+# NUM_VAL_IMAGES      : 4182
 
 
 # FLASK
 MODEL_PATH         : "models/inat_TPU_1"
-LABEL_DICT_PATH    : "src/labels_inat.pkl"
+LABEL_DICT_PATH    : "src/class_dict.pkl"

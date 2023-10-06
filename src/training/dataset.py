@@ -144,3 +144,4 @@ def get_dataset(
     ds = ds.batch(batch_size * CFG.REPLICAS)
     ds = ds.prefetch(AUTO)
     return ds
+    

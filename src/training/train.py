@@ -1,5 +1,4 @@
 # USE VERBOSE=0 for silent, VERBOSE=1 for interactive, VERBOSE=2 for commit
-from dotenv import load_dotenv, set_key
 from sklearn.model_selection import KFold
 import numpy as np
 import tensorflow.keras.backend as K
@@ -9,8 +8,6 @@ from sklearn.metrics import roc_auc_score
 import os
 from loguru import logger
 
-import sys
-# sys.path.append('../..')
 from config import CFG
 from src.visuals.training_viz import plot_training
 from src.training.dataset import get_dataset
@@ -27,7 +24,7 @@ AUTO = tf.data.experimental.AUTOTUNE
 def build_model(model, num_classes, dim=128):
     inp = tf.keras.layers.Input(shape=(dim,dim,3))
     base = hub.KerasLayer(model, trainable=True)#(input_shape=(dim,dim,3),weights='imagenet',include_top=False)
-    x = base(inp, training=False)
+    x = base(inp, training=True)
     outputs = tf.keras.layers.Dense(num_classes, activation="softmax")(x)
     model = tf.keras.Model(inp, outputs)
     opt = tf.keras.optimizers.Adam(learning_rate=0.001)
@@ -38,7 +35,7 @@ def build_model(model, num_classes, dim=128):
 
 def sv(fold):
     return tf.keras.callbacks.ModelCheckpoint(
-        'fold-%i.h5' % fold,
+        f'{GCS_PATH}/models/-{CFG.IMG_SIZES}fold-{fold}.h5',
         monitor='val_loss',
         verbose=0,
         save_best_only=True,
@@ -125,7 +122,7 @@ def train(CFG, strategy):
         history = get_history(model, fold, files_train, files_valid, CFG)
 
         logger.info("Loading best model...")
-        model.load_weights(f'fold-{fold}.h5' % fold)
+        model.load_weights(f'fold-{fold}.h5')
 
         # PREDICT OOF USING TTA
         logger.info("Predicting OOF with TTA...")
