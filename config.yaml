@@ -1,0 +1,20 @@
+# TRAINING
+INITIAL_LR_RATE     : 0.01
+LR_DECAY_FACTOR     : 0.96
+EPOCHS_PER_DECAY    : 3
+ES_PATIENCE         : 5
+IMAGE_SIZE          : [224, 224]
+DROPOUT_PCT         : 0.1
+BASE_BATCH_SIZE     : 32
+EPOCHS              : 20
+TTAs                : 11
+MODEL               : "https://tfhub.dev/sayakpaul/swin_tiny_patch4_window7_224_fe/1"
+
+# GENERAL
+SEED                : 42
+VERBOSE             : 2
+TRAINING_SET        : 'both'
+
+# FLASK
+MODEL_PATH         : "models/inat_TPU_1"
+LABEL_DICT_PATH    : "src/class_dict.pkl"
