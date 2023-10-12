@@ -10,11 +10,13 @@ help() {
     echo
     echo "Syntax: tfrecords.sh [d|p|t|v|s]"
     echo "options:"
-    echo "d     Directory containing training/val images."
-    echo "p     Directory to save tfrecords."
-    echo "t     Number of train images per tfrecord."
-    echo "v     Number of val images per tfrecord."
-    echo "s     Image height and width."
+    echo "d     Directory containing training/val images. OPTIONAL"
+    echo "p     Directory to save tfrecords. OPTIONAL"
+    echo "t     Number of train images per tfrecord. OPTIONAL"
+    echo "v     Number of val images per tfrecord. OPTIONAL"
+    echo "s     Image height and width. REQUIRED"
+    echo "m     Use multiprocessing. OPTIONAL"
+    echo "h     Print this Help."
 
 }
 
@@ -24,13 +26,13 @@ add_to_array_if_not_empty() {
         echo "No $2 specified, using default."
     else
         echo "$2 found"
-        array += "-$1 $3"
+        array+=("-$1 $3")
     fi
 }
 
 ############################################################
 
-while getopts ':d:p:t:v:s:h' opt; do
+while getopts ':d:p:t:v:s:mh' opt; do
     case "$opt" in
     d)
         if [[ $OPTARG != '-p' ]]; then
@@ -43,15 +45,22 @@ while getopts ':d:p:t:v:s:h' opt; do
         fi
         ;;
     t)
-        train=$OPTARG
+        if [[ $OPTARG != '-v' ]]; then
+            train=$OPTARG
+        fi
         ;;
     v)
-        val=$OPTARG
+        if [[ $OPTARG != '-s' ]]; then
+            val=$OPTARG
+        fi
         ;;
     s)
         size=($OPTARG)
         size=${size//,/ }
         ;;
+    m)
+        multi=$OPTARG
+        ;;         
     h)
         help
         exit
@@ -79,4 +88,12 @@ add_to_array_if_not_empty p "tfrecord path" $path
 add_to_array_if_not_empty t "Number of train images per tfrecord" $train
 add_to_array_if_not_empty v "Number of val images per tfrecord" $val
 
+if [[ -z ${multi+x} ]]
+then 
+    echo "No multiprocessing flag specified, using default."
+else
+    echo "multiprocessing flag found"
+    array+=("-m")
+fi
+echo ${array[@]}
 python src/data_processing/tfrecords.py ${array[@]}
