@@ -21,8 +21,7 @@ help() {
 }
 
 add_to_array_if_not_empty() {
-    if [[ -z ${3+x} ]]
-    then 
+    if [[ -z ${3+x} ]]; then
         echo "No $2 specified, using default."
     else
         echo "$2 found"
@@ -60,7 +59,7 @@ while getopts ':d:p:t:v:s:mh' opt; do
         ;;
     m)
         multi=$OPTARG
-        ;;         
+        ;;
     h)
         help
         exit
@@ -88,12 +87,11 @@ add_to_array_if_not_empty p "tfrecord path" $path
 add_to_array_if_not_empty t "Number of train images per tfrecord" $train
 add_to_array_if_not_empty v "Number of val images per tfrecord" $val
 
-if [[ -z ${multi+x} ]]
-then 
+if [[ -z ${multi+x} ]]; then
     echo "No multiprocessing flag specified, using default."
 else
     echo "multiprocessing flag found"
     array+=("-m")
 fi
-echo ${array[@]}
+
 python src/data_processing/tfrecords.py ${array[@]}
