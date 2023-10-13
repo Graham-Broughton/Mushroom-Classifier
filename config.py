@@ -14,13 +14,13 @@ train = data / "train"
 @dataclass
 class GCFG:
     BATCH_SIZE: int = field(init=False)
-    NUM_TRAINING_IMAGES: int = field(init=False)
-    NUM_VALIDATION_IMAGES: int = field(init=False)
     STEPS_PER_EPOCH: int = field(init=False)
     VALIDATION_STEPS: int = field(init=False)
-    REPLICAS: int = field(init=False)
     WGTS: float = field(init=False)
 
+    REPLICAS: int = 0
+    NUM_TRAINING_IMAGES: int = 0
+    NUM_VALIDATION_IMAGES: int = 0
     # GENERAL SETTINGS
     SEED: int = 42
     VERBOSE: int = 2
@@ -30,8 +30,8 @@ class GCFG:
     GCS_REPO: str = env.get("GCS_REPO")
 
     # TFRECORD SETTINGS
-    NUM_TRAINING_IMAGES: int = 107
-    NUM_VALIDATION_IMAGES: int = 5
+    NUM_TRAINING_RECORDS: int = 107
+    NUM_VALIDATION_RECORDS: int = 5
     IMAGE_SIZE: List = field(default_factory=lambda: [224, 224])
 
 
@@ -41,11 +41,10 @@ class CFG(GCFG):
     # TRAIN SETTINGS
     ## LEARNING RATE SETTINGS
     LR_START: float = 0.000001
-    LR_MAX_BASE: float = 0.0001
-    LR_MIN: float = 0.0001
-    LR_RAMP_EPOCHS: int = 5
-    LR_SUSPEND_EPOCHS: int = 0
-    LR_DECAY_FACTOR: float = 0.8
+    BETA1: float = 0.9
+    BETA2: float = 0.99
+    DECAY_STEPS: int = 500
+
     ES_PATIENCE: int = 5
     DROPOUT_PCT: float = 0.1
     BASE_BATCH_SIZE: int = 32
@@ -57,6 +56,14 @@ class CFG(GCFG):
     ## MODEL SETTINGS
     FOLDS: int = 5
     
+    # OLD LR SCHED
+    # LR_START: float = 0.000001
+    # LR_MAX_BASE: float = 0.0001
+    # LR_MIN: float = 0.0001
+    # LR_RAMP_EPOCHS: int = 5
+    # LR_SUSPEND_EPOCHS: int = 0
+    # LR_DECAY_FACTOR: float = 0.8
+
     # Rotational Matrix Settings
     # ROT_: float = 180.0
     # SHR_: float = 2.0

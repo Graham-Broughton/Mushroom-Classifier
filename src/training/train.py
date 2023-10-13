@@ -15,8 +15,6 @@ from src.training.utils import count_data_items, tpu_test
 
 CFG = CFG()
 
-# logger.remove(0)
-
 GCS_PATH = os.environ['GCS_PATH']
 AUTO = tf.data.experimental.AUTOTUNE
 
