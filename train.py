@@ -12,28 +12,15 @@ from src.training.dataset import (
     get_training_dataset,
     get_validation_dataset,
 )
+from src.training.utils import (
+    tpu_test,
+    count_data_items
+)
 from src.visuals.training_viz import display_batch_of_images, display_training_curves
 
-# CFG = CFG()
+CFG = CFG()
 
-print(f"Tensorflow version {tf.__version__}")
-AUTO = tf.data.experimental.AUTOTUNE
-
-
-try:
-    tpu = tf.distribute.cluster_resolver.TPUClusterResolver()
-except ValueError:  # If TPU not found
-    tpu = None
-
-if tpu:
-    tf.config.experimental_connect_to_cluster(tpu)
-    tf.tpu.experimental.initialize_tpu_system(tpu)
-    strategy = tf.distribute.TPUStrategy(tpu)
-else:
-    strategy = tf.distribute.get_strategy()
-
-replicas = strategy.num_replicas_in_sync
-print(f"Number of accelerators: {replicas}")
+strategy, replicas = tpu_test()
 
 CFG.BATCH_SIZE = CFG.BASE_BATCH_SIZE * replicas
 GCS_DS_SELECT = {
