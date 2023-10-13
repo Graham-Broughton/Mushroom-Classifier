@@ -3,15 +3,14 @@ from os import environ
 
 import cv2
 import pandas as pd
-import tqdm
 from loguru import logger
-from tqdm import trange
+from tqdm import trange, tqdm
 
 environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
 import tensorflow as tf
 
-from config import CFG
+from config import GCFG
 
 warnings.filterwarnings("ignore")
 
@@ -93,7 +92,7 @@ def get_data(df, num_records=107):
     return IMGS, SIZE, CT
 
 
-def write_sp_tfrecords(tfrec_path, img_path, num_records, reshape_sizes):
+def write_sp_tfrecords(tfrec_path, img_path, num_train_records, num_val_records, reshape_sizes):
     """This function writes single process TFRecords.
 
     Parameters:
@@ -103,50 +102,45 @@ def write_sp_tfrecords(tfrec_path, img_path, num_records, reshape_sizes):
         reshape_sizes (tuple): The sizes to reshape the images.
     """
     logger.info("Writing TFRecords single process")
-    tqdm_logger = logger.add(lambda msg: tqdm.write(msg, end=""))
+    ## TODO: Add tqdm functionality in loguru
+    # tqdm_logger = logger.add(lambda msg: tqdm.write(msg, end=""))
 
     # load dataframes and iterate over them
     train, val = load_dataframe(root_path=img_path)
     for df, set in zip([train, val], ["train", "val"]):
+        num_records = num_train_records if set == "train" else num_validation_records
         IMGS, SIZE, CT = get_data(df, num_records)
 
         # iterate over the number of tfrecords
         for j in trange(CT):
-            tqdm_logger.info(f"Writing {j:02d} of {CT} {set} tfrecords")
-            CT2 = min(
-                SIZE, len(IMGS) - j * SIZE
-            )  # get the number of images in a tfrecord
+            logger.info(f"Writing {j:02d} of {CT} {set} tfrecords")
+            CT2 = min(SIZE, len(IMGS) - j * SIZE)  # get the number of images in a tfrecord
 
             # create the path to write the tfrecord to
             path = tfrec_path / f"tfrecords-jpeg-{reshape_sizes[0]}x{reshape_sizes[1]}"
-            if not path.is_dir():
-                path.mkdir(parents=True, exist_ok=True)
+            path.mkdir(parents=True, exist_ok=True)
 
-            with tf.io.TFRecordWriter(
-                str(path / f"{set}{j:02d}-{CT2}.tfrec")
-            ) as writer:
+            with tf.io.TFRecordWriter(str(path / f"{set}{j:02d}-{CT2}.tfrec")) as writer:
                 for k in trange(CT2, leave=False):  # for each image in the tfrecord
-                    if k % 100 == 0:  # don't want to print every image
-                        tqdm_logger.info(f"Writing {k:02d} of {CT2} {set} tfrecords")
+                    if k % 100 == 0:
+                        logger.info(f"Writing {k:02d} of {CT2} {set} tfrecord images")
 
                     # load image from disk, change RGB to cv2 default BGR format, resize to reshape_sizes and encode as jpeg
-                    img = cv2.imread(str(img_path / f"/{IMGS[SIZE * j + k]}"))
+                    img = cv2.imread(str(img_path / f"{IMGS[SIZE * j + k]}"))
                     img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-                    img = cv2.resize(
-                        img, reshape_sizes, cv2.INTER_CUBIC
-                    )  # Fix incorrect colors
+                    img = cv2.resize(img, reshape_sizes, cv2.INTER_CUBIC)
                     img = cv2.imencode(".jpg", img)[1].tobytes()
 
                     # read specific row from dataframe to get data and serialize it
-                    row = df.loc[df.file_path == IMGS[SIZE * j + k]]
+                    row = df.loc[df.file_path == IMGS[SIZE * j + k]].iloc[0]
                     example = serialize_example(
                         img,
-                        row.dataset.values[0],
-                        row.longitude.values[0],
-                        row.latitude.values[0],
-                        row.norm_date.values[0],
-                        row.class_priors.values[0],
-                        row.class_id.values[0],
+                        row.dataset,
+                        row.longitude,
+                        row.latitude,
+                        row.norm_date,
+                        row.class_priors,
+                        row.class_id,
                     )
                     writer.write(example)
 
@@ -226,9 +220,10 @@ def write_mp_tfrecords(**kwargs):
             set,
             df,
         )
-        logger.debug(f"Loaded {set} parameters for multiprocessing")
+        logger.info(f"Starting multiprocessing for {set}")
         # while still in the loop, use multiprocessing to write the tfrecords
         process_map(write_single_mp_tfrecord, params, max_workers=8)
+        logger.info(f"Finished multiprocessing for {set}")
 
 
 def write_single_mp_tfrecord(params):
@@ -280,7 +275,7 @@ def write_single_mp_tfrecord(params):
 if __name__ == "__main__":
     import argparse  # only needed when called as script
 
-    CFG = CFG()  # need to initialize to make the dataclass work properly
+    CFG = GCFG()  # need to initialize to make the dataclass work properly
 
     # argparse to allow for command line arguments
     argparser = argparse.ArgumentParser()
@@ -343,6 +338,7 @@ if __name__ == "__main__":
         write_sp_tfrecords(
             args.tfrecords_directory,
             args.img_directory,
-            args.num_train_records if set == "train" else args.num_validation_records,
+            args.num_train_records,
+            args.num_validation_records,
             reshape_sizes=args.img_size,
         )

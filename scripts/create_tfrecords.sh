@@ -89,9 +89,10 @@ add_to_array_if_not_empty v "Number of val images per tfrecord" $val
 
 if [[ -z ${multi+x} ]]; then
     echo "No multiprocessing flag specified, using default."
+    array+="-m"
 else
     echo "multiprocessing flag found"
-    array+=("-m")
-fi
 
+fi
+echo ${array[@]}
 python src/data_processing/tfrecords.py ${array[@]}
