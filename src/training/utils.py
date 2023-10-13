@@ -39,8 +39,8 @@ def tpu_test(CFG):
     if os.environ['DEVICE'] == "GPU":
         logger.info("Num GPUs Available: ", len(tf.config.experimental.list_physical_devices('GPU')))
 
-    CFG.REPLICAS = strategy.num_replicas_in_sync
-    return strategy, tpu
+    replicas = strategy.num_replicas_in_sync
+    return strategy, replicas
 
 
 def count_data_items(filenames):

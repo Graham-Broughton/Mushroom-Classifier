@@ -156,15 +156,15 @@ def get_dataset(filenames, batch_size, DIM, augment=True):
     opt.deterministic = False
 
     ds = (
-        tf.data.TFRecordDataset(filenames, num_parallel_reads=AUTOTUNE).cache()
+        tf.data.TFRecordDataset(filenames, num_parallel_reads=AUTOTUNE)
+        .cache()
         .repeat()
-        .shuffle(2048)
+        .shuffle(batch_size*10)
         .with_options(opt)
         .map(parse_tfrecord, num_parallel_calls=AUTOTUNE)
     )
     if augment:
         ds = ds.map(lambda image, label: (data_augment(image, DIM), label), num_parallel_calls=AUTOTUNE)
-    else:
-        ds = ds.map(lambda image, label: (tf.image.resize(image, size=[DIM, DIM]), label), num_parallel_calls=AUTOTUNE)
+    ds = ds.map(lambda image, label: (tf.image.resize(image, size=[DIM, DIM]), label), num_parallel_calls=AUTOTUNE)
     ds = ds.batch(batch_size).prefetch(AUTOTUNE)
     return ds

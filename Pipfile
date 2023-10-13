@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 tqdm = "*"
-tensorflow = "==2.13.0"
+tensorflow = "==2.10.0"
 opencv-python = "*"
 matplotlib = "*"
 seaborn = "*"
@@ -23,5 +23,5 @@ wandb = "*"
 [dev-packages]
 
 [requires]
-python_version = "3.11"
-python_full_version = "3.11.5"
+python_version = "3.10"
+python_full_version = "3.10.5"

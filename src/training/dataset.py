@@ -11,7 +11,6 @@ def read_labeled_tfrecord(example):
     tfrec_format = {
         'image': tf.io.FixedLenFeature([], tf.string),
         'dataset': tf.io.FixedLenFeature([], tf.int64),
-        'set': tf.io.FixedLenFeature([], tf.string),
         'longitude': tf.io.FixedLenFeature([], tf.float32),
         'latitude': tf.io.FixedLenFeature([], tf.float32),
         'norm_date': tf.io.FixedLenFeature([], tf.float32),
@@ -26,7 +25,6 @@ def read_unlabeled_tfrecord(example):
     tfrec_format = {
         'image': tf.io.FixedLenFeature([], tf.string),
         'dataset': tf.io.FixedLenFeature([], tf.int64),
-        'set': tf.io.FixedLenFeature([], tf.string),
         'longitude': tf.io.FixedLenFeature([], tf.float32),
         'latitude': tf.io.FixedLenFeature([], tf.float32),
         'norm_date': tf.io.FixedLenFeature([], tf.float32),
@@ -118,7 +116,8 @@ def prepare_image(img, CFG, augment=True, dim=256):
 
 
 def get_dataset(
-    files, CFG, augment=False, shuffle=False, repeat=False, labeled=True, batch_size=16, dim=256):
+    files, CFG, augment=False, shuffle=False, repeat=False, labeled=True, batch_size=16, dim=256
+    ):
     ds = tf.data.TFRecordDataset(files, num_parallel_reads=AUTO)
     ds = ds.cache()
 
