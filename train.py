@@ -8,7 +8,6 @@ from sklearn.metrics import confusion_matrix, f1_score, precision_score, recall_
 from config import CFG
 from src.models.swintransformer import SwinTransformer
 from src.training.dataset import (
-    count_data_items,
     get_training_dataset,
     get_validation_dataset,
 )
