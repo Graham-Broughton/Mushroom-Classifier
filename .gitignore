@@ -133,3 +133,4 @@ train_mini/
 data/*
 !**/train.csv
 /wandb
+*.h5
