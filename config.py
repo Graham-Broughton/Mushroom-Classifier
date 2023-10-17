@@ -21,6 +21,7 @@ class GCFG:
     REPLICAS: int = 0
     NUM_TRAINING_IMAGES: int = 0
     NUM_VALIDATION_IMAGES: int = 0
+
     # GENERAL SETTINGS
     SEED: int = 42
     VERBOSE: int = 2
@@ -28,6 +29,7 @@ class GCFG:
     DATA: Path = data
     TRAIN: Path = train
     GCS_REPO: str = env.get("GCS_REPO")
+    MODEL: str = "swin_large_224"    
 
     # TFRECORD SETTINGS
     NUM_TRAINING_RECORDS: int = 107
@@ -40,21 +42,23 @@ class GCFG:
 class CFG(GCFG):
     # TRAIN SETTINGS
     ## LEARNING RATE SETTINGS
-    LR_START: float = 0.000001
+    LR_START: float = 0.0004
     BETA1: float = 0.9
     BETA2: float = 0.99
-    DECAY_STEPS: int = 500
+    DECAY_STEPS: int = 1000
+    ALPHA: float = 0.000001
 
+    ## EARLY STOPPING
     ES_PATIENCE: int = 5
-    DROPOUT_PCT: float = 0.1
-    BASE_BATCH_SIZE: int = 32
-    EPOCHS: int = 20
+
     TTAs: int = 11
     DISPLAY_PLOT: bool = True
-    MODEL: str = "swin_large_224"
 
     ## MODEL SETTINGS
     FOLDS: int = 5
+    DROPOUT_PCT: float = 0.1
+    BASE_BATCH_SIZE: int = 8
+    EPOCHS: int = 20
     
     # OLD LR SCHED
     # LR_START: float = 0.000001
