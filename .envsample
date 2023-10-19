@@ -1,4 +1,5 @@
-GCS_PATH: str = 
-GCS_PROJECT_ID: str =
-GCS_CREDENTIALS: Pathlib.Path =
-DEVICE = ['TPU', 'GPU', 'CPU']
+GCS_PATH: str
+GCS_PROJECT_ID: str
+GCS_CREDENTIALS: Pathlib.Path
+WANDB_API_KEY: str
+PYTHONPATH: str
