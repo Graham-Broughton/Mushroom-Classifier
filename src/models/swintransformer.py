@@ -80,8 +80,7 @@ def window_partition(x, window_size):
         x, shape=[-1, H // window_size, window_size, W // window_size, window_size, C]
     )
     x = tf.transpose(x, perm=[0, 1, 3, 2, 4, 5])
-    windows = tf.reshape(x, shape=[-1, window_size, window_size, C])
-    return windows
+    return tf.reshape(x, shape=[-1, window_size, window_size, C])
 
 
 def window_reverse(windows, window_size, H, W, C):
@@ -180,10 +179,7 @@ class WindowAttention(tf.keras.layers.Layer):
                 tf.expand_dims(tf.expand_dims(mask, axis=1), axis=0), tf.float32
             )
             attn = tf.reshape(attn, shape=[-1, self.num_heads, N, N])
-            attn = tf.nn.softmax(attn, axis=-1)
-        else:
-            attn = tf.nn.softmax(attn, axis=-1)
-
+        attn = tf.nn.softmax(attn, axis=-1)
         attn = self.attn_drop(attn)
 
         x = tf.transpose((attn @ v), perm=[0, 2, 1, 3])
@@ -205,8 +201,7 @@ def drop_path(inputs, drop_prob, is_training):
     shape = (tf.shape(inputs)[0],) + (1,) * (len(tf.shape(inputs)) - 1)
     random_tensor += tf.random.uniform(shape, dtype=inputs.dtype)
     binary_tensor = tf.floor(random_tensor)
-    output = tf.math.divide(inputs, keep_prob) * binary_tensor
-    return output
+    return tf.math.divide(inputs, keep_prob) * binary_tensor
 
 
 class DropPath(tf.keras.layers.Layer):
@@ -261,7 +256,7 @@ class SwinTransformerBlock(tf.keras.layers.Layer):
             proj_drop=drop,
             prefix=self.prefix,
         )
-        self.drop_path = DropPath(drop_path_prob if drop_path_prob > 0.0 else 0.0)
+        self.drop_path = DropPath(max(drop_path_prob, 0.0))
         self.norm2 = norm_layer(epsilon=1e-5, name=f"{self.prefix}/norm2")
         mlp_hidden_dim = int(dim * mlp_ratio)
         self.mlp = Mlp(
@@ -562,7 +557,7 @@ class SwinTransformerModel(tf.keras.Model):
         self.pos_drop = Dropout(drop_rate)
 
         # stochastic depth
-        dpr = [x for x in np.linspace(0.0, drop_path_rate, sum(depths))]
+        dpr = list(np.linspace(0.0, drop_path_rate, sum(depths)))
 
         # build layers
         self.basic_layers = tf.keras.Sequential(
@@ -596,10 +591,7 @@ class SwinTransformerModel(tf.keras.Model):
         )
         self.norm = norm_layer(epsilon=1e-5, name="norm")
         self.avgpool = GlobalAveragePooling1D()
-        if self.include_top:
-            self.head = Dense(num_classes, name="head")
-        else:
-            self.head = None
+        self.head = Dense(num_classes, name="head") if self.include_top else None
 
     def forward_features(self, x):
         x = self.patch_embed(x)
