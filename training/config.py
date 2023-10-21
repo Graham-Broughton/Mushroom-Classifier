@@ -29,7 +29,9 @@ class GCFG:
     DATA: Path = data
     TRAIN: Path = train
     GCS_REPO: str = env.get("GCS_REPO")
-    MODEL: str = "swin_large_224"    
+    MODEL: str = "google/vit-base-patch16-224-in21k"    
+    OPT: str = "Adam"
+    LR_SCHED: str = "Cosine"
 
     # TFRECORD SETTINGS
     NUM_TRAINING_RECORDS: int = 107

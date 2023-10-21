@@ -1,3 +1,4 @@
+LOCAL_TAG:=$(shell date +"%Y-%m-%d-%H-%M")
 SHELL = bash 
 .SHELLFLAGS = -ec -o pipefail
 

@@ -129,8 +129,7 @@ dmypy.json
 .pyre/
 
 *.gz
-train_mini/
-data/*
-!**/train.csv
+training/data/**
+!training/data/train.csv
 /wandb
 *.h5
