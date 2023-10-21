@@ -57,5 +57,10 @@
     "xticks",
     "yticklabels",
     "yticks"
-  ]
+  ],
+  "python.analysis.autoFormatStrings": true,
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.ignore": [
+    "**/utils.py"
+  ],
 }
