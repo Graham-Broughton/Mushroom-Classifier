@@ -640,7 +640,7 @@ def SwinTransformer(
     )
     net(tf.keras.Input(shape=(cfg["input_size"][0], cfg["input_size"][1], 3)))
     if pretrained is True:
-        url = f"https://github.com/rishigami/Swin-Transformer-TF/releases/download/v0.1-tf-swin-weights/{model_name}.tgz"
+        url = f"gs://mush-img-repo/models/{model_name}.tgz"
         pretrained_ckpt = tf.keras.utils.get_file(model_name, url, untar=True)
     else:
         pretrained_ckpt = pretrained
