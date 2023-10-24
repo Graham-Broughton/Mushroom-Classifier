@@ -10,7 +10,7 @@ build: Pipfile.lock
 	@mamba install s5cmd
 
 # Download the datasets
-.PHONY: all_datasets fgvcx_2018 fgvcx_2019 fgvcx_2021
+.PHONY: all_datasets fgvcx_2018 fgvcx_2019 fgvcx_2021 get_models
 all_datasets: fgvcx_2018 fgvcx_2019 fgvcx_2021
 	@echo "Finished downloading and extracting datasets..."
 
@@ -49,3 +49,6 @@ tfrecords: build scripts/create_tfrecords.sh
 	@echo "Creating tfrecords..."
 	@bash scripts/create_tfrecords.sh -d $(IMG_DIR) -p $(TFREC_DIR) -t $(TRAIN_RECS) -v $(VAL_RECS) -s $(IMG_SIZES) -m $(MULTIPROCESSING)
 	@echo "Finished creating tfrecords..."
+
+get_models:
+	@gsutil -m cp -r "gs://mush-img-repo/models/base_models" "models/base_models"
