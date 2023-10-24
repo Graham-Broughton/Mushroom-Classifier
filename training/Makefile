@@ -1,3 +1,4 @@
+LOCAL_TAG:=$(shell date +"%Y-%m-%d-%H-%M")
 SHELL = bash 
 .SHELLFLAGS = -ec -o pipefail
 
@@ -9,7 +10,7 @@ build: Pipfile.lock
 	@mamba install s5cmd
 
 # Download the datasets
-.PHONY: all_datasets
+.PHONY: all_datasets fgvcx_2018 fgvcx_2019 fgvcx_2021
 all_datasets: fgvcx_2018 fgvcx_2019 fgvcx_2021
 	@echo "Finished downloading and extracting datasets..."
 

@@ -5,7 +5,7 @@ import tensorflow as tf
 import wandb
 from sklearn.metrics import confusion_matrix, f1_score, precision_score, recall_score
 
-from config import CFG
+from training.config import CFG
 from src.models.swintransformer import SwinTransformer
 from src.training.dataset import (
     get_training_dataset,
