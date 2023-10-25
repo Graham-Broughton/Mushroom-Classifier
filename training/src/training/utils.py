@@ -8,7 +8,7 @@ import regex as re
 load_dotenv()
 
 
-def tpu_test(CFG):
+def tpu_test(CFG2):
     load_dotenv()
     DEVICE = os.environ['DEVICE']
     if DEVICE == "TPU":
@@ -40,7 +40,19 @@ def tpu_test(CFG):
         logger.info("Num GPUs Available: ", len(tf.config.experimental.list_physical_devices('GPU')))
 
     replicas = strategy.num_replicas_in_sync
-    return strategy, replicas
+
+    CFG = get_new_cfg(replicas, CFG2)
+
+    return strategy, CFG
+
+
+def get_new_cfg(replicas, CFG2):
+    CFG = CFG(
+        REPLICAS=replicas,
+        NUM_TRAINING_IMAGES=CFG2.NUM_TRAINING_IMAGES,
+        NUM_VALIDATION_IMAGES=CFG2.NUM_VALIDATION_IMAGES,
+    )
+    return CFG
 
 
 def count_data_items(filenames):

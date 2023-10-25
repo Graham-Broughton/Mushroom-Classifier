@@ -640,14 +640,13 @@ def SwinTransformer(
     )
     net(tf.keras.Input(shape=(cfg["input_size"][0], cfg["input_size"][1], 3)))
     if pretrained is True:
-        url = f"gs://mush-img-repo/models/{model_name}.tgz"
-        pretrained_ckpt = tf.keras.utils.get_file(model_name, url, untar=True)
+        pretrained_ckpt = "/home/broug/Desktop/Mushroom-Classifier/training/base_models"
     else:
         pretrained_ckpt = pretrained
 
     if pretrained_ckpt:
         if tf.io.gfile.isdir(pretrained_ckpt):
-            pretrained_ckpt = f"{pretrained_ckpt}/{model_name}.ckpt"
+            pretrained_ckpt = f"{pretrained_ckpt}/{model_name}/{model_name}.ckpt"
 
         if use_tpu:
             load_locally = tf.saved_model.LoadOptions(

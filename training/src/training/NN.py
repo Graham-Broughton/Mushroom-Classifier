@@ -1,5 +1,5 @@
 import tensorflow as tf
-from transformers import TFViTForImageClassification, ViTImageProcessor
+from src.models.swintransformer import SwinTransformer
 import wandb
 
 
@@ -15,7 +15,7 @@ def make_callbacks(CFG, save_time):
         ),
         wandb.keras.WandbMetricsLogger(log_freq='batch'),
         wandb.keras.WandbModelCheckpoint(
-            str(CFG.ROOT / 'models' / CFG.MODEL / f"{save_time}.h5"),  # .h5 for weights, dir for whole model
+            str(CFG.ROOT / '../models' / CFG.MODEL / f"{save_time}.h5"),  # .h5 for weights, dir for whole model
             monitor='val_loss', verbose=1, save_best_only=True,
             save_weights_only=True, options=options,
         )
@@ -23,16 +23,28 @@ def make_callbacks(CFG, save_time):
     return callbacks
 
 
-def get_lr_metric(optimizer):
-    def lr(y_true, y_pred):
-        return optimizer._decayed_lr(tf.float32) # I use ._decayed_lr method instead of .lr
-    return lr
-
-
 def create_model(CFG, class_dict):
-    # processor = ViTImageProcessor.from_pretrained('google/vit-base-patch16-224')
-    model = TFViTForImageClassification.from_pretrained('google/vit-base-patch16-224')
-
+    img_adjust_layer = tf.keras.layers.Lambda(
+        lambda data: tf.keras.applications.imagenet_utils.preprocess_input(tf.cast(data, tf.float32), mode="torch"), 
+        input_shape=[*CFG.IMAGE_SIZE, 3]
+    )
+    model = SwinTransformer(CFG.MODEL, num_classes=len(class_dict), include_top=False, pretrained=False, use_tpu=True)
     model = tf.keras.Sequential([
-        processor
+        img_adjust_layer,
+        model,
+        tf.keras.layers.Dense(len(class_dict), activation='softmax')
     ])
+    model.load_weights(CFG.ROOT / 'base_models' / CFG.MODEL / 'base_model.h5')
+    return model
+
+
+def create_optimizer(CFG):
+    learning_rate_fn = tf.keras.optimizers.schedules.CosineDecay(
+        CFG.LR_START,
+        CFG.NUM_TRAINING_IMAGES * CFG.EPOCHS,
+        alpha=CFG.ALPHA,
+        name="Cosine_Schedular",
+    )
+    optimizer = tf.keras.optimizers.Adam(0.0001)
+    # optimizer = tf.keras.optimizers.Adam(learning_rate_fn)
+    return optimizer
