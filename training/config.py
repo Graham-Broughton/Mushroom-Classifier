@@ -1,12 +1,13 @@
 from dataclasses import dataclass, field
-from pathlib import Path
 from os import environ as env
-from dotenv import load_dotenv
+from pathlib import Path
 from typing import List
+
+from dotenv import load_dotenv
 
 load_dotenv()
 
-root = Path.cwd()#.parent
+root = Path.cwd()  # .parent
 data = root / "data"
 train = data / "train"
 
@@ -29,13 +30,12 @@ class GCFG:
     DATA: Path = data
     TRAIN: Path = train
     GCS_REPO: str = env.get("GCS_REPO")
-    MODEL: str = "swin_large_224"    
+    MODEL: str = "swin_base_384"
 
     # TFRECORD SETTINGS
     NUM_TRAINING_RECORDS: int = 107
     NUM_VALIDATION_RECORDS: int = 5
-    IMAGE_SIZE: List = field(default_factory=lambda: [224, 224])
-
+    IMAGE_SIZE: List = field(default_factory=lambda: [384, 384])
 
 
 @dataclass
@@ -59,7 +59,7 @@ class CFG(GCFG):
     DROPOUT_PCT: float = 0.1
     BASE_BATCH_SIZE: int = 8
     EPOCHS: int = 20
-    
+
     # OLD LR SCHED
     # LR_START: float = 0.000001
     # LR_MAX_BASE: float = 0.0001
@@ -78,8 +78,10 @@ class CFG(GCFG):
 
     def __post_init__(self):
         self.BATCH_SIZE = self.BASE_BATCH_SIZE * self.REPLICAS
-        self.STEPS_PER_EPOCH = self.NUM_TRAINING_IMAGES // self.BATCH_SIZE // self.REPLICAS
-        self.VALIDATION_STEPS = self.NUM_VALIDATION_IMAGES // self.BATCH_SIZE // self.REPLICAS
+        self.STEPS_PER_EPOCH = (
+            self.NUM_TRAINING_IMAGES // self.BATCH_SIZE // self.REPLICAS
+        )
+        self.VALIDATION_STEPS = (
+            self.NUM_VALIDATION_IMAGES // self.BATCH_SIZE // self.REPLICAS
+        )
         self.WGTS = 1 / self.FOLDS
-
-

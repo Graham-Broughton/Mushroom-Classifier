@@ -129,8 +129,8 @@ dmypy.json
 .pyre/
 
 *.gz
-train_mini/
-data/*
+**/data/**
 !**/train.csv
 /wandb
 *.h5
+**/EuroSAT/**
