@@ -134,3 +134,4 @@ dmypy.json
 **/wandb
 *.h5
 **/EuroSAT/**
+**/base_models/**

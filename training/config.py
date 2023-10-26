@@ -30,14 +30,14 @@ class GCFG:
     DATA: Path = data
     TRAIN: Path = train
     GCS_REPO: str = env.get("GCS_REPO")
-    MODEL: str = "swin_large_224"
+    MODEL: str = "swin_large_384"
     OPT: str = "Adam"
     LR_SCHED: str = "Static"
 
     # TFRECORD SETTINGS
     NUM_TRAINING_RECORDS: int = 107
     NUM_VALIDATION_RECORDS: int = 5
-    IMAGE_SIZE: List = field(default_factory=lambda: [224, 224])
+    IMAGE_SIZE: List = field(default_factory=lambda: [384, 384])
     DEBUG: bool = True
 
 
