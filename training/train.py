@@ -8,20 +8,23 @@ from matplotlib import pyplot as plt
 from loguru import logger
 from prefect import task, flow
 import mlflow
-# from transformers import TFSwinForImageClassification
 # from sklearn.metrics import f1_score, precision_score, recall_score, confusion_matrix
 import src.training as tr_fn
 from src.visuals import training_viz
 from config import CFG, GCFG
 
 
-def main(CFG2, class_dict):
-    strategy, CFG = tr_fn.tpu_test(CFG2)
+AUTO = tf.data.experimental.AUTOTUNE
+SAVE_TIME = datetime.now().strftime("%m%d-%H%M")
+
+
+def main(CFG2, CFG, class_dict):
+    strategy, CFG = tr_fn.tpu_test(CFG2, CFG)
 
     GCS_PATH_SELECT = {
         192: f"{CFG.GCS_REPO}/tfrecords-jpeg-192x192",
         224: f"{CFG.GCS_REPO}/tfrecords-jpeg-224x224v2",
-        331: f"{CFG.GCS_REPO}/tfrecords-jpeg-331x331",
+        384: f"{CFG.GCS_REPO}/tfrecords-jpeg-384x384",
         512: f"{CFG.GCS_REPO}/tfrecords-jpeg-512x512",
     }
     GCS_PATH = GCS_PATH_SELECT[CFG.IMAGE_SIZE[0]]
@@ -36,39 +39,38 @@ def main(CFG2, class_dict):
     if CFG.DEBUG:
         # data dump
         logger.debug("Training data shapes:")
-        for image, label in tr_fn.get_training_dataset().take(3):
-            logger.debug(image.numpy().shape, label.numpy().shape)
-        logger.debug("Training data label examples:", label.numpy())
+        for image, label in tr_fn.get_training_dataset(TRAINING_FILENAMES, CFG).take(3):
+            logger.debug(f"{image.numpy().shape, label.numpy().shape}")
+        logger.debug(f"Training data label examples: {label.numpy()}")
         logger.debug("Validation data shapes:")
-        for image, label in tr_fn.get_validation_dataset().take(3):
-            logger.debug(image.numpy().shape, label.numpy().shape)
-        logger.debug("Validation data label examples:", label.numpy())
+        for image, label in tr_fn.get_validation_dataset(VALIDATION_FILENAMES, CFG).take(3):
+            logger.debug(f"{image.numpy().shape, label.numpy().shape}")
+        logger.debug(f"Validation data label examples: {label.numpy()}")
 
         # Peek at training data
-        training_dataset = tr_fn.get_training_dataset()
+        training_dataset = tr_fn.get_training_dataset(TRAINING_FILENAMES, CFG)
         training_dataset = training_dataset.unbatch().batch(20)
         train_batch = iter(training_dataset)
-        training_viz.display_batch_of_images(next(train_batch))
+        training_viz.display_batch_of_images(next(train_batch), class_dict)
 
     with strategy.scope():
         model = tr_fn.create_model(CFG, class_dict)
-        opt = tr_fn.create_optimizer(CFG)
+        opt = tf.keras.optimizers.Adam(0.0001)  # tr_fn.create_optimizer(CFG)
         loss = tf.keras.losses.SparseCategoricalCrossentropy()
 
-    top3_acc = tf.keras.metrics.SparseTopKCategoricalAccuracy(
-        k=3, name='sparse_top_3_categorical_accuracy'
-    )
+        top3_acc = tf.keras.metrics.SparseTopKCategoricalAccuracy(
+            k=3, name='sparse_top_3_categorical_accuracy'
+        )
     model.compile(optimizer=opt, loss=loss, metrics=['sparse_categorical_crossentropy', top3_acc])
 
     history = model.fit(
-        tr_fn.get_training_dataset(),
+        tr_fn.get_training_dataset(TRAINING_FILENAMES, CFG),
         steps_per_epoch=CFG.STEPS_PER_EPOCH,
         epochs=CFG.EPOCHS,
-        validation_data=tr_fn.get_validation_dataset(),
+        validation_data=tr_fn.get_validation_dataset(VALIDATION_FILENAMES, CFG),
         validation_steps=CFG.VALIDATION_STEPS,
-        callbacks=tr_fn.make_callbacks(CFG)
+        callbacks=tr_fn.make_callbacks(CFG, SAVE_TIME)
     )    
-
 
 
 def get_lr_callback(batch_size=8):
@@ -238,12 +240,6 @@ if __name__ == "__main__":
     print(f"Tensorflow version {tf.__version__}")
     np.set_printoptions(threshold=15, linewidth=80)
 
-    tr_fn.check_for_colab()
-
-    AUTO = tf.data.experimental.AUTOTUNE
-    SAVE_TIME = datetime.now().strftime("%m%d-%H%M")
-    LOG_DIR = f"{CFG2.GCS_REPO}/logs/{CFG2.MODEL}/{SAVE_TIME}"
-
     class_dict = pickle.load(open("src/class_dict.pkl", "rb"))
 
     wandb.init(
@@ -251,4 +247,4 @@ if __name__ == "__main__":
         tags=[f"{CFG2.MODEL}, {CFG2.OPT}, {CFG2.LR_SCHED}, {str(CFG2.IMAGE_SIZE[0])}"],
     )
 
-    main(CFG2, class_dict)
+    main(CFG2, CFG, class_dict)
