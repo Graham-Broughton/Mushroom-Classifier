@@ -1,11 +1,10 @@
 import numpy as np
-from loguru import logger
 import tensorflow as tf
 import os
 import regex as re
 
 
-def tpu_test(CFG2, CFG):
+def tpu_test():
     # Detect hardware
     try:
         tpu = tf.distribute.cluster_resolver.TPUClusterResolver()
@@ -19,11 +18,8 @@ def tpu_test(CFG2, CFG):
     else:
         strategy = tf.distribute.get_strategy()
     replicas = strategy.num_replicas_in_sync
-    logger.info("Number of accelerators: ", replicas)
 
-    CFG = get_new_cfg(replicas, CFG2, CFG)
-
-    return strategy, CFG
+    return strategy, replicas
 
 
 def get_new_cfg(replicas, CFG2, CFG):

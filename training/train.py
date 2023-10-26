@@ -16,10 +16,19 @@ from config import CFG, GCFG
 
 AUTO = tf.data.experimental.AUTOTUNE
 SAVE_TIME = datetime.now().strftime("%m%d-%H%M")
+class_dict = pickle.load(open("src/class_dict.pkl", "rb"))
 
 
-def main(CFG2, CFG, class_dict):
-    strategy, CFG = tr_fn.tpu_test(CFG2, CFG)
+def main(CFG2, CFG):
+    strategy, replicas = tr_fn.tpu_test()
+
+    logger.info("Number of accelerators: ", replicas)
+
+    CFG = CFG(
+        REPLICAS=replicas,
+        NUM_TRAINING_IMAGES=CFG2.NUM_TRAINING_IMAGES,
+        NUM_VALIDATION_IMAGES=CFG2.NUM_VALIDATION_IMAGES,
+    )
 
     GCS_PATH_SELECT = {
         192: f"{CFG.GCS_REPO}/tfrecords-jpeg-192x192",
@@ -47,11 +56,11 @@ def main(CFG2, CFG, class_dict):
             logger.debug(f"{image.numpy().shape, label.numpy().shape}")
         logger.debug(f"Validation data label examples: {label.numpy()}")
 
-        # Peek at training data
-        training_dataset = tr_fn.get_training_dataset(TRAINING_FILENAMES, CFG)
-        training_dataset = training_dataset.unbatch().batch(20)
-        train_batch = iter(training_dataset)
-        training_viz.display_batch_of_images(next(train_batch), class_dict)
+        # # Peek at training data
+        # training_dataset = tr_fn.get_training_dataset(TRAINING_FILENAMES, CFG)
+        # training_dataset = training_dataset.unbatch().batch(20)
+        # train_batch = iter(training_dataset)
+        # training_viz.display_batch_of_images(next(train_batch), class_dict)
 
     with strategy.scope():
         model = tr_fn.create_model(CFG, class_dict)
@@ -240,11 +249,9 @@ if __name__ == "__main__":
     print(f"Tensorflow version {tf.__version__}")
     np.set_printoptions(threshold=15, linewidth=80)
 
-    class_dict = pickle.load(open("src/class_dict.pkl", "rb"))
-
     wandb.init(
         project="Mushroom-Classifier",
         tags=[f"{CFG2.MODEL}, {CFG2.OPT}, {CFG2.LR_SCHED}, {str(CFG2.IMAGE_SIZE[0])}"],
     )
 
-    main(CFG2, CFG, class_dict)
+    main(CFG2, CFG)
