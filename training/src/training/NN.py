@@ -13,12 +13,12 @@ def make_callbacks(CFG, save_time):
             separator=",",
             append=False,
         ),
-        wandb.keras.WandbMetricsLogger(log_freq='batch'),
-        wandb.keras.WandbModelCheckpoint(
-            str(CFG.ROOT / '../models' / CFG.MODEL / f"{save_time}.h5"),  # .h5 for weights, dir for whole model
-            monitor='val_loss', verbose=1, save_best_only=True,
-            save_weights_only=True, options=options,
-        )
+        # wandb.keras.WandbMetricsLogger(log_freq='batch'),
+        # wandb.keras.WandbModelCheckpoint(
+        #     str(CFG.ROOT / '../models' / CFG.MODEL / f"{save_time}.h5"),  # .h5 for weights, dir for whole model
+        #     monitor='val_loss', verbose=1, save_best_only=True,
+        #     save_weights_only=True, options=options,
+        # )
     ]
     return callbacks
 

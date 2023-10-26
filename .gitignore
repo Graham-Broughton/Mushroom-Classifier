@@ -131,6 +131,6 @@ dmypy.json
 *.gz
 **/data/**
 !**/train.csv
-/wandb
+**/wandb
 *.h5
 **/EuroSAT/**
