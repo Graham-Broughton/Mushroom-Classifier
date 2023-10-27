@@ -2,6 +2,7 @@ from dataclasses import dataclass, field
 from os import environ as env
 from pathlib import Path
 from typing import List
+from datetime import datetime
 
 from dotenv import load_dotenv
 
@@ -10,6 +11,7 @@ load_dotenv()
 root = Path.cwd()  # .parent
 data = root / "data"
 train = data / "train"
+SAVE_TIME = datetime.now().strftime("%m%d-%H%M")
 
 
 @dataclass
@@ -19,37 +21,46 @@ class GCFG:
     VALIDATION_STEPS: int = field(init=False)
     WGTS: float = field(init=False)
 
-    REPLICAS: int = 0
-    NUM_TRAINING_IMAGES: int = 0
-    NUM_VALIDATION_IMAGES: int = 0
-
     # GENERAL SETTINGS
-    SEED: int = 42
+    SEED: int = 32
     VERBOSE: int = 2
     ROOT: Path = root
     DATA: Path = data
     TRAIN: Path = train
     GCS_REPO: str = env.get("GCS_REPO")
+    REPLICAS: int = 0
+    NUM_TRAINING_IMAGES: int = 0
+    NUM_VALIDATION_IMAGES: int = 0
+    SAVE_TIME: datetime = SAVE_TIME
+
+    # MODEL SETTINGS
     MODEL: str = "swin_large_384"
     OPT: str = "Adam"
-    LR_SCHED: str = "Static"
+    LR_SCHED: str = "CosineWarmup"
 
     # TFRECORD SETTINGS
     NUM_TRAINING_RECORDS: int = 107
     NUM_VALIDATION_RECORDS: int = 5
     IMAGE_SIZE: List = field(default_factory=lambda: [384, 384])
-    DEBUG: bool = True
+    DEBUG: bool = False
 
 
 @dataclass
 class CFG(GCFG):
     # TRAIN SETTINGS
     ## LEARNING RATE SETTINGS
-    LR_START: float = 0.0004
-    BETA1: float = 0.9
-    BETA2: float = 0.99
-    DECAY_STEPS: int = 1000
-    ALPHA: float = 0.000001
+    ### Cosine
+    # LR_START: float = 0.0001
+
+    ### CosineWarmup
+    LR_START: float = 0.00001
+    ALPHA: float = 0.00001
+    WARMUP_TARGET: float = 0.002
+
+    ### CosineRestarts
+    # LR_START: float = 0.0005
+
+    ### InverseTime
 
     ## EARLY STOPPING
     ES_PATIENCE: int = 5
@@ -59,25 +70,19 @@ class CFG(GCFG):
 
     ## MODEL SETTINGS
     FOLDS: int = 5
-    DROPOUT_PCT: float = 0.1
-    BASE_BATCH_SIZE: int = 8
-    EPOCHS: int = 20
+    BASE_BATCH_SIZE: int = 24
+    EPOCHS: int = 30
 
-    # OLD LR SCHED
-    # LR_START: float = 0.000001
-    # LR_MAX_BASE: float = 0.0001
-    # LR_MIN: float = 0.0001
-    # LR_RAMP_EPOCHS: int = 5
-    # LR_SUSPEND_EPOCHS: int = 0
-    # LR_DECAY_FACTOR: float = 0.8
+    # DATASET SETTINGS
+    AUGMENT: bool = True
 
-    # Rotational Matrix Settings
-    # ROT_: float = 180.0
-    # SHR_: float = 2.0
-    # HZOOM_: float = 8.0
-    # WZOOM_: float = 8.0
-    # HSHIFT_: float = 8.0
-    # WSHIFT_: float = 8.0
+    ## Rotational Matrix Settings
+    ROT_: float = 180.0
+    SHR_: float = 2.0
+    HZOOM_: float = 8.0
+    WZOOM_: float = 8.0
+    HSHIFT_: float = 8.0
+    WSHIFT_: float = 8.0
 
     def __post_init__(self):
         self.BATCH_SIZE = self.BASE_BATCH_SIZE * self.REPLICAS
@@ -88,3 +93,4 @@ class CFG(GCFG):
             self.NUM_VALIDATION_IMAGES // self.BATCH_SIZE // self.REPLICAS
         )
         self.WGTS = 1 / self.FOLDS
+        self.CKPT_DIR: Path = self.ROOT.parent / 'models' / self.MODEL / self.SAVE_TIME

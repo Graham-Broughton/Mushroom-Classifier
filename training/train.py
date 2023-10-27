@@ -1,28 +1,47 @@
-import math, re, os, pickle
+import os, pickle
 import tensorflow as tf
 from datetime import datetime
 import wandb
 from wandb.keras import WandbCallback, WandbModelCheckpoint
 import numpy as np
-from matplotlib import pyplot as plt
 from loguru import logger
-from prefect import task, flow
-import mlflow
-# from sklearn.metrics import f1_score, precision_score, recall_score, confusion_matrix
+# from prefect import task, flow
+# import mlflow
+from sklearn.metrics import f1_score, precision_score, recall_score, confusion_matrix
+from sklearn.model_selection import KFold
 import src.training as tr_fn
 from src.visuals import training_viz
 from config import CFG, GCFG
 
 
 AUTO = tf.data.experimental.AUTOTUNE
-SAVE_TIME = datetime.now().strftime("%m%d-%H%M")
 class_dict = pickle.load(open("src/class_dict.pkl", "rb"))
 
+cluster_resolver = tf.distribute.cluster_resolver.TPUClusterResolver(tpu='local')
+tf.config.experimental_connect_to_cluster(cluster_resolver)
+tf.tpu.experimental.initialize_tpu_system(cluster_resolver)
+strategy = tf.distribute.TPUStrategy(cluster_resolver)
+replicas = strategy.num_replicas_in_sync
 
-def main(CFG2, CFG):
-    strategy, replicas = tr_fn.tpu_test()
 
-    logger.info("Number of accelerators: ", replicas)
+def main(CFG2, CFG, replicas):
+    # strategy, replicas = tr_fn.tpu_test()
+
+    logger.info(f"Number of accelerators: {replicas}")
+
+    GCS_PATH_SELECT = {
+        192: f"{CFG2.GCS_REPO}/tfrecords-jpeg-192x192",
+        224: f"{CFG2.GCS_REPO}/tfrecords-jpeg-224x224v2",
+        384: f"{CFG2.GCS_REPO}/tfrecords-jpeg-384x384",
+        512: f"{CFG2.GCS_REPO}/tfrecords-jpeg-512x512",
+    }
+    GCS_PATH = GCS_PATH_SELECT[CFG2.IMAGE_SIZE[0]]
+
+    TRAINING_FILENAMES = tf.io.gfile.glob(f"{GCS_PATH}/train*.tfrec")
+    VALIDATION_FILENAMES = tf.io.gfile.glob(f"{GCS_PATH}/val*.tfrec")
+
+    CFG2.NUM_TRAINING_IMAGES = tr_fn.count_data_items(TRAINING_FILENAMES)
+    CFG2.NUM_VALIDATION_IMAGES = tr_fn.count_data_items(VALIDATION_FILENAMES)
 
     CFG = CFG(
         REPLICAS=replicas,
@@ -30,21 +49,16 @@ def main(CFG2, CFG):
         NUM_VALIDATION_IMAGES=CFG2.NUM_VALIDATION_IMAGES,
     )
 
-    GCS_PATH_SELECT = {
-        192: f"{CFG.GCS_REPO}/tfrecords-jpeg-192x192",
-        224: f"{CFG.GCS_REPO}/tfrecords-jpeg-224x224v2",
-        384: f"{CFG.GCS_REPO}/tfrecords-jpeg-384x384",
-        512: f"{CFG.GCS_REPO}/tfrecords-jpeg-512x512",
-    }
-    GCS_PATH = GCS_PATH_SELECT[CFG.IMAGE_SIZE[0]]
-
-    TRAINING_FILENAMES = tf.io.gfile.glob(f"{GCS_PATH}/train*.tfrec")
-    VALIDATION_FILENAMES = tf.io.gfile.glob(f"{GCS_PATH}/val*.tfrec")
-
-    CFG.NUM_TRAINING_IMAGES = tr_fn.count_data_items(TRAINING_FILENAMES)
-    CFG.NUM_VALIDATION_IMAGES = tr_fn.count_data_items(VALIDATION_FILENAMES)
-
-
+    wandb.init(
+        project="Mushroom-Classifier",
+        tags=[CFG2.MODEL, CFG2.OPT, CFG2.LR_SCHED, str(CFG2.IMAGE_SIZE[0])],
+        config=CFG,
+        dir="../",
+        config_exclude_keys=[
+            "DEBUG", "GCS_REPO", "TRAIN", "ROOT", "DATA", "VERBOSE", "DISPLAY_PLOT", 
+            "BASE_BATCH_SIZE", "WGTS", "OPT", "LR_SCHED", "MODEL"
+        ],
+    )
     if CFG.DEBUG:
         # data dump
         logger.debug("Training data shapes:")
@@ -56,57 +70,34 @@ def main(CFG2, CFG):
             logger.debug(f"{image.numpy().shape, label.numpy().shape}")
         logger.debug(f"Validation data label examples: {label.numpy()}")
 
-        # # Peek at training data
-        # training_dataset = tr_fn.get_training_dataset(TRAINING_FILENAMES, CFG)
-        # training_dataset = training_dataset.unbatch().batch(20)
-        # train_batch = iter(training_dataset)
-        # training_viz.display_batch_of_images(next(train_batch), class_dict)
-
+    logger.info("Building Model...")
     with strategy.scope():
         model = tr_fn.create_model(CFG, class_dict)
-        opt = tf.keras.optimizers.Adam(0.0001)  # tr_fn.create_optimizer(CFG)
+        opt = tr_fn.create_optimizer(CFG)
         loss = tf.keras.losses.SparseCategoricalCrossentropy()
 
         top3_acc = tf.keras.metrics.SparseTopKCategoricalAccuracy(
             k=3, name='sparse_top_3_categorical_accuracy'
         )
-    model.compile(optimizer=opt, loss=loss, metrics=['sparse_categorical_crossentropy', top3_acc])
+    model.compile(optimizer=opt, loss=loss, metrics=['sparse_categorical_accuracy', top3_acc])
 
+    logger.info("Training model...")
+    # config = wandb.helper.parse_config(CFG, exclude=())
+    # wandb.config = config
     history = model.fit(
         tr_fn.get_training_dataset(TRAINING_FILENAMES, CFG),
         steps_per_epoch=CFG.STEPS_PER_EPOCH,
         epochs=CFG.EPOCHS,
         validation_data=tr_fn.get_validation_dataset(VALIDATION_FILENAMES, CFG),
         validation_steps=CFG.VALIDATION_STEPS,
-        callbacks=tr_fn.make_callbacks(CFG, SAVE_TIME)
-    )    
+        callbacks=tr_fn.make_callbacks(CFG)
+    )
 
-
-def get_lr_callback(batch_size=8):
-    lr_start = 0.000005
-    lr_max = 0.00000125 * CFG.REPLICAS * batch_size
-    lr_min = 0.000001
-    lr_ramp_ep = 5
-    lr_sus_ep = 0
-    lr_decay = 0.8
-
-    def lrfn(epoch):
-        if epoch < lr_ramp_ep:
-            lr = (lr_max - lr_start) / lr_ramp_ep * epoch + lr_start
-
-        elif epoch < lr_ramp_ep + lr_sus_ep:
-            lr = lr_max
-
-        else:
-            lr = (lr_max - lr_min) * lr_decay ** (
-                epoch - lr_ramp_ep - lr_sus_ep
-            ) + lr_min
-
-        return lr
-
-    lr_callback = tf.keras.callbacks.LearningRateScheduler(lrfn, verbose=False)
-    return lr_callback
-
+    try:
+        os.mkdir(CFG.ROOT / '../models' / CFG.MODEL)
+    except FileExistsError:
+        pass
+    model.save(f'.gs://mush-img-repo/models/{CFG.MODEL}/{CFG.SAVE_TIME}')
 
 def get_history(model, fold, files_train, files_valid, CFG):
     logger.info("Training...")
@@ -249,9 +240,4 @@ if __name__ == "__main__":
     print(f"Tensorflow version {tf.__version__}")
     np.set_printoptions(threshold=15, linewidth=80)
 
-    wandb.init(
-        project="Mushroom-Classifier",
-        tags=[f"{CFG2.MODEL}, {CFG2.OPT}, {CFG2.LR_SCHED}, {str(CFG2.IMAGE_SIZE[0])}"],
-    )
-
-    main(CFG2, CFG)
+    main(CFG2, CFG, replicas)

@@ -52,5 +52,6 @@ tfrecords: build scripts/create_tfrecords.sh
 
 get_models:
 	@echo "Downloading models..."
+	@mkdir -p ./training/base_models
 	@gsutil -m cp -r gs://mush-img-repo/base_models/* ./training/base_models/
 	@echo "Finished downloading models..."
