@@ -1,22 +1,15 @@
 import numpy as np
 import tensorflow as tf
 import os
-import regex as re
+import re
 
 
 def tpu_test():
     # Detect hardware
-    try:
-        tpu = tf.distribute.cluster_resolver.TPUClusterResolver()
-    except ValueError:  # If TPU not found
-        tpu = None
-
-    if tpu:
-        tf.config.experimental_connect_to_cluster(tpu)
-        tf.tpu.experimental.initialize_tpu_system(tpu)
-        strategy = tf.distribute.TPUStrategy(tpu)
-    else:
-        strategy = tf.distribute.get_strategy()
+    cluster_resolver = tf.distribute.cluster_resolver.TPUClusterResolver(tpu='local')
+    tf.config.experimental_connect_to_cluster(cluster_resolver)
+    tf.tpu.experimental.initialize_tpu_system(cluster_resolver)
+    strategy = tf.distribute.TPUStrategy(cluster_resolver)
     replicas = strategy.num_replicas_in_sync
 
     return strategy, replicas
