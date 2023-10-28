@@ -68,7 +68,7 @@ class CFG(GCFG):
     ## EARLY STOPPING
     ES_PATIENCE: int = 5
 
-    TTAs: int = 11
+    TTA: int = 11
     DISPLAY_PLOT: bool = True
 
     ## MODEL SETTINGS
