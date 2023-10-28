@@ -97,7 +97,8 @@ def create_optimizer(CFG):
     elif CFG.LR_SCHED == "CosineRestarts":
         learning_rate_fn = tf.keras.optimizers.schedules.CosineDecayRestarts(
             CFG.LR_START,
-            1000
+            first_decay_steps=CFG.STEPS_PER_EPOCH * 2,
+            alpha=CFG.ALPHA,
         )
     elif CFG.LR_SCHED == "InverseTime":
         learning_rate_fn = keras.optimizers.schedules.InverseTimeDecay(

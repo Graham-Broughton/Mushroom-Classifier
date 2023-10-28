@@ -22,7 +22,7 @@ class GCFG:
     WGTS: float = field(init=False)
 
     # GENERAL SETTINGS
-    SEED: int = 32
+    SEED: int = 42
     VERBOSE: int = 2
     ROOT: Path = root
     DATA: Path = data
@@ -32,16 +32,18 @@ class GCFG:
     NUM_TRAINING_IMAGES: int = 0
     NUM_VALIDATION_IMAGES: int = 0
     SAVE_TIME: datetime = SAVE_TIME
+    FOLDS: int = 5
 
     # MODEL SETTINGS
-    MODEL: str = "swin_large_384"
+    MODEL: str = "swin_large_224"
     OPT: str = "Adam"
-    LR_SCHED: str = "CosineWarmup"
+    LR_SCHED: str = "CosineRestarts"
+    BASE_BATCH_SIZE: int = 32
 
     # TFRECORD SETTINGS
     NUM_TRAINING_RECORDS: int = 107
     NUM_VALIDATION_RECORDS: int = 5
-    IMAGE_SIZE: List = field(default_factory=lambda: [384, 384])
+    IMAGE_SIZE: List = field(default_factory=lambda: [224, 224])
     DEBUG: bool = False
 
 
@@ -53,12 +55,13 @@ class CFG(GCFG):
     # LR_START: float = 0.0001
 
     ### CosineWarmup
-    LR_START: float = 0.00001
-    ALPHA: float = 0.00001
-    WARMUP_TARGET: float = 0.002
+    # LR_START: float = 0.00001
+    # ALPHA: float = 0.00001
+    # WARMUP_TARGET: float = 0.002
 
     ### CosineRestarts
-    # LR_START: float = 0.0005
+    LR_START: float = 0.0008
+    ALPHA: float = 0.01
 
     ### InverseTime
 
@@ -69,8 +72,6 @@ class CFG(GCFG):
     DISPLAY_PLOT: bool = True
 
     ## MODEL SETTINGS
-    FOLDS: int = 5
-    BASE_BATCH_SIZE: int = 24
     EPOCHS: int = 30
 
     # DATASET SETTINGS
@@ -87,10 +88,10 @@ class CFG(GCFG):
     def __post_init__(self):
         self.BATCH_SIZE = self.BASE_BATCH_SIZE * self.REPLICAS
         self.STEPS_PER_EPOCH = (
-            self.NUM_TRAINING_IMAGES // self.BATCH_SIZE // self.REPLICAS
+            self.NUM_TRAINING_IMAGES / self.BATCH_SIZE // self.REPLICAS
         )
         self.VALIDATION_STEPS = (
-            self.NUM_VALIDATION_IMAGES // self.BATCH_SIZE // self.REPLICAS
+            self.NUM_VALIDATION_IMAGES / self.BATCH_SIZE // self.REPLICAS
         )
         self.WGTS = 1 / self.FOLDS
         self.CKPT_DIR: Path = self.ROOT.parent / 'models' / self.MODEL / self.SAVE_TIME

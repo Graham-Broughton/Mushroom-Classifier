@@ -102,29 +102,14 @@ def main(CFG2, CFG, replicas):
 def get_history(model, fold, files_train, files_valid, CFG):
     logger.info("Training...")
     history = model.fit(
-        get_dataset(
-            files_train,
-            CFG,
-            augment=True,
-            shuffle=True,
-            repeat=True,
-            dim=CFG.IMG_SIZES,
-            batch_size=CFG.BATCH_SIZES,
-        ),
+        tr_fn.get_training_dataset(files_train, CFG),
         epochs=CFG.EPOCHS,
-        callbacks=[sv(fold), get_lr_callback(CFG.BATCH_SIZES)],
-        steps_per_epoch=count_data_items(files_train) / CFG.BATCH_SIZES // CFG.REPLICAS,
-        validation_data=get_dataset(
-            files_valid,
-            CFG,
-            augment=False,
-            shuffle=False,
-            repeat=False,
-            dim=CFG.IMG_SIZES,
-        ),  # class_weight = {0:1,1:2},
+        callbacks=tr_fn.make_callbacks(CFG),
+        steps_per_epoch=CFG.STEPS_PER_EPOCH,
+        validation_data=tr_fn.get_validation_dataset(files_valid, CFG),  # class_weight = {0:1,1:2},
         verbose=CFG.VERBOSE,
     )
-    return history.history
+    return history
 
 
 def train(CFG, strategy):
@@ -135,54 +120,56 @@ def train(CFG, strategy):
     oof_names = []
     oof_folds = []
     # preds = np.zeros((count_data_items(files_test), 1))
+    GCS_PATH_SELECT = {
+        192: f"{CFG2.GCS_REPO}/tfrecords-jpeg-192x192",
+        224: f"{CFG2.GCS_REPO}/tfrecords-jpeg-224x224v2",
+        384: f"{CFG2.GCS_REPO}/tfrecords-jpeg-384x384",
+        512: f"{CFG2.GCS_REPO}/tfrecords-jpeg-512x512",
+    }
+    GCS_PATH = GCS_PATH_SELECT[CFG2.IMAGE_SIZE[0]]   
 
     for fold, (idxT, idxV) in enumerate(skf.split(np.arange(107))):
         # DISPLAY FOLD INFO
         print("#" * 25)
         print("#### FOLD", fold + 1)
-        print(
-            f"#### Image Size {CFG.IMG_SIZES} with {CFG.MODELS} and batch_size {CFG.BATCH_SIZES * CFG.REPLICAS}"
-        )
         logger.info(
             f"# Image Size {CFG.IMG_SIZES} with Model {CFG.MODELS} and batch_sz {CFG.BATCH_SIZES*CFG.REPLICAS}"
         )
 
         # CREATE TRAIN AND VALIDATION SUBSETS
-        files_train = tf.io.gfile.glob(
-            [f"{GCS_PATH}/train{x:02d}*.tfrec" for x in idxT]
-        )
-        np.random.shuffle(files_train)
-        print("#" * 25)
-        files_valid = tf.io.gfile.glob(
-            [f"{GCS_PATH}/train{x:02d}*.tfrec" for x in idxV]
-        )
-        files_test = tf.io.gfile.glob(f"{GCS_PATH}/val*.tfrec")
+        # files_train = tf.io.gfile.glob(
+        #     [f"{CFG.GCS_REPO}/train{x:02d}*.tfrec" for x in idxT]
+        # )
+        # np.random.shuffle(files_train)
+        # print("#" * 25)
+        # files_valid = tf.io.gfile.glob(
+        #     [f"{CFG.GCS_REPO}/train{x:02d}*.tfrec" for x in idxV]
+        # )
+        # files_test = tf.io.gfile.glob(f"{GCS_PATH}/val*.tfrec")
+        files_train = tf.io.gfile.glob(f"{GCS_PATH}/train*.tfrec")
+        files_valid = tf.io.gfile.glob(f"{GCS_PATH}/val*.tfrec")
+
+        CFG2.NUM_TRAINING_IMAGES = tr_fn.count_data_items(files_train)
+        CFG2.NUM_VALIDATION_IMAGES = tr_fn.count_data_items(files_valid)         
 
         # BUILD MODEL
         K.clear_session()
         with strategy.scope():
-            model = build_model(CFG.MODELS, CFG.NUM_CLASSES, dim=CFG.IMG_SIZES)
+            model = tr_fn.create_model(CFG, class_dict)
+            opt = tr_fn.create_optimizer(CFG)
+            loss = tf.keras.losses.SparseCategoricalCrossentropy()
+
+            top3_acc = tf.keras.metrics.SparseTopKCategoricalAccuracy(
+                k=3, name='sparse_top_3_categorical_accuracy'
+            )
 
         # TRAIN
         history = get_history(model, fold, files_train, files_valid, CFG)
 
-        logger.info("Loading best model...")
-        model.load_weights(f"fold-{fold}.h5")
-
         # PREDICT OOF USING TTA
         logger.info("Predicting OOF with TTA...")
-        ds_valid = get_dataset(
-            files_valid,
-            CFG,
-            labeled=False,
-            return_image_names=False,
-            augment=True,
-            repeat=True,
-            shuffle=False,
-            dim=CFG.IMG_SIZES,
-            batch_size=CFG.BATCH_SIZES * 4,
-        )
-        ct_valid = count_data_items(files_valid)
+        ds_valid = tr_fn.get_validation_dataset(files_valid, CFG),
+        ct_valid = tr_fn.count_data_items(files_valid)
         STEPS = CFG.TTA * ct_valid / CFG.BATCH_SIZES / 4 / CFG.REPLICAS
         pred = model.predict(ds_valid, steps=STEPS, verbose=CFG.VERBOSE)[
             : CFG.TTA * ct_valid,
