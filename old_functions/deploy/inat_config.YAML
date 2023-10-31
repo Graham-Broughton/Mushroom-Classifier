@@ -2,11 +2,11 @@ INITIAL_LR_RATE     : 0.001
 LR_DECAY_FACTOR     : 0.96
 EPOCHS_PER_DECAY    : 3
 ES_PATIENCE         : 5
-IMAGE_SIZE          : [512, 512]
+IMAGE_SIZE          : [244, 244]
 DROPOUT_PCT         : 0.1
 BATCH_SIZE          : 384
 EPOCHS              : 100
-HEIGHT              : 512
+HEIGHT              : 244
 SEED                : 42
 NUM_TRAIN_IMAGES    : 85578
 NUM_VAL_IMAGES      : 4182
@@ -20,5 +20,5 @@ INAT_VAL_FILENAMES  : "gs://mushy_class/tfrecords/val/*inat*.tfrec"
 
 
 # FLASK
-MODEL_PATH         : "models/inat_TPU_1"
-LABEL_DICT_PATH    : "src/labels_inat.pkl"
+MODEL_PATH         : "models/model-copy"
+LABEL_DICT_PATH    : "src/class_dict.pkl"

@@ -2,7 +2,7 @@
 import os, yaml
 import numpy as np
 import pickle
-from .src.util import base64_to_pil
+from src.util import base64_to_pil
 
 # Flask
 from flask import Flask, redirect, url_for, request, render_template, Response, jsonify, redirect
@@ -14,16 +14,14 @@ from tensorflow.keras.preprocessing import image
 
 
 config = yaml.safe_load(open("./inat_config.YAML", 'rb'))
+model = load_model(config['MODEL_PATH'])
+
 # Declare a flask app
 app = Flask(__name__)
 
 
 def get_image_class_dict():
     return pickle.load(open(config['LABEL_DICT_PATH'], 'rb'))
-
-
-def get_ImageClassifierModel():
-    return load_model(config['MODEL_PATH'])
 
 
 def model_predict(img, model):
@@ -36,7 +34,7 @@ def model_predict(img, model):
     Returns:
         prediction of model
     '''
-    img = img.resize((512, 512))
+    img = img.resize((224, 224))
 
     # Preprocessing the image
     x = image.img_to_array(img)
@@ -60,9 +58,6 @@ def predict():
         return None
     # Get the image from post request
     img = base64_to_pil(request.json)
-
-    # initialize model
-    model = get_ImageClassifierModel()
 
     # Make prediction
     preds = model_predict(img, model)
