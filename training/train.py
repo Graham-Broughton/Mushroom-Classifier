@@ -1,16 +1,12 @@
 import os, pickle
 import tensorflow as tf
-from datetime import datetime
 import wandb
-from wandb.keras import WandbCallback, WandbModelCheckpoint
 import numpy as np
 from loguru import logger
 # from prefect import task, flow
 # import mlflow
-from sklearn.metrics import f1_score, precision_score, recall_score, confusion_matrix
 from sklearn.model_selection import KFold
 import src.training as tr_fn
-from src.visuals import training_viz
 from config import CFG, GCFG
 
 
