@@ -4,9 +4,12 @@ from pathlib import Path
 import tensorflow as tf
 import pickle
 from loguru import logger
+from dotenv import load_dotenv
+from os import environ
 
 root = Path(__file__).parent.parent
 sys.path.append(str(root))
+load_dotenv()
 
 from training.src.models.swintransformer import SwinTransformer
 
@@ -20,7 +23,6 @@ names = [
 ]
 
 class_dict = pickle.load(open(str(root / "training" / "src" / "class_dict.pkl"), 'rb'))
-
 
 
 def resave_base_model_weights(name="swin_large_224"):
@@ -46,11 +48,10 @@ def resave_base_model_weights(name="swin_large_224"):
         tf.keras.layers.Dense(len(class_dict), activation='softmax')
     ])
 
-    model.save(str(root / "training" / "base_models" / name))
+    # model.save(str(root / "training" / "base_models" / name))  # local save (no TPU/TPU-vm)
+    model.save(f'{environ["GCS_PATH"]}/{environ["GCS_BASE_MODELS"]}/{name}')  # GCS save (TPU/TPU-vm)
 
     logger.info(f"Saved model {name}")
-
-    del model
 
 
 for name in names:

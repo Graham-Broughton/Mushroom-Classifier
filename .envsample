@@ -1,5 +1,5 @@
-GCS_PATH: str
-GCS_PROJECT_ID: str
-GCS_CREDENTIALS: Pathlib.Path
-WANDB_API_KEY: str
-PYTHONPATH: str
+GCS_PATH="gs://<your bucket here>"
+GCS_BASE_MODELS="base_models"
+WANDB_API_KEY="<your wandb API key here>"
+WANDB_REGISTERED_MODEL="<name of registered model under model-registry>
+PYTHONPATH="<add the absolute path of the project's root dir here>"

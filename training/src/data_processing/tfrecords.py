@@ -4,12 +4,11 @@ from os import environ
 import cv2
 import pandas as pd
 from loguru import logger
-from tqdm import trange, tqdm
+from tqdm import trange
 
 environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
 import tensorflow as tf
-
 from training.config import GCFG
 
 warnings.filterwarnings("ignore")
@@ -108,7 +107,7 @@ def write_sp_tfrecords(tfrec_path, img_path, num_train_records, num_val_records,
     # load dataframes and iterate over them
     train, val = load_dataframe(root_path=img_path)
     for df, set in zip([train, val], ["train", "val"]):
-        num_records = num_train_records if set == "train" else num_validation_records
+        num_records = num_train_records if set == "train" else num_val_records
         IMGS, SIZE, CT = get_data(df, num_records)
 
         # iterate over the number of tfrecords
@@ -193,39 +192,6 @@ def get_mp_params(tfrec_path, img_path, num_records, reshape_sizes, set, df):
     return param_list
 
 
-def write_mp_tfrecords(**kwargs):
-    """Writes multiple TFRecord files for the mushroom classifier dataset.
-
-    Args:
-        **kwargs: Keyword arguments containing the following:
-            img_directory (pathlib.Path): Path to the directory containing the images.
-            tfrecords_directory (pathlib.Path): Path to the directory where the TFRecord files will be saved.
-            num_train_records (int): Number of training records to write.
-            num_validation_records (int): Number of validation records to write.
-            img_size (tuple): Tuple containing the size of the images.
-    """
-    from tqdm.contrib.concurrent import process_map
-
-    train, val = load_dataframe(root_path=kwargs["img_directory"])
-    for df, set in zip(
-        [train, val], ["train", "val"]
-    ):  # for each dataframe get the parameters for multiprocessing
-        params = get_mp_params(
-            kwargs["tfrecords_directory"],
-            kwargs["img_directory"],
-            kwargs["num_train_records"]
-            if set == "train"
-            else kwargs["num_validation_records"],
-            kwargs["img_size"],
-            set,
-            df,
-        )
-        logger.info(f"Starting multiprocessing for {set}")
-        # while still in the loop, use multiprocessing to write the tfrecords
-        process_map(write_single_mp_tfrecord, params, max_workers=8)
-        logger.info(f"Finished multiprocessing for {set}")
-
-
 def write_single_mp_tfrecord(params):
     """Writes a single TensorFlow record file from a given set of parameters.
 
@@ -270,6 +236,39 @@ def write_single_mp_tfrecord(params):
                 row.class_id.values[0],
             )
             writer.write(example)
+
+
+def write_mp_tfrecords(**kwargs):
+    """Writes multiple TFRecord files for the mushroom classifier dataset.
+
+    Args:
+        **kwargs: Keyword arguments containing the following:
+            img_directory (pathlib.Path): Path to the directory containing the images.
+            tfrecords_directory (pathlib.Path): Path to the directory where the TFRecord files will be saved.
+            num_train_records (int): Number of training records to write.
+            num_validation_records (int): Number of validation records to write.
+            img_size (tuple): Tuple containing the size of the images.
+    """
+    from tqdm.contrib.concurrent import process_map
+
+    train, val = load_dataframe(root_path=kwargs["img_directory"])
+    for df, set in zip(
+        [train, val], ["train", "val"]
+    ):  # for each dataframe get the parameters for multiprocessing
+        params = get_mp_params(
+            kwargs["tfrecords_directory"],
+            kwargs["img_directory"],
+            kwargs["num_train_records"]
+            if set == "train"
+            else kwargs["num_validation_records"],
+            kwargs["img_size"],
+            set,
+            df,
+        )
+        logger.info(f"Starting multiprocessing for {set}")
+        # while still in the loop, use multiprocessing to write the tfrecords
+        process_map(write_single_mp_tfrecord, params, max_workers=8)
+        logger.info(f"Finished multiprocessing for {set}")
 
 
 if __name__ == "__main__":
