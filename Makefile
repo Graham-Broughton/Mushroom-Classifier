@@ -10,7 +10,7 @@ build: Pipfile.lock
 	@mamba install s5cmd
 
 # Download the datasets
-.PHONY: all_datasets fgvcx_2018 fgvcx_2019 fgvcx_2021 get_models
+.PHONY: all_datasets fgvcx_2018 fgvcx_2019 fgvcx_2021 get_models deploy
 all_datasets: fgvcx_2018 fgvcx_2019 fgvcx_2021
 	@echo "Finished downloading and extracting datasets..."
 
@@ -55,3 +55,12 @@ get_models:
 	@mkdir -p ./training/base_models
 	@gsutil -m cp -r gs://mush-img-repo/base_models/* ./training/base_models/
 	@echo "Finished downloading models..."
+
+get_deploy_model: ./deploy/model/
+	@echo "Downloading model..."
+	@wandb artifact get model-registry/Mushroom-Classifier:latest --root ./deploy/model
+
+deploy: get_deploy_model
+	@echo "Deploying model..."
+	@cd deploy && pipenv run python app.py
+	@echo "Finished deploying model..."

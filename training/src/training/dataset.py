@@ -1,7 +1,6 @@
 import tensorflow as tf
 import tensorflow.keras.backend as K
 import math
-from functools import partial
 
 
 AUTO = tf.data.experimental.AUTOTUNE
