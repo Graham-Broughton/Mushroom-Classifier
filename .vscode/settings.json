@@ -61,5 +61,5 @@
   "python.terminal.activateEnvironment": true,
   "python.defaultInterpreterPath": "",
   "python.terminal.activateEnvInCurrentTerminal": true,
-  "python.terminal.focusAfterLaunch": true
+  "python.terminal.focusAfterLaunch": true,
 }
