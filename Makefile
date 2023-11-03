@@ -80,7 +80,7 @@ build_old_tf: ./training/base_models/checkpoints/Pipfile.lock
 	@cd ./training/base_models/checkpoints && pipenv install --skip-lock
 	@echo "Finished building old tensorflow environment..."
 
-resave_base_model_weights: build_old_tf
+resave_base_model_weights: build_old_tf download_model_weights
 	@echo "Resaving model weights..."
 	@cd ./training/base_models/checkpoints && pipenv run python ../../../scripts/resave_base_model_weights.py
 	@rm -rf ./training/base_models/checkpoints
