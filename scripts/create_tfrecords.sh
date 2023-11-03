@@ -92,7 +92,7 @@ if [[ -z ${multi+x} ]]; then
     array+="-m"
 else
     echo "multiprocessing flag found"
-
 fi
-echo ${array[@]}
+
+# echo ${array[@]}
 python src/data_processing/tfrecords.py ${array[@]}

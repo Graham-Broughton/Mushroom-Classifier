@@ -10,7 +10,7 @@ build: Pipfile.lock
 	@mamba install s5cmd
 
 # Download the datasets
-.PHONY: all_datasets fgvcx_2018 fgvcx_2019 fgvcx_2021 get_models deploy
+.PHONY: all_datasets fgvcx_2018 fgvcx_2019 fgvcx_2021 build_old_tf get_models deploy
 all_datasets: fgvcx_2018 fgvcx_2019 fgvcx_2021
 	@echo "Finished downloading and extracting datasets..."
 
@@ -50,11 +50,47 @@ tfrecords: build scripts/create_tfrecords.sh
 	@bash scripts/create_tfrecords.sh -d $(IMG_DIR) -p $(TFREC_DIR) -t $(TRAIN_RECS) -v $(VAL_RECS) -s $(IMG_SIZES) -m $(MULTIPROCESSING)
 	@echo "Finished creating tfrecords..."
 
-get_models:
-	@echo "Downloading models..."
-	@mkdir -p ./training/base_models
-	@gsutil -m cp -r gs://mush-img-repo/base_models/* ./training/base_models/
-	@echo "Finished downloading models..."
+download_model_weights:
+	@echo "Downloading model weights..."
+	@mkdir -p ./training/base_models/checkpoints/swin_base_224/
+	@mkdir -p ./training/base_models/checkpoints/swin_base_384/
+	@mkdir -p ./training/base_models/checkpoints/swin_large_224/
+	@mkdir -p ./training/base_models/checkpoints/swin_large_384/
+	@mkdir -p ./training/base_models/checkpoints/swin_small_224/
+	@mkdir -p ./training/base_models/checkpoints/swin_tiny_224/
+
+	@wget -O ./training/base_models/checkpoints/swin_base_224/swin_base_224.tgz https://github.com/rishigami/Swin-Transformer-TF/releases/download/v0.1-tf-swin-weights/swin_base_224.tgz
+	@wget -O ./training/base_models/checkpoints/swin_base_384/swin_base_384.tgz https://github.com/rishigami/Swin-Transformer-TF/releases/download/v0.1-tf-swin-weights/swin_base_384.tgz
+	@wget -O ./training/base_models/checkpoints/swin_large_224/swin_large_224.tgz https://github.com/rishigami/Swin-Transformer-TF/releases/download/v0.1-tf-swin-weights/swin_large_224.tgz
+	@wget -O ./training/base_models/checkpoints/swin_large_384/swin_large_384.tgz https://github.com/rishigami/Swin-Transformer-TF/releases/download/v0.1-tf-swin-weights/swin_large_384.tgz
+	@wget -O ./training/base_models/checkpoints/swin_small_224/swin_small_224.tgz https://github.com/rishigami/Swin-Transformer-TF/releases/download/v0.1-tf-swin-weights/swin_small_224.tgz
+	@wget -O ./training/base_models/checkpoints/swin_tiny_224/swin_tiny_224.tgz https://github.com/rishigami/Swin-Transformer-TF/releases/download/v0.1-tf-swin-weights/swin_tiny_224.tgz
+
+	@echo "extracting model weights..."
+	@tar -xvf ./training/base_models/checkpoints/swin_base_224/swin_base_224.tgz -C ./training/base_models/checkpoints/swin_base_224/
+	@tar -xvf ./training/base_models/checkpoints/swin_base_384/swin_base_384.tgz -C ./training/base_models/checkpoints/swin_base_384/
+	@tar -xvf ./training/base_models/checkpoints/swin_large_224/swin_large_224.tgz -C ./training/base_models/checkpoints/swin_large_224/
+	@tar -xvf ./training/base_models/checkpoints/swin_large_384/swin_large_384.tgz -C ./training/base_models/checkpoints/swin_large_384/
+	@tar -xvf ./training/base_models/checkpoints/swin_small_224/swin_small_224.tgz -C ./training/base_models/checkpoints/swin_small_224/
+	@tar -xvf ./training/base_models/checkpoints/swin_tiny_224/swin_tiny_224.tgz -C ./training/base_models/checkpoints/swin_tiny_224/
+	@echo "Finished downloading model weights..."
+
+build_old_tf: ./training/base_models/checkpoints/Pipfile.lock
+	@echo "Building old tensorflow environment..."
+	@cd ./training/base_models/checkpoints && pipenv install --skip-lock
+	@echo "Finished building old tensorflow environment..."
+
+resave_base_model_weights: build_old_tf
+	@echo "Resaving model weights..."
+	@cd ./training/base_models/checkpoints && pipenv run python ../../../scripts/resave_base_model_weights.py
+	@rm -rf ./training/base_models/checkpoints
+	@echo "Finished resaving model weights..."
+
+# get_models:
+# 	@echo "Downloading models..."
+# 	@mkdir -p ./training/base_models
+# 	@gsutil -m cp -r gs://mush-img-repo/base_models/* ./training/base_models/
+# 	@echo "Finished downloading models..."
 
 get_deploy_model: ./deploy/model/
 	@echo "Downloading model..."

@@ -625,6 +625,7 @@ def SwinTransformer(
     include_top=True,
     pretrained=True,
     use_tpu=False,
+    root="/home/broug/Desktop/Mushroom-Classifier",
     cfgs=CFGS,
 ):
     cfg = cfgs[model_name]
@@ -640,7 +641,7 @@ def SwinTransformer(
     )
     net(tf.keras.Input(shape=(cfg["input_size"][0], cfg["input_size"][1], 3)))
     if pretrained is True:
-        pretrained_ckpt = "/home/broug/Desktop/Mushroom-Classifier/training/base_models"
+        pretrained_ckpt = f"{root}/training/base_models"
     else:
         pretrained_ckpt = pretrained
 
