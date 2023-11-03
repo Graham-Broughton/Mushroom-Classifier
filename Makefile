@@ -62,5 +62,5 @@ get_deploy_model: ./deploy/model/
 
 deploy: get_deploy_model
 	@echo "Deploying model..."
-	@cd deploy && pipenv run python app.py
+	@cd deploy && pipenv run python app.py & ngrok http 5000
 	@echo "Finished deploying model..."
