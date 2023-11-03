@@ -57,5 +57,8 @@
     "xticks",
     "yticklabels",
     "yticks"
-  ]
+  ],
+  "python.terminal.activateEnvInCurrentTerminal": true,
+  "python.terminal.focusAfterLaunch": true,
+  "python.defaultInterpreterPath": ""
 }

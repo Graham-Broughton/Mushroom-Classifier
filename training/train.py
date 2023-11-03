@@ -97,7 +97,7 @@ def main(CFG2, CFG, replicas):
         os.mkdir(CFG.ROOT / '../models' / CFG.MODEL)
     except FileExistsError:
         pass
-    model.save(f'.gs://mush-img-repo/models/{CFG.MODEL}/{CFG.SAVE_TIME}')
+    model.save(f'gs://mush-img-repo/models/{CFG.MODEL}/{CFG.SAVE_TIME}')
 
 def get_history(model, fold, files_train, files_valid, CFG):
     logger.info("Training...")

@@ -1,5 +1,20 @@
+# Mushroom Classifier
+## An SMS based app by Graham Broughton
+
+## About the Project
+This repository contains all the code required to train and deploy a Swin (Shifted WINdows) transformer for mushroom classification. The model was trained on ~90 000 images containing ~470 species which resulted in ~80% top1 and ~96% top3 validation accuracy on images of resolution (224, 224). Training is performed on Google Cloud Platform (GCP) TPU v3-8 VM's where epoch durations are just shy of one minute. To deploy the model as an SMS based service, Twilio webhooks were set up to automatically respond to the client's number with an SMS if the message contained at least one photo. This project was designed with ease of use in mind, Makefile's were relied upon heavily to simplify operation down to a single word. Along the same lines, Terraform was used to simplify and ensure the proper GCP resources are requisitioned.
+
+## Getting Started
+Most of the dependencies are found in Pipfile's throughout the project but there are still a few things you need to do first:
+
+- Ensure you have a working python 3.11 installation
+- Create a Twilio account and buy a phone number
+- Make a Google Cloud account
+- Using the .envsample files as templates, create .env files in the same directories
+
+
 # Mushroom Classification
-This is a package containing all the necassary ingredients to train and deploy a model, in this case EffecientNetv2B0. Functionality is split into directories: one for training (training) and the other for deployment (deployment). This image classifier attained a top1 accuracy of almost 70% and top3 of 97% on the inat dataset without using metadata and top1 and top3 of 40%, and 78% and the FGVC dataset. This tool is meant to be used as an adjunct for proper identification protocol, not a replacement. Considering the relatively high top3 accuracy, it should be very useful to beginners to identify the mushroom to family or genus level where they can further identify it with a dichotomous key.
+This is a package containing all the necassary ingredients to train  and deploy a model, in this case EffecientNetv2B0. Functionality is split into directories: one for training (training) and the other for deployment (deployment). This image classifier attained a top1 accuracy of almost 70% and top3 of 97% on the inat dataset without using metadata and top1 and top3 of 40%, and 78% and the FGVC dataset. This tool is meant to be used as an adjunct for proper identification protocol, not a replacement. Considering the relatively high top3 accuracy, it should be very useful to beginners to identify the mushroom to family or genus level where they can further identify it with a dichotomous key.
 
 Training requirements:
 - Ownership of a Google Cloud Storage bucket
