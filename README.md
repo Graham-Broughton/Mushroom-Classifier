@@ -7,11 +7,16 @@ This repository contains all the code required to train and deploy a Swin (Shift
 ## Getting Started
 Most of the dependencies are found in Pipfile's throughout the project but there are still a few things you need to do first:
 
+Prerequisites:
 - Ensure you have a working python 3.11 installation
 - Create a Twilio account and buy a phone number
 - Make a Google Cloud account
-- Using the .envsample files as templates, create .env files in the same directories
 
+Installation:
+1. Clone this repository
+```python
+git clone https://github.com/Graham-Broughton/Mushroom-Classifier
+```
 
 # Mushroom Classification
 This is a package containing all the necassary ingredients to train  and deploy a model, in this case EffecientNetv2B0. Functionality is split into directories: one for training (training) and the other for deployment (deployment). This image classifier attained a top1 accuracy of almost 70% and top3 of 97% on the inat dataset without using metadata and top1 and top3 of 40%, and 78% and the FGVC dataset. This tool is meant to be used as an adjunct for proper identification protocol, not a replacement. Considering the relatively high top3 accuracy, it should be very useful to beginners to identify the mushroom to family or genus level where they can further identify it with a dichotomous key.

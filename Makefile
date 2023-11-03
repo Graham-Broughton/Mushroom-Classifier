@@ -1,12 +1,14 @@
 LOCAL_TAG:=$(shell date +"%Y-%m-%d-%H-%M")
 SHELL = bash 
 .SHELLFLAGS = -ec -o pipefail
+MODEL_DIR=./deploy/model
+MODEL_MARKER=$(MODEL_DIR)/.downloaded
 
 include .env
 export
 
 # Install the dependencies
-.PHONY: all build all_datasets fgvcx_2018 fgvcx_2019 fgvcx_2021 build_old_tf resave_base_model_weights get_base_models get_deploy_model deploy tfrecords
+.PHONY: all build all_datasets fgvcx_2018 fgvcx_2019 fgvcx_2021 build_old_tf resave_base_model_weights get_base_models get_deploy_model deploy help
 
 all: help
 
@@ -14,6 +16,10 @@ build: Pipfile.lock
 	@echo Initializing environment...
 	@pip install pipenv
 	@mamba install s5cmd
+
+#################################################
+### Data
+#################################################
 
 # Download the datasets - all or individual years
 all_datasets: fgvcx_2018 fgvcx_2019 fgvcx_2021
@@ -49,10 +55,13 @@ fgvcx_2021: build scripts/get_data.sh
 
 	@echo "Finished extracting datasets..."
 
+#################################################
+### Models
+#################################################
+
 # Download the model weights for Tensorflow from a GitHub repo
 download_model_weights:
 	@echo "Downloading model weights..."
-
 	@mkdir -p ./training/base_models/checkpoints/swin_base_224/
 	@mkdir -p ./training/base_models/checkpoints/swin_base_384/
 	@mkdir -p ./training/base_models/checkpoints/swin_large_224/
@@ -97,10 +106,13 @@ get_base_models:
 	@gsutil -m cp -r $(GCS_PATH)/$(GCS_BASE_MODELS)/* ./training/base_models/
 	@echo "Finished downloading models..."
 
-# Download the latest registered model from wandb
-get_deploy_model: ./deploy/model/
-	@echo "Downloading model..."
-	@wandb artifact get model-registry/$(WANDB_REGISTERED_MODEL):latest --root ./deploy/model
+#################################################
+### Deploy
+#################################################
+
+# The target that depends on MODEL_MARKER
+get_deploy_model: $(MODEL_MARKER)
+	@echo "Model is already downloaded."
 
 # Deploy the model to a local server using ngrok
 deploy: get_deploy_model
@@ -108,21 +120,38 @@ deploy: get_deploy_model
 	@cd deploy && pipenv run python app.py & ngrok http 5000
 	@echo "Finished deploying model..."
 
+# Download the latest registered model from wandb if it doesn't exist
+$(MODEL_MARKER):
+	@echo "Downloading model..."
+	@mkdir -p $(MODEL_DIR)
+	@pipenv run wandb artifact get model-registry/Mushroom-Classifier:v0 --root $(MODEL_DIR)
+	@touch $(MODEL_MARKER)
+
+#################################################
+### TFRecords
+#################################################
+
 # Convert the images to tfrecords with many user options
-IMG_DIR ?= $(shell bash -c 'read -p "Where are the images located (OPTIONAL, default: ./data/)? " image_path; echo $$image_path')
-TFREC_DIR ?= $(shell bash -c 'read -p "Where should the tfrecords be saved (OPTIONAL, default: ./data/)? " tfrecord_path; echo $$tfrecord_path')
-TRAIN_RECS ?= $(shell bash -c 'read -p "Number of train image tfrecords (OPTIONAL, default: 107)? " num_train_records; echo $$num_train_records')
-VAL_RECS ?= $(shell bash -c 'read -p "Number of validation image tfrecords (OPTIONAL, default: 5)? " num_val_records; echo $$num_val_records')
-IMG_SIZES ?= $(shell bash -c 'read -p "Image height and width (REQUIRED, default: 224, 224)? " image_size; echo $$image_size')
-MULTIPROCESSING ?= $(shell bash -c 'read -p "Use multiprocessing (OPTIONAL, default: True)? " multiprocessing; echo $$multiprocessing')
+# IMG_DIR ?= $(shell bash -c 'read -p "Where are the images located (OPTIONAL, default: ./data/)? " image_path; echo $$image_path')
+# TFREC_DIR ?= $(shell bash -c 'read -p "Where should the tfrecords be saved (OPTIONAL, default: ./data/)? " tfrecord_path; echo $$tfrecord_path')
+# TRAIN_RECS ?= $(shell bash -c 'read -p "Number of train image tfrecords (OPTIONAL, default: 107)? " num_train_records; echo $$num_train_records')
+# VAL_RECS ?= $(shell bash -c 'read -p "Number of validation image tfrecords (OPTIONAL, default: 5)? " num_val_records; echo $$num_val_records')
+# IMG_SIZES ?= $(shell bash -c 'read -p "Image height and width (REQUIRED, default: 224, 224)? " image_size; echo $$image_size')
+# MULTIPROCESSING ?= $(shell bash -c 'read -p "Use multiprocessing (OPTIONAL, default: True)? " multiprocessing; echo $$multiprocessing')
 tfrecords: build scripts/create_tfrecords.sh
 	@echo "Creating tfrecords..."
+	@: $(eval IMG_DIR := $(shell bash -c 'read -p "Where are the images located (OPTIONAL, default: ./data/)? " image_path; echo $$image_path'))
+	@: $(eval TFREC_DIR := $(shell bash -c 'read -p "Where should the tfrecords be saved (OPTIONAL, default: ./data/)? " tfrecord_path; echo $$tfrecord_path'))
+	@: $(eval TRAIN_RECS := $(shell bash -c 'read -p "Number of train image tfrecords (OPTIONAL, default: 107)? " num_train_records; echo $$num_train_records'))
+	@: $(eval VAL_RECS := $(shell bash -c 'read -p "Number of validation image tfrecords (OPTIONAL, default: 5)? " num_val_records; echo $$num_val_records'))
+	@: $(eval IMG_SIZES := $(shell bash -c 'read -p "Image height and width (REQUIRED, default: 224, 224)? " image_size; echo $$image_size'))
+	@: $(eval MULTIPROCESSING := $(shell bash -c 'read -p "Use multiprocessing (OPTIONAL, default: True)? " multiprocessing; echo $$multiprocessing'))
 	@bash scripts/create_tfrecords.sh -d $(IMG_DIR) -p $(TFREC_DIR) -t $(TRAIN_RECS) -v $(VAL_RECS) -s $(IMG_SIZES) -m $(MULTIPROCESSING)
 	@echo "Finished creating tfrecords..."
 
-=================================================
-=== Help
-=================================================
+#################################################
+### Help
+#################################################
 
 help:
 	@echo "========================================="
