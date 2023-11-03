@@ -58,9 +58,7 @@
     "yticklabels",
     "yticks"
   ],
-  "python.analysis.autoFormatStrings": true,
-  "python.analysis.autoImportCompletions": true,
-  "python.analysis.ignore": [
-    "**/utils.py"
-  ],
+  "python.terminal.activateEnvInCurrentTerminal": true,
+  "python.terminal.focusAfterLaunch": true,
+  "python.defaultInterpreterPath": ""
 }
