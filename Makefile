@@ -67,12 +67,13 @@ download_model_weights:
 	@wget -O ./training/base_models/checkpoints/swin_tiny_224/swin_tiny_224.tgz https://github.com/rishigami/Swin-Transformer-TF/releases/download/v0.1-tf-swin-weights/swin_tiny_224.tgz
 
 	@echo "extracting model weights..."
-	@tar -xvf ./training/base_models/checkpoints/swin_base_224/swin_base_224.tgz -C ./training/base_models/checkpoints/swin_base_224/
-	@tar -xvf ./training/base_models/checkpoints/swin_base_384/swin_base_384.tgz -C ./training/base_models/checkpoints/swin_base_384/
-	@tar -xvf ./training/base_models/checkpoints/swin_large_224/swin_large_224.tgz -C ./training/base_models/checkpoints/swin_large_224/
-	@tar -xvf ./training/base_models/checkpoints/swin_large_384/swin_large_384.tgz -C ./training/base_models/checkpoints/swin_large_384/
-	@tar -xvf ./training/base_models/checkpoints/swin_small_224/swin_small_224.tgz -C ./training/base_models/checkpoints/swin_small_224/
-	@tar -xvf ./training/base_models/checkpoints/swin_tiny_224/swin_tiny_224.tgz -C ./training/base_models/checkpoints/swin_tiny_224/
+	@tar -xvf ./training/base_models/checkpoints/swin_base_224/swin_base_224.tgz -C ./training/base_models/checkpoints
+	@tar -xvf ./training/base_models/checkpoints/swin_base_384/swin_base_384.tgz -C ./training/base_models/checkpoints
+	@tar -xvf ./training/base_models/checkpoints/swin_large_224/swin_large_224.tgz -C ./training/base_models/checkpoints
+	@tar -xvf ./training/base_models/checkpoints/swin_large_384/swin_large_384.tgz -C ./training/base_models/checkpoints
+	@tar -xvf ./training/base_models/checkpoints/swin_small_224/swin_small_224.tgz -C ./training/base_models/checkpoints
+	@tar -xvf ./training/base_models/checkpoints/swin_tiny_224/swin_tiny_224.tgz -C ./training/base_models/checkpoints
+	@rm -rf ./training/base_models/checkpoints/*.tgz
 	@echo "Finished downloading model weights..."
 
 build_old_tf: ./training/base_models/checkpoints/Pipfile.lock
@@ -80,9 +81,9 @@ build_old_tf: ./training/base_models/checkpoints/Pipfile.lock
 	@cd ./training/base_models/checkpoints && pipenv install --skip-lock
 	@echo "Finished building old tensorflow environment..."
 
-resave_base_model_weights: build_old_tf download_model_weights
+resave_base_model_weights:  # download_model_weights # build_old_tf
 	@echo "Resaving model weights..."
-	@cd ./training/base_models/checkpoints && pipenv run python ../../../scripts/resave_base_model_weights.py
+	@cd ./training/base_models/checkpoints && pipenv run resave
 	@rm -rf ./training/base_models/checkpoints
 	@echo "Finished resaving model weights..."
 

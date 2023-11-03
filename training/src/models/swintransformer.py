@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras.layers import (
@@ -641,7 +643,7 @@ def SwinTransformer(
     )
     net(tf.keras.Input(shape=(cfg["input_size"][0], cfg["input_size"][1], 3)))
     if pretrained is True:
-        pretrained_ckpt = f"{root}/training/base_models"
+        pretrained_ckpt = f"{root}/training/base_models/checkpoints"
     else:
         pretrained_ckpt = pretrained
 
