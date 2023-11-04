@@ -1,13 +1,1 @@
-{
-  "type": "service_account",
-  "project_id": "mush-classifier",
-  "private_key_id": "f26272dc0e024766f3306cc4067f22ea98d1e635",
-  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCKdKzzHi5ORATN\nipsAvA+2/cS5c5Qtr4QBawlK4ba4PPtNmSMGi2mZosjhhjv1vS5MbwpBgVyqSl2s\nCGQH1OZz8/Kyg4MoyZxCo+AUKLMgNNYHMcKUOpr3OcF5RdB+ExqsXwmdXN7gbGjc\n995P81/ZVgKkKe5u1caa+fNkZvHj9IeOQ/B/FAN51CHx4y/2Xqg9DrYWXTR6iNwj\nXgVcAw1zXxzVqFcJfkNtHv5ypNI8C6iaeDxuTrrPx2zi4i1k8pmlZZ3+koRZKbqU\nFHq+4kyVbuQFza3kfQekmYypfQtFN5BSmEatmPyTDKilEM/DDg8MJvu2+g7X4eX4\nToWzM4EZAgMBAAECggEAByKrNR5VkZgEzVj60wdeIfajGFGiDdaxTWdoQ7EtOwJ9\niwq82N3/c7kFdEX4OhplU/AXDbguf+I0QKTwDs1EkS490EBh1ozJXk/WwQM19A91\nBkrktcHtcZdK5saXz5+JbN+6/Z6nJ9a+csDddq5avrcljLNSg+jFgwAlsINzrOU+\nXWTnuOvHX4nNS/dlzq299TzTmEdS7YUEEb6gU0qkdEdSsC2j1c0lYSQ1h9cVGcz1\nYtp7v0Kp1BMaO4yWRnHHS9x0fRq6y4uLtqcGsXx20sH/HlYO/Ajy4ka1j2nuzcF0\nQ0jQyKk20Bllt3f1gqtJhFgGZIqzolCXWVi/JZuFOQKBgQC8+BLfUJq3sdZXC9UJ\njp6PjnWbhbGOfW9787u3DQjR+LpEsbZnxcpV0jU848FunMSCUI+Ijo0yBuFHBKh2\nRCA58c9sY4SAeSp8segIemqDNQGiq/SgLVvwzXDy0s245UStq5f7yzw43JxqyoRU\nx0ExD6khoLyQADu4hX0MLImFzQKBgQC7kZXni4NREBkEBz0yysYS7E/l11ss9Gy+\niC+8QaPOfaedBQiPAiQXkvxZ0/erQgtyQBDAx1tHd/4JxjY992U1szn/6sZ4uywh\njwujdTsDTj/c7zCceC+cOU6WRFLpCtk6I/HFwDdv5ZFDvO/tC+JhBvK/tHTjiSVG\nRrxduFXcfQKBgFzsVENyHJLGJZNqYxkvA7OuJxESHizma8L1KNKr2zF9cQNErGC9\nN3EaTEmj6cOd3VgDi4FoL/Bwx6inlruJZpt32DsBeO/AJW9qAKLip6vbjfFTQ5jc\nlUCFlcwicz0/qJUKM1ODLhr8CQLOkWIrFVitzcqWgwMAyl1DbylkYT/lAoGBAIJC\na7FekPaV0Fmc0WJZsc7ob+A1e+svX+m92DDMAP9hAisomLYADaKVgEy9yO0VM6/H\nUBshF4H9kd2l2nuUOKRfcHMKz4R+r/oqRjHhMvdruywqrD6ttJqwraPrlQykbRFU\nbw4fHCDIc+Zv6stbin5JfgGmR9rQnqM8coo/ftldAoGAbbOS92i0Lfr1tcFBm+KF\n2Li8g6ZYN2UFwck4GVk937kAhDSbcVL7jQumXj/S03BKlkAEeSfIVmYXmC2/uEpb\n+0nEge5OV5YyMqbNHYfhi+1azD3LqRFSQnGOfRJgXYNRpUgs3mJb2IreswJSDee0\nOjkNxT7QqlJ4qYHjSTKTYlw=\n-----END PRIVATE KEY-----\n",
-  "client_email": "terraform-acct@mush-classifier.iam.gserviceaccount.com",
-  "client_id": "111310674448985447366",
-  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-  "token_uri": "https://oauth2.googleapis.com/token",
-  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/terraform-acct%40mush-classifier.iam.gserviceaccount.com",
-  "universe_domain": "googleapis.com"
-}
+
