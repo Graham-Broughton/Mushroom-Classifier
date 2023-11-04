@@ -22,9 +22,9 @@ variable "service-account" {
 }
 
 variable "model_bucket_name" {
-  default = "mush-img-repo"
+  default = "mush-model-repo-tf"
 }
 
 variable "data_bucket_name" {
-  default = "mush-img-repo"
+  default = "mush-img-repo-tf"
 }

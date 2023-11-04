@@ -1,7 +1,7 @@
 terraform {
   required_version = ">=1.0"
   backend "gcs" {
-    bucket = "mlops-project-terraform-state"  # TF_VAR_GCS_REPO
+    bucket = "mush-img-repo-terraform"  # TF_VAR_GCS_REPO
     prefix = "tfstate-stg"
     credentials = "terraform-account.json"
   }
