@@ -1,5 +1,12 @@
-GCS_PATH="gs://<your bucket here>"
-GCS_BASE_MODELS="base_models"
-WANDB_API_KEY="<your wandb API key here>"
-WANDB_REGISTERED_MODEL="<name of registered model under model-registry>
-PYTHONPATH="<add the absolute path of the project's root dir here>"
+GCS_REPO: <your bucket here>
+GCS_BASE_MODELS: <name of base model folder default to "base_models">
+GCP_PROJECT_ID: <project ID of current project>
+WANDB_API_KEY: <your wandb API key here>
+WANDB_REGISTERED_MODEL: <name of registered model under model-registry>
+PYTHONPATH: (Optional) <add the absolute path of the project's root dir here>
+GOOGLE_APPLICATION_CREDENTIALS: <absolute path of JSON credentials of main account (not terraform)>
+GOOGLE_ACCOUNT_NAME: <email address of the host account>
+REMOTE_IP: (Optional) <Remote IP of the server on which you're running MLFlow (Note: Prefect will need to be configured accordingly if the agent is running on a different host). If blank, will default to localhost>
+SENDGRID_API_KEY: (Optional) <API key for SendGrid for automated email>
+SENDGRID_INTEGRATION: (Optional) <Set as any value to skip the SendGrid automated email>
+PERSONAL_EMAIL: (Optional) <In case SendGrid is configured, put your personal email here>
