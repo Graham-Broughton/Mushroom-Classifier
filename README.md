@@ -17,9 +17,10 @@ Installation:
 ```python
 git clone https://github.com/Graham-Broughton/Mushroom-Classifier
 ```
+2. Create your own .env files in the same directories as the template .envsamples
 
 # Mushroom Classification
-This is a package containing all the necassary ingredients to train  and deploy a model, in this case EffecientNetv2B0. Functionality is split into directories: one for training (training) and the other for deployment (deployment). This image classifier attained a top1 accuracy of almost 70% and top3 of 97% on the inat dataset without using metadata and top1 and top3 of 40%, and 78% and the FGVC dataset. This tool is meant to be used as an adjunct for proper identification protocol, not a replacement. Considering the relatively high top3 accuracy, it should be very useful to beginners to identify the mushroom to family or genus level where they can further identify it with a dichotomous key.
+This is a package containing all the necessary ingredients to train  and deploy a model, in this case EffecientNetv2B0. Functionality is split into directories: one for training (training) and the other for deployment (deployment). This image classifier attained a top1 accuracy of almost 70% and top3 of 97% on the inat dataset without using metadata and top1 and top3 of 40%, and 78% and the FGVC dataset. This tool is meant to be used as an adjunct for proper identification protocol, not a replacement. Considering the relatively high top3 accuracy, it should be very useful to beginners to identify the mushroom to family or genus level where they can further identify it with a dichotomous key.
 
 Training requirements:
 - Ownership of a Google Cloud Storage bucket
