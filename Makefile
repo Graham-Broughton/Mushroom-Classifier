@@ -103,7 +103,7 @@ resave_base_model_weights:  download_model_weights build_old_tf
 get_base_models:
 	@echo "Downloading models..."
 	@mkdir -p ./training/base_models
-	@gsutil -m cp -r $(GCS_PATH)/$(GCS_BASE_MODELS)/* ./training/base_models/
+	@gsutil -m cp -r "gs://$(GCS_REPO)/$(GCS_BASE_MODELS)/*"" ./training/base_models/
 	@echo "Finished downloading models..."
 
 #################################################
@@ -117,14 +117,15 @@ get_deploy_model: $(MODEL_MARKER)
 # Deploy the model to a local server using ngrok
 deploy: get_deploy_model
 	@echo "Deploying model..."
-	@cd deploy && pipenv run python app.py & ngrok http 5000
+	@cd deploy && pipenv run python app.py & 
+	@ngrok http 5000
 	@echo "Finished deploying model..."
 
 # Download the latest registered model from wandb if it doesn't exist
 $(MODEL_MARKER):
 	@echo "Downloading model..."
 	@mkdir -p $(MODEL_DIR)
-	@pipenv run wandb artifact get model-registry/Mushroom-Classifier:v0 --root $(MODEL_DIR)
+	@pipenv run wandb artifact get model-registry/$(WANDB_REGISTERED_MODEL):latest --root $(MODEL_DIR)
 	@touch $(MODEL_MARKER)
 
 #################################################

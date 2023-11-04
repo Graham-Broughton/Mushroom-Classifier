@@ -26,10 +26,10 @@ def main(CFG2, CFG, replicas):
     logger.info(f"Number of accelerators: {replicas}")
 
     GCS_PATH_SELECT = {
-        192: f"{CFG2.GCS_REPO}/tfrecords-jpeg-192x192",
-        224: f"{CFG2.GCS_REPO}/tfrecords-jpeg-224x224v2",
-        384: f"{CFG2.GCS_REPO}/tfrecords-jpeg-384x384",
-        512: f"{CFG2.GCS_REPO}/tfrecords-jpeg-512x512",
+        192: f"gs://{CFG2.GCS_REPO}/tfrecords-jpeg-192x192",
+        224: f"gs://{CFG2.GCS_REPO}/tfrecords-jpeg-224x224v2",
+        384: f"gs://{CFG2.GCS_REPO}/tfrecords-jpeg-384x384",
+        512: f"gs://{CFG2.GCS_REPO}/tfrecords-jpeg-512x512",
     }
     GCS_PATH = GCS_PATH_SELECT[CFG2.IMAGE_SIZE[0]]
 
@@ -69,14 +69,7 @@ def main(CFG2, CFG, replicas):
     logger.info("Building Model...")
     with strategy.scope():
         model = tr_fn.create_model(CFG, class_dict)
-        opt = tr_fn.create_optimizer(CFG)
-        loss = tf.keras.losses.SparseCategoricalCrossentropy()
-
-        top3_acc = tf.keras.metrics.SparseTopKCategoricalAccuracy(
-            k=3, name='sparse_top_3_categorical_accuracy'
-        )
-    model.compile(optimizer=opt, loss=loss, metrics=['sparse_categorical_accuracy', top3_acc])
-
+        
     logger.info("Training model...")
     # config = wandb.helper.parse_config(CFG, exclude=())
     # wandb.config = config
@@ -93,7 +86,7 @@ def main(CFG2, CFG, replicas):
         os.mkdir(CFG.ROOT / '../models' / CFG.MODEL)
     except FileExistsError:
         pass
-    model.save(f'gs://mush-img-repo/models/{CFG.MODEL}/{CFG.SAVE_TIME}')
+    model.save(f'gs://{CFG.GCS_REPO}/models/{CFG.MODEL}/{CFG.SAVE_TIME}')
 
 def get_history(model, fold, files_train, files_valid, CFG):
     logger.info("Training...")
@@ -117,10 +110,10 @@ def train(CFG, strategy):
     oof_folds = []
     # preds = np.zeros((count_data_items(files_test), 1))
     GCS_PATH_SELECT = {
-        192: f"{CFG2.GCS_REPO}/tfrecords-jpeg-192x192",
-        224: f"{CFG2.GCS_REPO}/tfrecords-jpeg-224x224v2",
-        384: f"{CFG2.GCS_REPO}/tfrecords-jpeg-384x384",
-        512: f"{CFG2.GCS_REPO}/tfrecords-jpeg-512x512",
+        192: f"gs://{CFG2.GCS_REPO}/tfrecords-jpeg-192x192",
+        224: f"gs://{CFG2.GCS_REPO}/tfrecords-jpeg-224x224v2",
+        384: f"gs://{CFG2.GCS_REPO}/tfrecords-jpeg-384x384",
+        512: f"gs://{CFG2.GCS_REPO}/tfrecords-jpeg-512x512",
     }
     GCS_PATH = GCS_PATH_SELECT[CFG2.IMAGE_SIZE[0]]   
 

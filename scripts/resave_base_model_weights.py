@@ -49,7 +49,7 @@ def resave_base_model_weights(name="swin_large_224"):
     ])
 
     # model.save(str(root / "training" / "base_models" / name))  # local save (no TPU/TPU-vm)
-    model.save(f'{environ["GCS_PATH"]}/{environ["GCS_BASE_MODELS"]}/{name}')  # GCS save (TPU/TPU-vm)
+    model.save(f'gs://{environ["GCS_PATH"]}/{environ["GCS_BASE_MODELS"]}/{name}')  # GCS save (TPU/TPU-vm)
 
     logger.info(f"Saved model {name}")
 

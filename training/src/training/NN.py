@@ -1,10 +1,11 @@
 import tensorflow as tf
-from src.models.swintransformer import SwinTransformer
 import wandb
 
 
 def make_callbacks(CFG):
-    options = tf.saved_model.SaveOptions(experimental_io_device='/job:localhost')  # for whole model saving
+    options = tf.saved_model.SaveOptions(
+        experimental_io_device="/job:localhost"
+    )  # for whole model saving
     # options = tf.train.CheckpointOptions(experimental_io_device="/job:localhost")  # for weights only saving
     CFG.CKPT_DIR.mkdir(parents=True, exist_ok=True)
     callbacks = [
@@ -15,37 +16,44 @@ def make_callbacks(CFG):
             restore_best_weights=True,
         ),
         tf.keras.callbacks.CSVLogger(
-            filename=f'{CFG.GCS_REPO}/logs/{CFG.SAVE_TIME}-csv_log.csv',
+            filename=f"gs://{CFG.GCS_REPO}/logs/{CFG.SAVE_TIME}-csv_log.csv",
             separator=",",
             append=False,
         ),
-        wandb.keras.WandbMetricsLogger(log_freq='epoch'),
+        wandb.keras.WandbMetricsLogger(log_freq="epoch"),
         wandb.keras.WandbModelCheckpoint(
             str(CFG.CKPT_DIR),  # .h5 for weights, dir for whole model
-            monitor='val_loss', verbose=1, save_best_only=True,
-            save_weights_only=False, options=options,
-            initial_value_threshold=0.8
-        )
+            monitor="val_loss",
+            verbose=1,
+            save_best_only=True,
+            save_weights_only=False,
+            options=options,
+            initial_value_threshold=0.8,
+        ),
     ]
     return callbacks
 
 
 def create_model(CFG, class_dict):
-    img_adjust_layer = tf.keras.layers.Lambda(
-        lambda data: tf.keras.applications.imagenet_utils.preprocess_input(tf.cast(data, tf.float32), mode="torch"), 
-        input_shape=[*CFG.IMAGE_SIZE, 3]
+    # model = tf.keras.models.load_model(CFG.ROOT / 'base_models' / CFG.MODEL, compile=False)  # For use with TPU-VM's/GPU's
+    model = tf.keras.models.load_model(
+        f"gs://{CFG.GCS_REPO}/{CFG.GCS_BASE_MODELS}/{CFG.MODEL}", compile=False
+    )  # For use with Colab TPU/ TPU nodes
+
+    loss = tf.keras.losses.SparseCategoricalCrossentropy()
+    opt = create_optimizer(CFG)
+    top3_acc = tf.keras.metrics.SparseTopKCategoricalAccuracy(
+        k=3, name="sparse_top_3_categorical_accuracy"
     )
-    pretrained_model = tf.keras.models.load_model(CFG.ROOT / 'base_models' / CFG.MODEL / 'base_model', compile=False)
-    model = tf.keras.Sequential([
-        img_adjust_layer,
-        pretrained_model,
-        tf.keras.layers.Dense(len(class_dict), activation='softmax')
-    ])
+
+    model.compile(
+        optimizer=opt, loss=loss, metrics=["sparse_categorical_accuracy", top3_acc]
+    )
+
     return model
 
 
 class MyLRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
-
     def __init__(self, args):
         lr_start = 0.000005
         lr_max = 0.00000125 * CFG.REPLICAS * batch_size
@@ -72,6 +80,7 @@ def get_lr_callback(*args, batch_size=8):
             ) + args.lr_min
 
         return lr
+
     lr_callback = tf.keras.callbacks.LearningRateScheduler(lrfn, verbose=False)
     return lr_callback
 
@@ -111,7 +120,15 @@ def create_optimizer(CFG):
         lr_ramp_ep = 5
         lr_sus_ep = 0
         lr_decay = 0.8
-        learning_rate_callback = get_lr_callback(lr_start, lr_max, lr_min, lr_ramp_ep, lr_sus_ep, lr_decay, batch_size=CFG.BATCH_SIZE)
+        learning_rate_callback = get_lr_callback(
+            lr_start,
+            lr_max,
+            lr_min,
+            lr_ramp_ep,
+            lr_sus_ep,
+            lr_decay,
+            batch_size=CFG.BATCH_SIZE,
+        )
     else:
         return tf.keras.optimizers.Adam(0.001)
     optimizer = tf.keras.optimizers.Adam(learning_rate_fn)
