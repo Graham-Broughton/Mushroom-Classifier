@@ -136,3 +136,4 @@ dmypy.json
 **/EuroSAT/**
 *.pb
 **/variables.*
+*.json
