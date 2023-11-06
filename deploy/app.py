@@ -1,19 +1,22 @@
+import sys
 from pickle import load
 
 import numpy as np
 import requests
 import tensorflow as tf
-
 from flask import Flask, request
 from PIL import Image
-
 from twilio.twiml.messaging_response import MessagingResponse
 
-# Load the model and class dictionary
-class_d = load(open("class_dict.pkl", "rb"))
-model = tf.keras.models.load_model("model")
+sys.path.append("../training")
+from config import GCFG
 
 app = Flask(__name__)
+
+# Load the model, class dictionary and config module
+class_d = load(open("class_dict.pkl", "rb"))
+model = tf.keras.models.load_model("model")
+CFG = GCFG()
 
 
 def topk(array, k, axis=-1, sorted=True):
@@ -54,24 +57,32 @@ def topk(array, k, axis=-1, sorted=True):
     return {"scores": scores, "indices": ind}
 
 
-def model_predictions(image_url):
+def model_predictions(image_url_list):
     """Predicts the top 3 most likely mushroom species from an image URL using a pre-trained model.
 
     Args:
-        image_url (str): The URL of the image to be classified.
+        image_url_list (list): The URL of the image to be classified.
 
     Returns:
         list: A list of tuples, where each tuple contains a mushroom species name and its corresponding probability score.
     """
-    # Download and preprocess the image
-    image = Image.open(requests.get(image_url, stream=True).raw)
-    image = image.resize((224, 224))  # Assume this is the size your model expects
-    image_array = np.asarray(image) / 1.0  # Normalize
-    image_array = np.expand_dims(image_array, axis=0)  # Add batch dimension
+    # Download and preprocess the images
+    imgs = list(
+        map(
+            lambda x: Image.open(requests.get(x, stream=True).raw).resize(
+                CFG.IMAGE_SIZE
+            ),
+            image_url_list,
+        )
+    )
+    imgs = np.array([np.array(img) for img in imgs])
+    imgs = tf.data.Dataset.from_tensor_slices(imgs)
+    imgs = imgs.map(lambda x: tf.cast(x, tf.float32))
+    imgs = imgs.map(lambda x: tf.expand_dims(x, axis=0))
 
     # Predict
-    preds = model.predict(image_array)
-    predictions = topk(preds[0], 3)
+    preds = model.predict(imgs)
+    predictions = topk(preds, 3)
     return predictions
 
 
@@ -87,32 +98,36 @@ def evaluate_preds(preds, upper_lim=0.90, middle_lim=0.60, lower_lim=0.30):
     Returns:
         str: A message describing the predicted class and its confidence level.
     """
-    if preds["scores"][0] >= upper_lim:
-        predicted_class = preds["indices"][0]
-        message = f"Your fun guy is {class_d[predicted_class]} with >= {int(upper_lim*100)}% confidence!"
-    elif preds["scores"][0] >= middle_lim:
-        predicted_class = preds["indices"][0]
-        message = (
-            f"Your fun guy is probably {class_d[predicted_class]} with {int(upper_lim*100)}% >= {int(middle_lim*100)}% confidence!\n"
-            + f"2nd choice: {class_d[preds['indices'][1]]} with {preds['scores'][1]*100:.2f}% confidence."
+    for i in range(preds["scores"].shape[0]):
+        scores = preds["scores"][i]
+        indx = preds["indices"][i]
+
+        first, second, third = (
+            (scores[0], indx[0]),
+            (scores[1], indx[1]),
+            (scores[2], indx[2]),
         )
-    elif preds["scores"][0] >= lower_lim:
-        message = (
-            f"Im not too sure about this one, it might be {class_d[preds['indices'][0]]} with {int(middle_lim*100)}% >= "
-            + f"{int(lower_lim*100)}% confidence.\nMy 2nd choice: {class_d[preds['indices'][1]]} with {preds['scores'][1]*100:.2f}% confidence."
-        )
-    else:
-        cls = preds["indices"]
-        pred = preds["scores"]
-        message = (
-            "Sorry, I can't tell what this is.\n",
-            [
-                f"{class_d[cls[i]]} with {pred[i]*100:.2f}% confidence.\n"
-                for i in range(3)
-            ],
-            # + f"{class_d[cls[0]]} with {pred[0]*100:.2f}% confidence.\n{class_d[cls[1]]} with {pred[1]*100:.2f}% confidence.\n{class_d[cls[2]]} with {pred[2]*100:.2f}% confidence."
-        )
-        message = message[0] + "".join(message[1])
+        if first[0] >= upper_lim:
+            message = f"Your fun guy is {class_d[first[1]]} with {int(first[0]*100)}% confidence!"
+        elif first[0] >= middle_lim:
+            message = (
+                f"Your fun guy is probably {class_d[first[1]]} with {int(first[0]*100)}% confidence!\n"
+                + f"2nd choice: {class_d[second[1]]} with {second[0]*100:.2f}% confidence."
+            )
+        elif first[0] >= lower_lim:
+            message = (
+                f"Im not too sure about this one, it might be {class_d[first[1]]} with {int(first[0]*100)}% confidence, \n"
+                + f"or it could be {class_d[second[1]]} with {second[0]*100:.2f}% confidence."
+            )
+        else:
+            message = (
+                "Sorry, I can't tell what this is.\n",
+                [
+                    f"{class_d[rank[1]]} with {rank[0]*100:.2f}% confidence."
+                    for rank in [first, second, third]
+                ],
+            )
+            message = message[0] + "\n".join(message[1])
 
     # Map the predicted class to its label (modify this as per your labels)
     return message
@@ -132,12 +147,16 @@ def sms_response():
     )
 
     # Extract the image URL from the incoming MMS
-    if request.form["NumMedia"] != "0":
-        image_url = request.form.get("MediaUrl0")
+    num_photos = request.form["NumMedia"]
+    img_urls = []
+    if num_photos != "0":
+        for idx in range(int(num_photos)):
+            image_url = request.form.get(f"MediaUrl{idx}")
+            img_urls.append(image_url)
 
     try:
         # Get prediction from the local model
-        predictions = model_predictions(image_url)
+        predictions = model_predictions(img_urls)
         msg = evaluate_preds(predictions)
 
         # Send an SMS with the prediction

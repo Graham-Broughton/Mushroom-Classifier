@@ -132,8 +132,7 @@ dmypy.json
 **/data/**
 !**/train.csv
 **/wandb
-*.h5
-**/EuroSAT/**
 *.pb
 **/variables.*
+infrastructure/terraform-account.json
 *.json

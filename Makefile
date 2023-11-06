@@ -28,6 +28,8 @@ dotenv:
 all_datasets: fgvcx_2018 fgvcx_2019 fgvcx_2021
 	@echo "Finished downloading and extracting datasets..."
 
+the_two_good_ones: fgvcx_2018 fgvcx_2021
+
 fgvcx_2018: build scripts/get_data.sh
 	@echo "Downloading datasets fgvcx 2018..."
 	@bash scripts/get_data.sh -y 2018

@@ -5,7 +5,6 @@
 ############################################################
 
 help() {
-    # display help
     echo "Transform training/val images from chosen directory into tfrecords with chosen number of images per record and image dimensions."
     echo
     echo "Syntax: tfrecords.sh [d|p|t|v|s]"

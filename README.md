@@ -12,7 +12,9 @@ This repository contains all the code required to train and deploy a Swin (Shift
 - Ensure you have a working python 3.11 installation
 - Create a Twilio account and buy a phone number
 - Make a Google Cloud account & save the main service account credentials
-- Create two service accounts and save the credentials: the first with admin privileges (Terraform) the second will be for managing permissions around the files
+- Create two other service accounts and save the credentials: 
+  - the first one will need admin privileges (Terraform)
+  - the second will be for managing permissions around the files so leave it blank for
 
 Installation:
 1. Clone this repository
