@@ -1,14 +1,18 @@
-import os, pickle
+import os
+import pickle
+import sys
+
+import numpy as np
+import src.training as tr_fn
 import tensorflow as tf
 import wandb
-import numpy as np
+from config import CFG, GCFG
 from loguru import logger
 
-from prefect import Flow
 # import mlflow
 from sklearn.model_selection import KFold
-import src.training as tr_fn
-from config import CFG, GCFG
+
+from prefect import Flow
 
 
 @Flow
@@ -197,6 +201,10 @@ def main(CFG2, CFG, replicas, strategy):
 
 
 if __name__ == "__main__":
+    logger.remove(0)
+    logger.add(sink=CFG2.LOG_FILE, level="warning")
+    logger.add(sink=sys.stdout, level="debug", colorize=True)
+
     AUTO = tf.data.experimental.AUTOTUNE
     CFG2 = GCFG()
 

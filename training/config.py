@@ -46,6 +46,8 @@ class GCFG:
     IMAGE_SIZE: List = field(default_factory=lambda: [224, 224])
     DEBUG: bool = False
 
+    # DATASET SETTINGS
+
 
 @dataclass
 class CFG(GCFG):
