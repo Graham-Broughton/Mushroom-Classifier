@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
+
+BASE="s3://ml-inat-competition-datasets"
+TARGET_DIR="./training/data/raw"
+
 ############################################################
 # Help                                                     #
 ############################################################
+
 help() {
     # Display Help
     echo "Download images for mushroom classification from your choice of datasets."
@@ -13,22 +18,24 @@ help() {
     echo "h     Print this Help."
 }
 
-BASE="s3://ml-inat-competition-datasets"
+############################################################
+# Functions                                               #
+############################################################
 
-dl_fgvcx_2018() {
-    echo "Downloading the FGVCX 2018 data"
-    s5cmd --no-sign-request cp --concurrency 20 $BASE/2018/* ./data/raw/2018/
+dl_fgvcx_year() {
+    echo "Downloading the FGVCX $YEAR data"
+    s5cmd --no-sign-request cp --concurrency 20 $BASE/$YEAR/* $TARGET_DIR/$YEAR/
 }
 
-dl_fgvcx_2019() {
-    echo "Downloading the FGVCX 2019 data"
-    s5cmd --no-sign-request cp --sp --concurrency 20 $BASE/2019/* ./data/raw/2019/
-}
+# dl_fgvcx_2019() {
+#     echo "Downloading the FGVCX 2019 data"
+#     s5cmd --no-sign-request cp --sp --concurrency 20 $BASE/2019/* $TARGET_DIR/2019/
+# }
 
-dl_fgvcx_2021() {
-    echo "Downloading the FGVCX 2021 data"
-    s5cmd --no-sign-request cp --sp --concurrency 20 $BASE/2021/* ./data/raw/2021/
-}
+# dl_fgvcx_2021() {
+#     echo "Downloading the FGVCX 2021 data"
+#     s5cmd --no-sign-request cp --sp --concurrency 20 $BASE/2021/* $TARGET_DIR/2021/
+# }
 
 ############################################################
 
@@ -66,15 +73,20 @@ done
 
 ############################################################
 
+# echo "Downloading images from FGVCX.."
+# for i in "${array[@]}"; do
+#     if [ "${i}" = "2018" ]; then
+#         dl_fgvcx_2018
+#     elif [ "${i}" = "2019" ]; then
+#         dl_fgvcx_2019
+#     elif [ "${i}" = "2021" ]; then
+#         dl_fgvcx_2021
+#     fi
+# done
+
 echo "Downloading images from FGVCX.."
 for i in "${array[@]}"; do
-    if [ "${i}" = "2018" ]; then
-        dl_fgvcx_2018
-    elif [ "${i}" = "2019" ]; then
-        dl_fgvcx_2019
-    elif [ "${i}" = "2021" ]; then
-        dl_fgvcx_2021
-    fi
+    YEAR=$i dl_fgvcx_year
 done
 
 ############################################################
