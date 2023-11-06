@@ -1,7 +1,9 @@
 import tensorflow as tf
 import wandb
+from prefect import task, Flow
 
 
+@task
 def make_callbacks(CFG):
     options = tf.saved_model.SaveOptions(
         experimental_io_device="/job:localhost"
@@ -34,6 +36,7 @@ def make_callbacks(CFG):
     return callbacks
 
 
+@task
 def create_model(CFG, class_dict):
     # model = tf.keras.models.load_model(CFG.ROOT / 'base_models' / CFG.MODEL, compile=False)  # For use with TPU-VM's/GPU's
     model = tf.keras.models.load_model(
@@ -53,19 +56,20 @@ def create_model(CFG, class_dict):
     return model
 
 
-class MyLRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
-    def __init__(self, args):
-        lr_start = 0.000005
-        lr_max = 0.00000125 * CFG.REPLICAS * batch_size
-        lr_min = 0.000001
-        lr_ramp_ep = 5
-        lr_sus_ep = 0
-        lr_decay = 0.8
+# class MyLRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
+#     def __init__(self, args):
+#         lr_start = 0.000005
+#         lr_max = 0.00000125 * CFG.REPLICAS * batch_size
+#         lr_min = 0.000001
+#         lr_ramp_ep = 5
+#         lr_sus_ep = 0
+#         lr_decay = 0.8
 
-    def __call__(self, step):
-        return self.initial_learning_rate / (step + 1)
+#     def __call__(self, step):
+#         return self.initial_learning_rate / (step + 1)
 
 
+@task
 def get_lr_callback(*args, batch_size=8):
     def lrfn(epoch):
         if epoch < args.lr_ramp_ep:
@@ -85,6 +89,7 @@ def get_lr_callback(*args, batch_size=8):
     return lr_callback
 
 
+@task
 def create_optimizer(CFG):
     if CFG.LR_SCHED == "CosineWarmup":
         learning_rate_fn = tf.keras.optimizers.schedules.CosineDecay(
