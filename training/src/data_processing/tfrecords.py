@@ -5,6 +5,7 @@ import cv2
 import pandas as pd
 from loguru import logger
 from tqdm import trange
+from prefect import task, Flow
 
 environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
@@ -16,6 +17,7 @@ warnings.filterwarnings("ignore")
 AUTO = tf.data.experimental.AUTOTUNE
 
 
+@task
 def load_dataframe(root_path):
     """This function loads a dataframe from the given root path.
 
@@ -36,6 +38,7 @@ def load_dataframe(root_path):
     return train, val
 
 
+@task
 def bytes_feature(value):
     """Returns a bytes_list from a string / byte."""
     if isinstance(value, type(tf.constant(0))):
@@ -43,16 +46,19 @@ def bytes_feature(value):
     return tf.train.Feature(bytes_list=tf.train.BytesList(value=[value]))
 
 
+@task
 def float_feature(value):
     """Returns a float_list from a float / double."""
     return tf.train.Feature(float_list=tf.train.FloatList(value=[value]))
 
 
+@task
 def int64_feature(value):
     """Returns an int64_list from a bool / enum / int / uint."""
     return tf.train.Feature(int64_list=tf.train.Int64List(value=[value]))
 
 
+@task
 def serialize_example(
     feature0, feature1, feature2, feature3, feature4, feature5, feature6
 ):
@@ -74,6 +80,7 @@ def serialize_example(
     return example_proto.SerializeToString()
 
 
+@task
 def get_data(df, num_records=107):
     """This function gets data from a dataframe to use in calculating tfrecord attributes.
 
@@ -91,6 +98,7 @@ def get_data(df, num_records=107):
     return IMGS, SIZE, CT
 
 
+@Flow
 def write_sp_tfrecords(tfrec_path, img_path, num_train_records, num_val_records, reshape_sizes):
     """This function writes single process TFRecords.
 
@@ -105,10 +113,10 @@ def write_sp_tfrecords(tfrec_path, img_path, num_train_records, num_val_records,
     # tqdm_logger = logger.add(lambda msg: tqdm.write(msg, end=""))
 
     # load dataframes and iterate over them
-    train, val = load_dataframe(root_path=img_path)
+    train, val = load_dataframe.fn(root_path=img_path)
     for df, set in zip([train, val], ["train", "val"]):
         num_records = num_train_records if set == "train" else num_val_records
-        IMGS, SIZE, CT = get_data(df, num_records)
+        IMGS, SIZE, CT = get_data.fn(df, num_records)
 
         # iterate over the number of tfrecords
         for j in trange(CT):
@@ -132,7 +140,7 @@ def write_sp_tfrecords(tfrec_path, img_path, num_train_records, num_val_records,
 
                     # read specific row from dataframe to get data and serialize it
                     row = df.loc[df.file_path == IMGS[SIZE * j + k]].iloc[0]
-                    example = serialize_example(
+                    example = serialize_example.fn(
                         img,
                         row.dataset,
                         row.longitude,
@@ -144,6 +152,7 @@ def write_sp_tfrecords(tfrec_path, img_path, num_train_records, num_val_records,
                     writer.write(example)
 
 
+@task
 def get_mp_params(tfrec_path, img_path, num_records, reshape_sizes, set, df):
     """Returns a list of dictionaries containing parameters for creating TensorFlow Records.
 
@@ -192,6 +201,7 @@ def get_mp_params(tfrec_path, img_path, num_records, reshape_sizes, set, df):
     return param_list
 
 
+@task
 def write_single_mp_tfrecord(params):
     """Writes a single TensorFlow record file from a given set of parameters.
 
@@ -226,7 +236,7 @@ def write_single_mp_tfrecord(params):
 
             # read specific row from dataframe to get data and serialize it
             row = df.loc[df.file_path == image_filename]
-            example = serialize_example(
+            example = serialize_example.fn(
                 img,
                 row.dataset.values[0],
                 row.longitude.values[0],
@@ -238,6 +248,7 @@ def write_single_mp_tfrecord(params):
             writer.write(example)
 
 
+@Flow
 def write_mp_tfrecords(**kwargs):
     """Writes multiple TFRecord files for the mushroom classifier dataset.
 

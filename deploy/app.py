@@ -1,29 +1,19 @@
-# from os import environ
 from pickle import load
 
 import numpy as np
 import requests
 import tensorflow as tf
 
-# from dotenv import load_dotenv
 from flask import Flask, request
 from PIL import Image
 
-# from twilio.rest import Client
 from twilio.twiml.messaging_response import MessagingResponse
-
-app = Flask(__name__)
 
 # Load the model and class dictionary
 class_d = load(open("class_dict.pkl", "rb"))
 model = tf.keras.models.load_model("model")
 
-# load_dotenv()
-# Load environment variables for Twilio
-# TWILIO_ACCOUNT_SID = environ.get("TWILIO_ACCOUNT_SID")
-# TWILIO_AUTH_TOKEN = environ.get("TWILIO_AUTH_TOKEN")
-# TWILIO_PHONE_NUMBER = environ.get("TWILIO_PHONE_NUMBER")
-# twilio_client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+app = Flask(__name__)
 
 
 def topk(array, k, axis=-1, sorted=True):

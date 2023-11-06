@@ -1,10 +1,13 @@
 import tensorflow as tf
 import tensorflow.keras.backend as K
 import math
+from prefect import task
 
 
 AUTO = tf.data.experimental.AUTOTUNE
 
+
+@task
 def decode_image(image_data, CFG):
     image = tf.image.decode_jpeg(image_data, channels=3)  # image format uint8 [0,255]
     image = tf.reshape(image, [*CFG.IMAGE_SIZE, 3]) # explicit size needed for TPU
@@ -12,6 +15,7 @@ def decode_image(image_data, CFG):
     return image
 
 
+@task
 def read_labeled_tfrecord(CFG, example):
     feature_description = {
         'image': tf.io.FixedLenFeature([], tf.string),
@@ -28,6 +32,7 @@ def read_labeled_tfrecord(CFG, example):
     return image, label
 
 
+@task
 def load_dataset(filenames, CFG, labeled=True, ordered=False):
     # Read from TFRecords. For optimal performance, reading from multiple files at once and
     # disregarding data order. Order does not matter since we will be shuffling the data anyway.
@@ -39,10 +44,12 @@ def load_dataset(filenames, CFG, labeled=True, ordered=False):
     # dataset = dataset.cache()
     dataset = dataset.shuffle(CFG.BATCH_SIZE * 10)
     dataset = dataset.with_options(ignore_order) # uses data as soon as it streams in, rather than in its original order
-    dataset = dataset.map(lambda x: read_labeled_tfrecord(CFG, x), num_parallel_calls=AUTO) # if labeled else read_unlabeled_tfrecord
+    dataset = dataset.map(lambda x: read_labeled_tfrecord.fn(CFG, x), num_parallel_calls=AUTO) # if labeled else read_unlabeled_tfrecord
     # returns a dataset of (image, label) pairs if labeled=True or (image, id) pairs if labeled=False
     return dataset
 
+
+@task
 def data_augment(img, label, CFG):
     # data augmentation. Thanks to the dataset.prefetch(AUTO) statement in the next function (below),
     # this happens essentially for free on TPU. Data pipeline code is executed on the "CPU" part
@@ -55,6 +62,8 @@ def data_augment(img, label, CFG):
     img = tf.image.random_brightness(img, 0.1)
     return img, label
 
+
+@task
 def get_training_dataset(filenames, CFG):
     dataset = load_dataset(filenames, CFG, labeled=True)
     if CFG.AUGMENT:
@@ -65,6 +74,8 @@ def get_training_dataset(filenames, CFG):
     dataset = dataset.prefetch(AUTO) # prefetch next batch while training (autotune prefetch buffer size)
     return dataset
 
+
+@task
 def get_validation_dataset(filenames, CFG, ordered=False):
     dataset = load_dataset(filenames, CFG, labeled=True, ordered=ordered)
     dataset = dataset.batch(CFG.BATCH_SIZE)
@@ -86,6 +97,7 @@ def get_validation_dataset(filenames, CFG, ordered=False):
 #     return example['image']
 
 
+@task
 def get_mat(rotation, shear, height_zoom, width_zoom, height_shift, width_shift):
     # returns 3x3 transform matrix which transforms indices
 
@@ -116,6 +128,7 @@ def get_mat(rotation, shear, height_zoom, width_zoom, height_shift, width_shift)
     return K.dot(K.dot(rotation_matrix, shear_matrix), K.dot(zoom_matrix, shift_matrix))
 
 
+@task
 def transform(image, CFG):
     # input image - is one image of size [dim,dim,3] not a batch of [b,dim,dim,3]
     # output - image randomly rotated, sheared, zoomed, and shifted
@@ -130,7 +143,7 @@ def transform(image, CFG):
     w_shift = CFG.WSHIFT_ * tf.random.normal([1], dtype='float32')
 
     # GET TRANSFORMATION MATRIX
-    m = get_mat(rot, shr, h_zoom, w_zoom, h_shift, w_shift)
+    m = get_mat.fn(rot, shr, h_zoom, w_zoom, h_shift, w_shift)
 
     # LIST DESTINATION PIXEL INDICES
     x = tf.repeat(tf.range(DIM // 2, -DIM // 2, -1), DIM)
