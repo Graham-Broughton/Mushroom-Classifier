@@ -2,4 +2,5 @@
 echo "PYTHONPATH=$(pwd):$PYTHONPATH" >> .env
 
 cp .env monitoring/.env
-cp .env train/.env
+cp .env training/.env
+cp .env deploy/.env

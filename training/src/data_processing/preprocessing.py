@@ -235,12 +235,7 @@ def join_datasets(gcs_bucket: str, root: str) -> tuple:
 
 
 if __name__ == "__main__":
-    from os import environ
-    from dotenv import load_dotenv
+    from config import CFG
 
-    load_dotenv()
-
-    root = environ["ROOT"]
-    data = root / "data"
-    df, month_distribution, class_prior = join_datasets(environ["GCS_BUCKET"], data)
-    df.to_csv(data / "train.csv", index=False)
+    df, month_distribution, class_prior = join_datasets(CFG)
+    df.to_csv(CFG.DATA / "train.csv", index=False)

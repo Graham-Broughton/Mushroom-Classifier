@@ -1,4 +1,5 @@
-LOCAL_TAG:=$(shell date +"%Y-%m-%d-%H-%M")
+TARGET_DATA_DIR="./training/data/raw"
+S3_BASE="s3://ml-inat-competition-datasets"
 SHELL = bash 
 .SHELLFLAGS = -ec -o pipefail
 MODEL_DIR=./deploy/model
@@ -8,14 +9,14 @@ include .env
 export
 
 # Install the dependencies
-.PHONY: all build all_datasets fgvcx_2018 fgvcx_2019 fgvcx_2021 build_old_tf resave_base_model_weights get_base_models get_deploy_model deploy help
+.PHONY: all build all_datasets datasets_of_interrest fgvcx_2018 fgvcx_2019 fgvcx_2021 build_old_tf resave_base_model_weights get_base_models get_deploy_model deploy help
 
 all: help
 
-build: Pipfile.lock
+build: | poetry.lock
 	@echo Initializing environment...
-	@pip install pipenv
-	@mamba install s5cmd
+	@poetry install --no-root
+	@mamba install s5cmd -y
 
 dotenv:
 	./scripts/dotenvs.sh
@@ -28,37 +29,34 @@ dotenv:
 all_datasets: fgvcx_2018 fgvcx_2019 fgvcx_2021
 	@echo "Finished downloading and extracting datasets..."
 
-the_two_good_ones: fgvcx_2018 fgvcx_2021
+datasets_of_interest: fgvcx_2018 fgvcx_2021
+	@echo "Finished downloading and extracting datasets..."
 
-fgvcx_2018: build scripts/get_data.sh
+fgvcx_2018: #build
 	@echo "Downloading datasets fgvcx 2018..."
-	@bash scripts/get_data.sh -y 2018
+	DL_DIR=$(TARGET_DATA_DIR)/2018
+	S3_PATH=$(S3_BASE)/2018
+	@s5cmd --no-sign-request cp --exclude "test*" $(S3_PATH)/* $(DL_DIR)
+	# @bash scripts/get_data.sh -y 2018
+	# @for f in training/data/raw/2018/*.tar.gz; do tar -xzf $${f} -C training/data/raw/2018/ && rm $${f}; done
+	# @unzip -q training/data/raw/2018/*.zip -d training/data/raw/2018/
+	# @echo "Extracting datasets & removing tar.gz and zip files..."
+	
 
-	@echo "Extracting datasets & removing tar.gz files..."
-	@for f in data/raw/2018/*.tar.gz; do tar -xvf $${f} -C data/raw/2018/; done;
-	@rm -rf data/raw/2018/*.tar.gz
-
-	@echo "Finished extracting datasets..."
-
-fgvcx_2019: build scripts/get_data.sh
+fgvcx_2019: | build
 	@echo "Downloading datasets fgvcx 2019..."
 	@bash scripts/get_data.sh -y 2019
-
-	@echo "Extracting datasets & removing tar.gz files..."
-	@for f in data/raw/2019/*.tar.gz; do tar -xzf $${f} -C data/raw/2019/; done
-	@rm -rf data/raw/2019/*.tar.gz
-
+	@for f in training/data/raw/2019/*.tar.gz; do tar -xzf $${f} -C training/data/raw/2019/ && rm $${f}; done
 	@echo "Finished extracting datasets..."
 
-fgvcx_2021: build scripts/get_data.sh
+fgvcx_2021: | build
 	@echo "Downloading datasets fgvcx 2021..."
-	@bash scripts/get_data.sh -y 2021
-
-	@echo "Extracting datasets & removing tar.gz files..."
-	@for f in data/raw/2021/*.tar.gz; do tar -xzf $${f} -C data/raw/2021/; done
-	@rm -rf data/raw/2021/*.tar.gz
-
-	@echo "Finished extracting datasets..."
+	DL_DIR=$(TARGET_DATA_DIR)/2021
+	S3_PATH=$(S3_BASE)/2021
+	@s5cmd --no-sign-request sync --exclude "test*" $(S3_PATH)/* $(DL_DIR)	
+	# @bash scripts/get_data.sh -y 2021
+	# @for f in training/data/raw/2021/*.tar.gz; do if [ $${f} == "train.tar.gz" ] ; then continue tar -xzf $${f} -C training/data/raw/2021/ && rm $${f}; done
+	# @echo "Finished extracting datasets..."
 
 #################################################
 ### TFRecords
@@ -73,11 +71,11 @@ fgvcx_2021: build scripts/get_data.sh
 # MULTIPROCESSING ?= $(shell bash -c 'read -p "Use multiprocessing (OPTIONAL, default: True)? " multiprocessing; echo $$multiprocessing')
 tfrecords: build scripts/create_tfrecords.sh
 	@echo "Creating tfrecords..."
-	@: $(eval IMG_DIR := $(shell bash -c 'read -p "Where are the images located (OPTIONAL, default: ./data/)? " image_path; echo $$image_path'))
-	@: $(eval TFREC_DIR := $(shell bash -c 'read -p "Where should the tfrecords be saved (OPTIONAL, default: ./data/)? " tfrecord_path; echo $$tfrecord_path'))
+	@: $(eval IMG_DIR := $(shell bash -c 'read -p "Where are the images located (OPTIONAL, default: ./training/data/)? " image_path; echo $$image_path'))
+	@: $(eval TFREC_DIR := $(shell bash -c 'read -p "Where should the tfrecords be saved (OPTIONAL, default: ./training/data/)? " tfrecord_path; echo $$tfrecord_path'))
 	@: $(eval TRAIN_RECS := $(shell bash -c 'read -p "Number of train image tfrecords (OPTIONAL, default: 107)? " num_train_records; echo $$num_train_records'))
 	@: $(eval VAL_RECS := $(shell bash -c 'read -p "Number of validation image tfrecords (OPTIONAL, default: 5)? " num_val_records; echo $$num_val_records'))
-	@: $(eval IMG_SIZES := $(shell bash -c 'read -p "Image height and width (REQUIRED, default: 224, 224)? " image_size; echo $$image_size'))
+	@: $(eval IMG_SIZES := $(shell bash -c 'read -p "Image height and width (REQUIRED, default: 256, 256)? " image_size; echo $$image_size'))
 	@: $(eval MULTIPROCESSING := $(shell bash -c 'read -p "Use multiprocessing (OPTIONAL, default: True)? " multiprocessing; echo $$multiprocessing'))
 	@bash scripts/create_tfrecords.sh -d $(IMG_DIR) -p $(TFREC_DIR) -t $(TRAIN_RECS) -v $(VAL_RECS) -s $(IMG_SIZES) -m $(MULTIPROCESSING)
 	@echo "Finished creating tfrecords..."
@@ -171,17 +169,19 @@ terraform:
 help:
 	@echo "========================================="
 	@echo "build:             					- Install the dependencies"
+	@echo "dotenv:            					- Create the .env files"
 	@echo "all_datasets:      					- Download all dataset years"
 	@echo "fgvcx_2018:        					- Download the 2018 dataset"
 	@echo "fgvcx_2019:        					- Download the 2019 dataset"
 	@echo "fgvcx_2021:        					- Download the 2021 dataset"
+	@echo "tfrecords:         					- Convert the images to tfrecords with many user options"	
 	@echo "download_model_weights: 				- Download Tensorflow model weights from a GitHub repo"
 	@echo "build_old_tf:      					- Build the tensorflow 2.10.0 environment, needed to resave model weights into SavedModel format"
 	@echo "resave_base_model_weights:				- Resave the model weights into a SavedModel format"
 	@echo "get_base_models:   					- Download the re-saved models"
 	@echo "get_deploy_model:  					- Download the latest registered model from wandb"
 	@echo "deploy:            					- Deploy the model to a local server using ngrok"
-	@echo "tfrecords:         					- Convert the images to tfrecords with many user options"
+	@echo "terraform:         					- Deploy the model to GCP using Terraform"
 	@echo "========================================="
 
 #################################################
