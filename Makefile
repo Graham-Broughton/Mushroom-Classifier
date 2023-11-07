@@ -9,7 +9,7 @@ include .env
 export
 
 # Install the dependencies
-.PHONY: all build all_datasets datasets_of_interrest fgvcx_2018 fgvcx_2019 fgvcx_2021 build_old_tf resave_base_model_weights get_base_models get_deploy_model deploy help
+.PHONY: all build all_datasets datasets_of_interrest fgvcx_2018 fgvcx_2019 fgvcx_2021 preprocess_data tfrecords build_old_tf resave_base_model_weights get_base_models get_deploy_model deploy help
 
 all: help
 
@@ -58,13 +58,10 @@ fgvcx_2021:
 #################################################
 
 preprocess_data:
-# Convert the images to tfrecords with many user options
-# IMG_DIR ?= $(shell bash -c 'read -p "Where are the images located (OPTIONAL, default: ./data/)? " image_path; echo $$image_path')
-# TFREC_DIR ?= $(shell bash -c 'read -p "Where should the tfrecords be saved (OPTIONAL, default: ./data/)? " tfrecord_path; echo $$tfrecord_path')
-# TRAIN_RECS ?= $(shell bash -c 'read -p "Number of train image tfrecords (OPTIONAL, default: 107)? " num_train_records; echo $$num_train_records')
-# VAL_RECS ?= $(shell bash -c 'read -p "Number of validation image tfrecords (OPTIONAL, default: 5)? " num_val_records; echo $$num_val_records')
-# IMG_SIZES ?= $(shell bash -c 'read -p "Image height and width (REQUIRED, default: 224, 224)? " image_size; echo $$image_size')
-# MULTIPROCESSING ?= $(shell bash -c 'read -p "Use multiprocessing (OPTIONAL, default: True)? " multiprocessing; echo $$multiprocessing')
+	@echo "Preprocessing data..."
+	@poetry run python training/src/data_processing/preprocessing.py
+	@echo "Finished preprocessing data..."
+
 tfrecords: training/data/train.csv
 	@echo "Creating tfrecords..."
 	@: $(eval IMG_DIR := $(shell bash -c 'read -p "Where are the images located (OPTIONAL, default: ./training/data/)? " image_path; echo $$image_path'))
@@ -170,6 +167,7 @@ help:
 	@echo "fgvcx_2018:        					- Download the 2018 dataset"
 	@echo "fgvcx_2019:        					- Download the 2019 dataset"
 	@echo "fgvcx_2021:        					- Download the 2021 dataset"
+	@echo "preprocess_data:   					- Preprocess the data & tidy unused files"
 	@echo "tfrecords:         					- Convert the images to tfrecords with many user options"	
 	@echo "download_model_weights: 				- Download Tensorflow model weights from a GitHub repo"
 	@echo "build_old_tf:      					- Build the tensorflow 2.10.0 environment, needed to resave model weights into SavedModel format"
