@@ -6,7 +6,7 @@ import numpy as np
 import src.training as tr_fn
 import tensorflow as tf
 import wandb
-from config import CFG, GCFG
+from training.train_config import CFG, GCFG
 from loguru import logger
 
 # import mlflow

@@ -5,7 +5,7 @@ from loguru import logger
 import src.training as tr_fn
 from datetime import datetime
 import pickle
-from config import CFG, GCFG
+from training.train_config import CFG, GCFG
 
 CFG2 = GCFG()
 

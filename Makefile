@@ -32,36 +32,32 @@ all_datasets: fgvcx_2018 fgvcx_2019 fgvcx_2021
 datasets_of_interest: fgvcx_2018 fgvcx_2021
 	@echo "Finished downloading and extracting datasets..."
 
-fgvcx_2018: #build
+fgvcx_2018:
 	@echo "Downloading datasets fgvcx 2018..."
-	DL_DIR=$(TARGET_DATA_DIR)/2018
-	S3_PATH=$(S3_BASE)/2018
-	@s5cmd --no-sign-request cp --exclude "test*" $(S3_PATH)/* $(DL_DIR)
-	# @bash scripts/get_data.sh -y 2018
-	# @for f in training/data/raw/2018/*.tar.gz; do tar -xzf $${f} -C training/data/raw/2018/ && rm $${f}; done
-	# @unzip -q training/data/raw/2018/*.zip -d training/data/raw/2018/
-	# @echo "Extracting datasets & removing tar.gz and zip files..."
+	@bash scripts/get_data.sh -y 2018
+	@echo "Extracting datasets & removing tar.gz and zip files for 2018 data..."
+	@for f in training/data/raw/2018/*.tar.gz; do tar -xzf $${f} -C training/data/raw/2018/ && rm $${f}; done
+	@unzip -q training/data/raw/2018/*.zip -d training/data/raw/2018/ && rm training/data/raw/2018/*.zip
+	@echo "Finished extracting 2018 dataset..."
 	
-
-fgvcx_2019: | build
+fgvcx_2019: 
 	@echo "Downloading datasets fgvcx 2019..."
 	@bash scripts/get_data.sh -y 2019
 	@for f in training/data/raw/2019/*.tar.gz; do tar -xzf $${f} -C training/data/raw/2019/ && rm $${f}; done
-	@echo "Finished extracting datasets..."
+	@echo "Finished extracting 2019 dataset..."
 
-fgvcx_2021: | build
+fgvcx_2021: 
 	@echo "Downloading datasets fgvcx 2021..."
-	DL_DIR=$(TARGET_DATA_DIR)/2021
-	S3_PATH=$(S3_BASE)/2021
-	@s5cmd --no-sign-request sync --exclude "test*" $(S3_PATH)/* $(DL_DIR)	
-	# @bash scripts/get_data.sh -y 2021
-	# @for f in training/data/raw/2021/*.tar.gz; do if [ $${f} == "train.tar.gz" ] ; then continue tar -xzf $${f} -C training/data/raw/2021/ && rm $${f}; done
-	# @echo "Finished extracting datasets..."
+	@bash scripts/get_data.sh -y 2021
+	@echo "Extracting datasets & removing tar.gz and zip files for 2021 data..."
+	@for f in training/data/raw/2021/*.tar.gz; do tar -xzf $${f} -C training/data/raw/2021/ && rm $${f}; done
+	@echo "Finished extracting 2021 dataset..."
 
 #################################################
 ### TFRecords
 #################################################
 
+preprocess_data:
 # Convert the images to tfrecords with many user options
 # IMG_DIR ?= $(shell bash -c 'read -p "Where are the images located (OPTIONAL, default: ./data/)? " image_path; echo $$image_path')
 # TFREC_DIR ?= $(shell bash -c 'read -p "Where should the tfrecords be saved (OPTIONAL, default: ./data/)? " tfrecord_path; echo $$tfrecord_path')
@@ -69,7 +65,7 @@ fgvcx_2021: | build
 # VAL_RECS ?= $(shell bash -c 'read -p "Number of validation image tfrecords (OPTIONAL, default: 5)? " num_val_records; echo $$num_val_records')
 # IMG_SIZES ?= $(shell bash -c 'read -p "Image height and width (REQUIRED, default: 224, 224)? " image_size; echo $$image_size')
 # MULTIPROCESSING ?= $(shell bash -c 'read -p "Use multiprocessing (OPTIONAL, default: True)? " multiprocessing; echo $$multiprocessing')
-tfrecords: build scripts/create_tfrecords.sh
+tfrecords: training/data/train.csv
 	@echo "Creating tfrecords..."
 	@: $(eval IMG_DIR := $(shell bash -c 'read -p "Where are the images located (OPTIONAL, default: ./training/data/)? " image_path; echo $$image_path'))
 	@: $(eval TFREC_DIR := $(shell bash -c 'read -p "Where should the tfrecords be saved (OPTIONAL, default: ./training/data/)? " tfrecord_path; echo $$tfrecord_path'))
