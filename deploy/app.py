@@ -9,7 +9,7 @@ from PIL import Image
 from twilio.twiml.messaging_response import MessagingResponse
 
 sys.path.append("../training")
-from config import GCFG
+from training.train_config import GCFG
 
 app = Flask(__name__)
 

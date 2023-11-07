@@ -8,9 +8,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-root = Path.cwd()  # .parent
-data = root / "data"
-train = data / "train"
+root = Path.cwd()#.parent
+training = root / "training"
+data = training / "data"
 SAVE_TIME = datetime.now().strftime("%m%d-%H%M")
 
 
@@ -26,7 +26,7 @@ class GCFG:
     VERBOSE: int = 2
     ROOT: Path = root
     DATA: Path = data
-    TRAIN: Path = train
+    TRAIN: Path = training
     GCS_REPO: str = env.get("GCS_REPO")
     REPLICAS: int = 0
     NUM_TRAINING_IMAGES: int = 0

@@ -8,7 +8,7 @@ from sklearn.metrics import roc_auc_score
 import os
 from loguru import logger
 
-from training.config import CFG
+from training.train_config import CFG
 from src.visuals.training_viz import plot_training
 from src.training.dataset import get_dataset
 from src.training.utils import count_data_items, tpu_test

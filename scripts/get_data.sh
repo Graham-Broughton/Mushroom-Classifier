@@ -28,18 +28,18 @@ help() {
 ############################################################
 
 dl_fgvcx_year() {
-    echo "Downloading the FGVCX $YEAR data"
-    s5cmd --no-sign-request cp --concurrency 20 $BASE/$YEAR/* $TARGET_DIR/$YEAR/
-    echo "Checking MD5 sums"
+    s5cmd --no-sign-request cp --exclude "*test*" $BASE/$YEAR/* $TARGET_DIR/$YEAR/
+    echo "Checking MD5 sums for $YEAR"
     if [ "$YEAR" == "2021" ]; then
         echo "$TRAIN_IMGS_2021_MD5 $TARGET_DIR/$YEAR/train.tar.gz" | md5sum -c
         echo "$TRAIN_IMGS_MINI_2021_MD5 $TARGET_DIR/$YEAR/train_mini.tar.gz" | md5sum -c
     elif [ "$YEAR" == "2018" ]; then
         echo "$TRAIN_IMGS_2018_MD5 $TARGET_DIR/$YEAR/train_val2018.tar.gz" | md5sum -c
     fi
-    # echo "Extracting & Deleting the FGVCX $YEAR data"
 }
 
+############################################################
+# Input Options                                           #
 ############################################################
 
 while getopts ':y:ah' opt; do
@@ -74,6 +74,8 @@ while getopts ':y:ah' opt; do
     esac
 done
 
+############################################################
+# Implementation                                          #
 ############################################################
 
 for i in "${array[@]}"; do
