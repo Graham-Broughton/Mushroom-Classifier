@@ -179,7 +179,7 @@ def parse_2021_data(data_root):
         DataFrame: A concatenated dataframe of the parsed mushroom data.
     """
     logger.info(f"Parsing 2021 data from {data_root}")
-    sets = ["train", "val", "train_mini"]
+    sets = ["train", "val"]
 
     dfs = [
         join_dataframes(
@@ -231,7 +231,6 @@ def join_datasets(CFG, root) -> tuple:
 
     df["class_priors"] = df["class_id"].map(dict(enumerate(class_prior)))
 
-    logger.debug(f"Final dataframe shape {df.shape}")
     return df, month_distribution
 
 
@@ -241,5 +240,17 @@ if __name__ == "__main__":
     raw_data_root = CFG.DATA / "raw"
 
     df, month_distribution = join_datasets(CFG, raw_data_root)
-    df = df.iloc[df['file_name'].drop_duplicates().index]
-    df.to_csv(raw_data_root / "train2.csv", index=False)
+    
+    logger.debug(f"Final dataframe shape {df.shape}")
+    df.to_csv(raw_data_root / "train.csv", index=False)
+
+    logger.info("Deleting unused images")
+    total_filelist = raw_data_root.rglob('*.jpg')
+    total_fileset = set([x for x in total_filelist])
+
+    keep_set = set(df['file_name'].values.tolist())
+
+    files_to_delete = total_fileset - keep_set
+
+    for file in files_to_delete:
+        file.unlink()
