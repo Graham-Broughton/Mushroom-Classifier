@@ -12,17 +12,15 @@ def tpu_test():
     # tf.config.experimental_connect_to_cluster(cluster_resolver)
     # tf.tpu.experimental.initialize_tpu_system(cluster_resolver)
     # strategy = tf.distribute.TPUStrategy(cluster_resolver)
-    
 
     try:
-        tpu = tf.distribute.cluster_resolver.TPUClusterResolver()
+        tpu = tf.distribute.cluster_resolver.TPUClusterResolver(tpu='local')
     except ValueError: 
         tpu = None
 
     if tpu:
         tf.tpu.experimental.initialize_tpu_system(tpu)
-        strategy = tf.distribute.experimental.TPUStrategy(tpu, steps_per_run=128)
-        print('Running on TPU ', tpu.cluster_spec().as_dict()['worker'])  
+        strategy = tf.distribute.experimental.TPUStrategy(tpu)
     else:
         strategy = tf.distribute.get_strategy() # Default strategy that works on CPU and single GPU
         print('Running on CPU instead')
