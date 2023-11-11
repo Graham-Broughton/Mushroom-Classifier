@@ -31,6 +31,8 @@ all_datasets: fgvcx_2018 fgvcx_2019 fgvcx_2021
 
 datasets_of_interest: fgvcx_2018 fgvcx_2021
 	@echo "Finished downloading and extracting datasets..."
+	@echo "Removing uneeded images..."
+	@poetry run python scripts/delete_unused_images.py $(TARGET_DATA_DIR)
 
 fgvcx_2018:
 	@echo "Downloading datasets fgvcx 2018..."

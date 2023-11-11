@@ -145,11 +145,9 @@ def parse_2018_data(data_root):
     df["dataset"] = "2018"
 
     # Create new directories and paths
-    # df["file_name"] = df["file_name"].str.split("/").str[-1]
+    df['file_path'] = str(data_root) + "/" + df["file_name"]
+    df["file_name"] = df["file_name"].str.split("/").str[-1]
     df["specific_epithet"] = df["name"].str.split().str[-1]
-    # df["image_dir_name"] = df[
-    #     ["phylum", "class", "order", "family", "genus", "specific_epithet"]
-    # ].apply(lambda x: f"Fungi_{'_'.join(x)}", axis=1)
 
     # Drop unneeded columns and rename others
     df = df.drop(["category_id", "date_c"], axis=1).rename(
@@ -185,10 +183,9 @@ def parse_2021_data(data_root):
     df = pd.concat(dfs, ignore_index=True)
 
     df["dataset"] = "2021"
-    df["file_name_mod"] = df["file_name"].str.split("/").str[-1]
-    # df["image_dir_name_mod"] = df["image_dir_name"].apply(
-    #     lambda x: "_".join(x.split("_")[1:])
-    # )
+    df['file_path'] = str(data_root) + "/" + df["file_name"]
+    df["file_name"] = df["file_name"].str.split("/").str[-1]
+    
     df = df.drop(["category_id", "common_name"], axis=1)
     logger.debug(f"2021 dataframe shape {df.shape}")
     return df
@@ -213,13 +210,8 @@ def join_datasets(CFG, root) -> tuple:
     df = pd.concat([df1, df2], ignore_index=True)
 
     df["date"] = pd.to_datetime(df["date"], format="mixed", utc=True)
-    # df["file_path"] = (
-    #     str(CFG.DATA / df["image_dir_name"] / df["file_name"])
-    # )
-    df["gcs_path"] = (
-        f"gs://{CFG.GCS_REPO}/train/" + df["image_dir_name"] + "/" + df["file_name"]
-    )
     df["class_id"] = df["name"].astype("category").cat.codes
+    df['gcs_path'] = df.apply(lambda x: f"gs://{CFG.GCS_REPO}/data/raw/{x['dataset']}/{x['phylum']}_{x['class']}_{x['order']}_{x['family']}_{x['genus']}_{x['specific_epithet']}/{x['file_name']}", axis=1)
 
     month_distribution = month_distributions(df)
     class_prior = class_priors(df)
@@ -231,21 +223,11 @@ def join_datasets(CFG, root) -> tuple:
 
 if __name__ == "__main__":
     from os import environ
-    root = environ['PYTHONPATH']
-    raw_data_root = CFG.DATA / "raw"
+    from pathlib import Path
+    root = Path(environ['PYTHONPATH'].split(":")[0])
+    raw_data_root = root / 'training' / 'data' / "raw"
 
     df, month_distribution = join_datasets(CFG, raw_data_root)
     
     logger.debug(f"Final dataframe shape {df.shape}")
     df.to_csv(CFG.DATA / "train.csv", index=False)
-
-    logger.info("Deleting unused images")
-    total_filelist = raw_data_root.rglob('*.jpg')
-    total_fileset = set([x for x in total_filelist])
-
-    keep_set = set(df['file_name'].values.tolist())
-
-    files_to_delete = total_fileset - keep_set
-
-    for file in files_to_delete:
-        file.unlink()
