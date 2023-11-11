@@ -7,15 +7,14 @@ from prefect import task
 AUTO = tf.data.experimental.AUTOTUNE
 
 
-@task
 def decode_image(image_data, CFG):
     image = tf.image.decode_jpeg(image_data, channels=3)  # image format uint8 [0,255]
-    image = tf.reshape(image, [*CFG.IMAGE_SIZE, 3]) # explicit size needed for TPU
+    # image = tf.reshape(image, [*CFG.IMAGE_SIZE, 3]) # explicit size needed for TPU
     image = tf.cast(image, tf.float32)
     return image
 
 
-@task
+# @task
 def read_labeled_tfrecord(CFG, example):
     feature_description = {
         "image/encoded": tf.io.FixedLenFeature([], tf.string),
@@ -29,12 +28,29 @@ def read_labeled_tfrecord(CFG, example):
         "image/class/text": tf.io.FixedLenFeature([], tf.string),
     }
     example = tf.io.parse_single_example(example, feature_description)
-    image = decode_image.fn(example["image/encoded"], CFG)
+    # image = tf.image.decode_jpeg(example["image/encoded"], channels=3)
+    # image = decode_image(example["image/encoded"], CFG)
+    # image = tf.reshape(image, [*CFG.IMAGE_SIZE, 3]) # explicit size needed for TPU
+    # image = tf.cast(image, tf.float32)
     label = tf.cast(example["image/class/label"], tf.int32)
-    return image, label
+    return example["image/encoded"], label
 
 
-@task
+def read_unlabeled_tfrecord(example):
+    tfrec_format = {
+        "image/encoded": tf.io.FixedLenFeature([], tf.string),
+        "image/id": tf.io.FixedLenFeature([], tf.string),
+        "image/meta/dataset": tf.io.FixedLenFeature([], tf.int64),
+        "image/meta/longitude": tf.io.FixedLenFeature([], tf.float32),
+        "image/meta/latitude": tf.io.FixedLenFeature([], tf.float32),
+        "image/meta/date": tf.io.FixedLenFeature([], tf.string),
+        "image/meta/class_priors": tf.io.FixedLenFeature([], tf.float32),
+    }
+    example = tf.io.parse_single_example(example, tfrec_format)
+    return example["image/encoded"], example["image/id"]
+
+
+# @task
 def load_dataset(filenames, CFG, labeled=True, ordered=False):
     # Read from TFRecords. For optimal performance, reading from multiple files at once and
     # disregarding data order. Order does not matter since we will be shuffling the data anyway.
@@ -46,18 +62,19 @@ def load_dataset(filenames, CFG, labeled=True, ordered=False):
     # dataset = dataset.cache()
     dataset = dataset.shuffle(CFG.BATCH_SIZE * 10)
     dataset = dataset.with_options(ignore_order) # uses data as soon as it streams in, rather than in its original order
-    dataset = dataset.map(lambda x: read_labeled_tfrecord.fn(CFG, x), num_parallel_calls=AUTO) # if labeled else read_unlabeled_tfrecord
+    dataset = dataset.map(lambda x: read_labeled_tfrecord(CFG, x), num_parallel_calls=AUTO) # if labeled else read_unlabeled_tfrecord
     # returns a dataset of (image, label) pairs if labeled=True or (image, id) pairs if labeled=False
+    dataset = dataset.map(lambda x, y: (decode_image(x, CFG), y), num_parallel_calls=AUTO)
     return dataset
 
 
-@task
+# @task
 def data_augment(img, label, CFG):
     # data augmentation. Thanks to the dataset.prefetch(AUTO) statement in the next function (below),
     # this happens essentially for free on TPU. Data pipeline code is executed on the "CPU" part
     # of the TPU while the TPU itself is computing gradients.
     img = tf.image.random_crop(img, [CFG.MODEL_SIZE, CFG.MODEL_SIZE, 3])
-    img = transform.fn(img, CFG)
+    img = transform(img, CFG)
     img = tf.image.random_flip_left_right(img)
     # img = tf.image.random_hue(img, 0.01)
     img = tf.image.random_saturation(img, 0.7, 1.3)
@@ -66,11 +83,11 @@ def data_augment(img, label, CFG):
     return img, label
 
 
-@task
+# @task
 def get_training_dataset(filenames, CFG):
-    dataset = load_dataset.fn(filenames, CFG, labeled=True)
+    dataset = load_dataset(filenames, CFG, labeled=True)
     if CFG.AUGMENT:
-        dataset = dataset.map(lambda x, y: data_augment.fn(x, y, CFG), num_parallel_calls=AUTO)
+        dataset = dataset.map(lambda x, y: data_augment(x, y, CFG), num_parallel_calls=AUTO)
     # the training dataset must repeat for several epochs
     dataset = dataset.batch(CFG.BATCH_SIZE)
     dataset = dataset.repeat()
@@ -78,29 +95,15 @@ def get_training_dataset(filenames, CFG):
     return dataset
 
 
-@task
+# @task
 def get_validation_dataset(filenames, CFG, ordered=False):
-    dataset = load_dataset.fn(filenames, CFG, labeled=True, ordered=ordered)
+    dataset = load_dataset(filenames, CFG, labeled=True, ordered=ordered)
     dataset = dataset.batch(CFG.BATCH_SIZE)
     dataset = dataset.prefetch(AUTO) # prefetch next batch while training (autotune prefetch buffer size)
     return dataset
 
 
-# def read_unlabeled_tfrecord(example):
-#     tfrec_format = {
-#         'image': tf.io.FixedLenFeature([], tf.string),
-#         'dataset': tf.io.FixedLenFeature([], tf.int64),
-#         'longitude': tf.io.FixedLenFeature([], tf.float32),
-#         'latitude': tf.io.FixedLenFeature([], tf.float32),
-#         'norm_date': tf.io.FixedLenFeature([], tf.float32),
-#         'class_priors': tf.io.FixedLenFeature([], tf.float32),
-#         'class_id': tf.io.FixedLenFeature([], tf.int64),
-#     }
-#     example = tf.io.parse_single_example(example, tfrec_format)
-#     return example['image']
-
-
-@task
+# @task
 def get_mat(rotation, shear, height_zoom, width_zoom, height_shift, width_shift):
     # returns 3x3 transform matrix which transforms indices
 
@@ -131,7 +134,7 @@ def get_mat(rotation, shear, height_zoom, width_zoom, height_shift, width_shift)
     return K.dot(K.dot(rotation_matrix, shear_matrix), K.dot(zoom_matrix, shift_matrix))
 
 
-@task
+# @task
 def transform(image, CFG):
     # input image - is one image of size [dim,dim,3] not a batch of [b,dim,dim,3]
     # output - image randomly rotated, sheared, zoomed, and shifted
@@ -146,7 +149,7 @@ def transform(image, CFG):
     w_shift = CFG.WSHIFT_ * tf.random.normal([1], dtype='float32')
 
     # GET TRANSFORMATION MATRIX
-    m = get_mat.fn(rot, shr, h_zoom, w_zoom, h_shift, w_shift)
+    m = get_mat(rot, shr, h_zoom, w_zoom, h_shift, w_shift)
 
     # LIST DESTINATION PIXEL INDICES
     x = tf.repeat(tf.range(DIM // 2, -DIM // 2, -1), DIM)
@@ -166,49 +169,50 @@ def transform(image, CFG):
     return tf.reshape(d, [DIM, DIM, 3])
 
 
-# def prepare_image(img, CFG, augment=True, dim=256):
-#     img = tf.image.decode_jpeg(img, channels=3)
-#     img = tf.cast(img, tf.float32) / 255.0
+def prepare_image(img, CFG, augment=True, dim=256):
+    img = tf.image.decode_jpeg(img, channels=3)
+    img = tf.cast(img, tf.float32) / 255.0
 
-#     if augment:
-#         img = transform(img, CFG)
-#         img = tf.image.random_flip_left_right(img)
-#         # img = tf.image.random_hue(img, 0.01)
-#         img = tf.image.random_saturation(img, 0.7, 1.3)
-#         img = tf.image.random_contrast(img, 0.8, 1.2)
-#         img = tf.image.random_brightness(img, 0.1)
+    if augment:
+        img = tf.image.random_crop(img, [CFG.MODEL_SIZE, CFG.MODEL_SIZE, 3])
+        img = transform(img, CFG)
+        img = tf.image.random_flip_left_right(img)
+        # img = tf.image.random_hue(img, 0.01)
+        img = tf.image.random_saturation(img, 0.7, 1.3)
+        img = tf.image.random_contrast(img, 0.8, 1.2)
+        img = tf.image.random_brightness(img, 0.1)
 
-#     img = tf.reshape(img, [CFG.IMAGE_SIZE[0], CFG.IMAGE_SIZE[0], 3])
+    img = tf.reshape(img, [CFG.MODEL_SIZE, CFG.MODEL_SIZE, 3])
 
-#     return img
+    return img
 
 
-# def get_dataset(
-#     files, CFG, augment=False, shuffle=False, repeat=False, labeled=True, batch_size=16, dim=256
-#     ):
-#     ds = tf.data.TFRecordDataset(files, num_parallel_reads=AUTO)
-#     ds = ds.cache()
+def get_dataset(
+    files, CFG, augment=False, shuffle=False, repeat=False, labeled=True, batch_size=16, dim=256
+    ):
+    ds = tf.data.TFRecordDataset(files, num_parallel_reads=AUTO)
+    ds = ds.cache()
 
-#     if repeat:
-#         ds = ds.repeat()
+    if repeat:
+        ds = ds.repeat()
 
-#     if shuffle:
-#         ds = ds.shuffle(1024 * 8)
-#         opt = tf.data.Options()
-#         opt.experimental_deterministic = False
-#         ds = ds.with_options(opt)
+    if shuffle:
+        ds = ds.shuffle(1024 * 8)
+        opt = tf.data.Options()
+        opt.experimental_deterministic = False
+        ds = ds.with_options(opt)
 
-#     if labeled:
-#         ds = ds.map(read_labeled_tfrecord, num_parallel_calls=AUTO)
-#     else:
-#         ds = ds.map(lambda example: read_unlabeled_tfrecord(example), num_parallel_calls=AUTO)
+    if labeled:
+        ds = ds.map(read_labeled_tfrecord, num_parallel_calls=AUTO)
+    else:
+        ds = ds.map(read_unlabeled_tfrecord, num_parallel_calls=AUTO)
 
-#     ds = ds.map(
-#         lambda img, imgname_or_label: (prepare_image(
-#             img, CFG, augment=augment, dim=dim), imgname_or_label), num_parallel_calls=AUTO
-#     )
+    ds = ds.map(
+        lambda img, imgname_or_label: (prepare_image(
+            img, CFG, augment=augment, dim=dim), imgname_or_label), num_parallel_calls=AUTO
+    )
 
-#     ds = ds.batch(batch_size * CFG.REPLICAS)
-#     ds = ds.prefetch(AUTO)
-#     return ds
+    ds = ds.batch(batch_size * CFG.REPLICAS)
+    ds = ds.prefetch(AUTO)
+    return ds
     

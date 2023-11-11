@@ -49,7 +49,7 @@ class GCFG:
     NUM_TRAINING_RECORDS: int = 50
     NUM_VALIDATION_RECORDS: int = 2
     IMAGE_SIZE: List = field(default_factory=lambda: [256, 256])
-    DEBUG: bool = False
+    DEBUG: bool = True
 
     # DATASET SETTINGS
 
