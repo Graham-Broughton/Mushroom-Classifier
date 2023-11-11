@@ -23,6 +23,7 @@ dotenv:
 	./scripts/dotenvs.sh
 
 init: build dotenv
+	@mkdir logs
 	@echo "Finished initializing environment..."
 
 #################################################
@@ -36,7 +37,6 @@ all_datasets: fgvcx_2018 fgvcx_2019 fgvcx_2021
 datasets_of_interest: fgvcx_2018 fgvcx_2021
 	@echo "Finished downloading and extracting datasets..."
 	@echo "Removing uneeded images..."
-	@poetry run python scripts/delete_unused_images.py $(TARGET_DATA_DIR)
 
 fgvcx_2018:
 	@echo "Downloading datasets fgvcx 2018..."
@@ -65,21 +65,22 @@ fgvcx_2021:
 #################################################
 
 preprocess_data:
+	@echo "Removing unused images..."
+	@poetry run python scripts/delete_unused_images.py $(TARGET_DATA_DIR)
 	@echo "Preprocessing data..."
 	@poetry run python training/src/data_processing/preprocessing.py
 	@echo "Finished preprocessing data..."
 
 tfrecords: training/data/train.csv
 	@echo "Creating tfrecords..."
-	@: $(eval IMG_DIR := $(shell bash -c 'read -p "Where are the images located (OPTIONAL, default: ./training/data/)? " image_path; echo $$image_path'))
+	@: $(eval IMG_DIR := $(shell bash -c 'read -p "Where are the images located (OPTIONAL, default: ./training/data/raw)? " image_path; echo $$image_path'))
 	@: $(eval TFREC_DIR := $(shell bash -c 'read -p "Where should the tfrecords be saved (OPTIONAL, default: ./training/data/)? " tfrecord_path; echo $$tfrecord_path'))
 	@: $(eval TRAIN_RECS := $(shell bash -c 'read -p "Number of train image tfrecords (OPTIONAL, default: 107)? " num_train_records; echo $$num_train_records'))
 	@: $(eval VAL_RECS := $(shell bash -c 'read -p "Number of validation image tfrecords (OPTIONAL, default: 5)? " num_val_records; echo $$num_val_records'))
-	@: $(eval IMG_SIZES := $(shell bash -c 'read -p "Image height and width (REQUIRED, default: 256, 256)? " image_size; echo $$image_size'))
+	@: $(eval IMG_SIZES := $(shell bash -c 'read -p "Image height and width (REQUIRED, default: 256)? " image_size; echo $$image_size'))
 	@: $(eval MULTIPROCESSING := $(shell bash -c 'read -p "Use multiprocessing (OPTIONAL, default: True)? " multiprocessing; echo $$multiprocessing'))
 	@python training/src/data_processing/tfrecords.py -d $(IMG_DIR) -p $(TFREC_DIR) -t $(TRAIN_RECS) -v $(VAL_RECS) -s $(IMG_SIZES) -m $(MULTIPROCESSING)
 	@echo "Finished creating tfrecords..."
-	# @bash scripts/create_tfrecords.sh -d $(IMG_DIR) -p $(TFREC_DIR) -t $(TRAIN_RECS) -v $(VAL_RECS) -s $(IMG_SIZES) -m $(MULTIPROCESSING)
 
 #################################################
 ### Models
@@ -88,49 +89,34 @@ tfrecords: training/data/train.csv
 # Download the model weights for Tensorflow from a GitHub repo
 download_model_weights:
 	@echo "Downloading model weights..."
-	@mkdir -p ./training/base_models/checkpoints/swin_base_224/
-	@mkdir -p ./training/base_models/checkpoints/swin_base_384/
-	@mkdir -p ./training/base_models/checkpoints/swin_large_224/
-	@mkdir -p ./training/base_models/checkpoints/swin_large_384/
-	@mkdir -p ./training/base_models/checkpoints/swin_small_224/
-	@mkdir -p ./training/base_models/checkpoints/swin_tiny_224/
+	@mkdir -p ./training/base_models/swin_base_224
+	@mkdir -p ./training/base_models/swin_base_384
+	@mkdir -p ./training/base_models/swin_large_224
+	@mkdir -p ./training/base_models/swin_large_384
+	@mkdir -p ./training/base_models/swin_small_224
+	@mkdir -p ./training/base_models/swin_tiny_224
 
-	@wget -O ./training/base_models/checkpoints/swin_base_224/swin_base_224.tgz https://github.com/rishigami/Swin-Transformer-TF/releases/download/v0.1-tf-swin-weights/swin_base_224.tgz
-	@wget -O ./training/base_models/checkpoints/swin_base_384/swin_base_384.tgz https://github.com/rishigami/Swin-Transformer-TF/releases/download/v0.1-tf-swin-weights/swin_base_384.tgz
-	@wget -O ./training/base_models/checkpoints/swin_large_224/swin_large_224.tgz https://github.com/rishigami/Swin-Transformer-TF/releases/download/v0.1-tf-swin-weights/swin_large_224.tgz
-	@wget -O ./training/base_models/checkpoints/swin_large_384/swin_large_384.tgz https://github.com/rishigami/Swin-Transformer-TF/releases/download/v0.1-tf-swin-weights/swin_large_384.tgz
-	@wget -O ./training/base_models/checkpoints/swin_small_224/swin_small_224.tgz https://github.com/rishigami/Swin-Transformer-TF/releases/download/v0.1-tf-swin-weights/swin_small_224.tgz
-	@wget -O ./training/base_models/checkpoints/swin_tiny_224/swin_tiny_224.tgz https://github.com/rishigami/Swin-Transformer-TF/releases/download/v0.1-tf-swin-weights/swin_tiny_224.tgz
-
-	@echo "extracting model weights..."
-	@tar -xvf ./training/base_models/checkpoints/swin_base_224/swin_base_224.tgz -C ./training/base_models/checkpoints
-	@tar -xvf ./training/base_models/checkpoints/swin_base_384/swin_base_384.tgz -C ./training/base_models/checkpoints
-	@tar -xvf ./training/base_models/checkpoints/swin_large_224/swin_large_224.tgz -C ./training/base_models/checkpoints
-	@tar -xvf ./training/base_models/checkpoints/swin_large_384/swin_large_384.tgz -C ./training/base_models/checkpoints
-	@tar -xvf ./training/base_models/checkpoints/swin_small_224/swin_small_224.tgz -C ./training/base_models/checkpoints
-	@tar -xvf ./training/base_models/checkpoints/swin_tiny_224/swin_tiny_224.tgz -C ./training/base_models/checkpoints
-
-	@rm -rf ./training/base_models/checkpoints/*.tgz
+	@gsutil -m cp -r "gs://$(GCS_REPO)/$(GCS_BASE_MODELS)/*" ./training/base_models
 	@echo "Finished downloading model weights..."
 
-# Build the tensorflow 2.10.0 environment, it is needed to resave the model weights into a SavedModel format
-build_old_tf: ./training/base_models/checkpoints/Pipfile.lock
-	@echo "Building tensorflow 2.10.0 environment..."
-	@cd ./training/base_models/checkpoints && pipenv install --skip-lock
-	@echo "Finished building tensorflow 2.10.0 environment..."
+# # Build the tensorflow 2.10.0 environment, it is needed to resave the model weights into a SavedModel format
+# build_old_tf: ./training/base_models/checkpoints/Pipfile.lock
+# 	@echo "Building tensorflow 2.10.0 environment..."
+# 	@cd ./training/base_models/checkpoints && pipenv install --skip-lock
+# 	@echo "Finished building tensorflow 2.10.0 environment..."
 
-resave_base_model_weights:  download_model_weights build_old_tf
-	@echo "Resaving model weights..."
-	@cd ./training/base_models/checkpoints && pipenv run resave
-	@rm -rf ./training/base_models/checkpoints
-	@echo "Finished resaving model weights..."
+# resave_base_model_weights:  download_model_weights build_old_tf
+# 	@echo "Resaving model weights..."
+# 	@cd ./training/base_models/checkpoints && pipenv run resave
+# 	@rm -rf ./training/base_models/checkpoints
+# 	@echo "Finished resaving model weights..."
 
-# Download the re-saved models
-get_base_models:
-	@echo "Downloading models..."
-	@mkdir -p ./training/base_models
-	@gsutil -m cp -r "gs://$(GCS_REPO)/$(GCS_BASE_MODELS)/*"" ./training/base_models/
-	@echo "Finished downloading models..."
+# # Download the re-saved models
+# get_base_models:
+# 	@echo "Downloading models..."
+# 	@mkdir -p ./training/base_models
+# 	@gsutil -m cp -r "gs://$(GCS_REPO)/$(GCS_BASE_MODELS)/*"" ./training/base_models/
+# 	@echo "Finished downloading models..."
 
 #################################################
 ### Deploy

@@ -40,11 +40,11 @@ def make_callbacks(CFG):
 def create_model(CFG, class_dict):
     # model = tf.keras.models.load_model(CFG.ROOT / 'base_models' / CFG.MODEL, compile=False)  # For use with TPU-VM's/GPU's
     model = tf.keras.models.load_model(
-        f"gs://{CFG.GCS_REPO}/{CFG.GCS_BASE_MODELS}/{CFG.MODEL}", compile=False
+        f"gs://{CFG.GCS_REPO}/{CFG.GCS_BASE_MODELS}/{CFG.MODEL}/base_model", compile=False
     )  # For use with Colab TPU/ TPU nodes
 
     loss = tf.keras.losses.SparseCategoricalCrossentropy()
-    opt = create_optimizer(CFG)
+    opt = create_optimizer.fn(CFG)
     top3_acc = tf.keras.metrics.SparseTopKCategoricalAccuracy(
         k=3, name="sparse_top_3_categorical_accuracy"
     )

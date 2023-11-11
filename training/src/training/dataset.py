@@ -18,17 +18,19 @@ def decode_image(image_data, CFG):
 @task
 def read_labeled_tfrecord(CFG, example):
     feature_description = {
-        'image': tf.io.FixedLenFeature([], tf.string),
-        'dataset': tf.io.FixedLenFeature([], tf.int64),
-        'longitude': tf.io.FixedLenFeature([], tf.float32),
-        'latitude': tf.io.FixedLenFeature([], tf.float32),
-        'norm_date': tf.io.FixedLenFeature([], tf.float32),
-        'class_priors': tf.io.FixedLenFeature([], tf.float32),
-        'class_id': tf.io.FixedLenFeature([], tf.int64),
+        "image/encoded": tf.io.FixedLenFeature([], tf.string),
+        "image/id": tf.io.FixedLenFeature([], tf.string),
+        "image/meta/dataset": tf.io.FixedLenFeature([], tf.int64),
+        "image/meta/longitude": tf.io.FixedLenFeature([], tf.float32),
+        "image/meta/latitude": tf.io.FixedLenFeature([], tf.float32),
+        "image/meta/date": tf.io.FixedLenFeature([], tf.string),
+        "image/meta/class_priors": tf.io.FixedLenFeature([], tf.float32),
+        "image/class/label": tf.io.FixedLenFeature([], tf.int64),
+        "image/class/text": tf.io.FixedLenFeature([], tf.string),
     }
     example = tf.io.parse_single_example(example, feature_description)
-    image = decode_image(example['image'], CFG)
-    label = tf.cast(example['class_id'], tf.int32)
+    image = decode_image.fn(example["image/encoded"], CFG)
+    label = tf.cast(example["image/class/label"], tf.int32)
     return image, label
 
 
@@ -54,7 +56,8 @@ def data_augment(img, label, CFG):
     # data augmentation. Thanks to the dataset.prefetch(AUTO) statement in the next function (below),
     # this happens essentially for free on TPU. Data pipeline code is executed on the "CPU" part
     # of the TPU while the TPU itself is computing gradients.
-    img = transform(img, CFG)
+    img = tf.image.random_crop(img, [CFG.MODEL_SIZE, CFG.MODEL_SIZE, 3])
+    img = transform.fn(img, CFG)
     img = tf.image.random_flip_left_right(img)
     # img = tf.image.random_hue(img, 0.01)
     img = tf.image.random_saturation(img, 0.7, 1.3)
@@ -65,9 +68,9 @@ def data_augment(img, label, CFG):
 
 @task
 def get_training_dataset(filenames, CFG):
-    dataset = load_dataset(filenames, CFG, labeled=True)
+    dataset = load_dataset.fn(filenames, CFG, labeled=True)
     if CFG.AUGMENT:
-        dataset = dataset.map(lambda x, y: data_augment(x, y, CFG), num_parallel_calls=AUTO)
+        dataset = dataset.map(lambda x, y: data_augment.fn(x, y, CFG), num_parallel_calls=AUTO)
     # the training dataset must repeat for several epochs
     dataset = dataset.batch(CFG.BATCH_SIZE)
     dataset = dataset.repeat()
@@ -77,7 +80,7 @@ def get_training_dataset(filenames, CFG):
 
 @task
 def get_validation_dataset(filenames, CFG, ordered=False):
-    dataset = load_dataset(filenames, CFG, labeled=True, ordered=ordered)
+    dataset = load_dataset.fn(filenames, CFG, labeled=True, ordered=ordered)
     dataset = dataset.batch(CFG.BATCH_SIZE)
     dataset = dataset.prefetch(AUTO) # prefetch next batch while training (autotune prefetch buffer size)
     return dataset
@@ -132,7 +135,7 @@ def get_mat(rotation, shear, height_zoom, width_zoom, height_shift, width_shift)
 def transform(image, CFG):
     # input image - is one image of size [dim,dim,3] not a batch of [b,dim,dim,3]
     # output - image randomly rotated, sheared, zoomed, and shifted
-    DIM = CFG.IMAGE_SIZE[0]
+    DIM = CFG.MODEL_SIZE
     XDIM = DIM % 2  # fix for size 331   
 
     rot = CFG.ROT_ * tf.random.normal([1], dtype='float32')
