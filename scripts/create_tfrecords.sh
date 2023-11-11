@@ -54,7 +54,6 @@ while getopts ':d:p:t:v:s:mh' opt; do
         ;;
     s)
         size=($OPTARG)
-        size=${size//,/ }
         ;;
     m)
         multi=$OPTARG
@@ -79,7 +78,7 @@ while getopts ':d:p:t:v:s:mh' opt; do
     esac
 done
 
-array=("-s ${size[@]}")
+array=("-s ${size}")
 
 add_to_array_if_not_empty d "Image directory" $dir
 add_to_array_if_not_empty p "tfrecord path" $path
@@ -93,5 +92,5 @@ else
     echo "multiprocessing flag found"
 fi
 
-# echo ${array[@]}
-python src/data_processing/tfrecords.py ${array[@]}
+echo ${array[@]}
+poetry run python training/src/data_processing/tfrecords.py ${array[@]}

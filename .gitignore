@@ -136,3 +136,4 @@ dmypy.json
 **/variables.*
 infrastructure/terraform-account.json
 *.json
+training/data/train.csv

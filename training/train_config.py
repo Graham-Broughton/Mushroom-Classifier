@@ -43,7 +43,7 @@ class GCFG:
     # TFRECORD SETTINGS
     NUM_TRAINING_RECORDS: int = 107
     NUM_VALIDATION_RECORDS: int = 5
-    IMAGE_SIZE: List = field(default_factory=lambda: [224, 224])
+    IMAGE_SIZE: List = field(default_factory=lambda: [256, 256])
     DEBUG: bool = False
 
     # DATASET SETTINGS

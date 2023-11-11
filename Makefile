@@ -70,8 +70,9 @@ tfrecords: training/data/train.csv
 	@: $(eval VAL_RECS := $(shell bash -c 'read -p "Number of validation image tfrecords (OPTIONAL, default: 5)? " num_val_records; echo $$num_val_records'))
 	@: $(eval IMG_SIZES := $(shell bash -c 'read -p "Image height and width (REQUIRED, default: 256, 256)? " image_size; echo $$image_size'))
 	@: $(eval MULTIPROCESSING := $(shell bash -c 'read -p "Use multiprocessing (OPTIONAL, default: True)? " multiprocessing; echo $$multiprocessing'))
-	@bash scripts/create_tfrecords.sh -d $(IMG_DIR) -p $(TFREC_DIR) -t $(TRAIN_RECS) -v $(VAL_RECS) -s $(IMG_SIZES) -m $(MULTIPROCESSING)
+	@python training/src/data_processing/tfrecords.py -d $(IMG_DIR) -p $(TFREC_DIR) -t $(TRAIN_RECS) -v $(VAL_RECS) -s $(IMG_SIZES) -m $(MULTIPROCESSING)
 	@echo "Finished creating tfrecords..."
+	# @bash scripts/create_tfrecords.sh -d $(IMG_DIR) -p $(TFREC_DIR) -t $(TRAIN_RECS) -v $(VAL_RECS) -s $(IMG_SIZES) -m $(MULTIPROCESSING)
 
 #################################################
 ### Models
