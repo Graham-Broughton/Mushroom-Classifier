@@ -8,21 +8,34 @@ from prefect import task, Flow
 @task
 def tpu_test():
     # Detect hardware
-    cluster_resolver = tf.distribute.cluster_resolver.TPUClusterResolver(tpu='local')
-    tf.config.experimental_connect_to_cluster(cluster_resolver)
-    tf.tpu.experimental.initialize_tpu_system(cluster_resolver)
-    strategy = tf.distribute.TPUStrategy(cluster_resolver)
-    replicas = strategy.num_replicas_in_sync
+    # cluster_resolver = tf.distribute.cluster_resolver.TPUClusterResolver(tpu='local')
+    # tf.config.experimental_connect_to_cluster(cluster_resolver)
+    # tf.tpu.experimental.initialize_tpu_system(cluster_resolver)
+    # strategy = tf.distribute.TPUStrategy(cluster_resolver)
+    
 
+    try:
+        tpu = tf.distribute.cluster_resolver.TPUClusterResolver()
+    except ValueError: 
+        tpu = None
+
+    if tpu:
+        tf.tpu.experimental.initialize_tpu_system(tpu)
+        strategy = tf.distribute.experimental.TPUStrategy(tpu, steps_per_run=128)
+        print('Running on TPU ', tpu.cluster_spec().as_dict()['worker'])  
+    else:
+        strategy = tf.distribute.get_strategy() # Default strategy that works on CPU and single GPU
+        print('Running on CPU instead')
+    replicas = strategy.num_replicas_in_sync
     return strategy, replicas
 
 
 @task
-def get_new_cfg(replicas, CFG2, CFG):
+def get_new_cfg(replicas, CFG, train_filenames, val_filenames):
     CFG = CFG(
         REPLICAS=replicas,
-        NUM_TRAINING_IMAGES=CFG2.NUM_TRAINING_IMAGES,
-        NUM_VALIDATION_IMAGES=CFG2.NUM_VALIDATION_IMAGES,
+        NUM_TRAINING_IMAGES=count_data_items.fn(train_filenames),
+        NUM_VALIDATION_IMAGES=count_data_items.fn(val_filenames),
     )
     return CFG
 
@@ -46,6 +59,7 @@ def select_dataset(CFG2):
     GCS_PATH_SELECT = {
         192: f"gs://{CFG2.GCS_REPO}/tfrecords-jpeg-192x192",
         224: f"gs://{CFG2.GCS_REPO}/tfrecords-jpeg-224x224v2",
+        256: f"gs://{CFG2.GCS_REPO}/tfrecords-jpeg-256x256",
         384: f"gs://{CFG2.GCS_REPO}/tfrecords-jpeg-384x384",
         512: f"gs://{CFG2.GCS_REPO}/tfrecords-jpeg-512x512",
     }

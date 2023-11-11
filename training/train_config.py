@@ -1,25 +1,26 @@
 from dataclasses import dataclass, field
+from datetime import datetime
 from os import environ as env
 from pathlib import Path
 from typing import List
-from datetime import datetime
 
 from dotenv import load_dotenv
 
 load_dotenv()
 
-root = Path.cwd()#.parent
+root = Path(env.get("PYTHONPATH"))
 training = root / "training"
 data = training / "data"
+raw_data = data / "raw"
 SAVE_TIME = datetime.now().strftime("%m%d-%H%M")
 
 
 @dataclass
 class GCFG:
-    BATCH_SIZE: int = field(init=False)
-    STEPS_PER_EPOCH: int = field(init=False)
-    VALIDATION_STEPS: int = field(init=False)
-    WGTS: float = field(init=False)
+    BATCH_SIZE: int = 0
+    STEPS_PER_EPOCH: int = 0
+    VALIDATION_STEPS: int = 0
+    WGTS: float = 0
 
     # GENERAL SETTINGS
     SEED: int = 42
@@ -27,22 +28,27 @@ class GCFG:
     ROOT: Path = root
     DATA: Path = data
     TRAIN: Path = training
+    RAW_DATA: Path = raw_data
     GCS_REPO: str = env.get("GCS_REPO")
+    GCS_BASE_MODELS: str = env.get("GCS_BASE_MODELS")
     REPLICAS: int = 0
     NUM_TRAINING_IMAGES: int = 0
     NUM_VALIDATION_IMAGES: int = 0
     SAVE_TIME: datetime = SAVE_TIME
+    LOG_FILE: Path = root / 'logs' / f'{SAVE_TIME}.log'
     FOLDS: int = 5
 
     # MODEL SETTINGS
     MODEL: str = "swin_large_224"
+    MODEL_SIZE: int = 224
     OPT: str = "Adam"
     LR_SCHED: str = "CosineRestarts"
     BASE_BATCH_SIZE: int = 32
 
     # TFRECORD SETTINGS
-    NUM_TRAINING_RECORDS: int = 107
-    NUM_VALIDATION_RECORDS: int = 5
+    NUM_TRAINING_RECORDS: int = 50
+    NUM_VALIDATION_RECORDS: int = 2
+    COMBINE_TRAIN_VAL: bool = True
     IMAGE_SIZE: List = field(default_factory=lambda: [256, 256])
     DEBUG: bool = False
 
@@ -90,10 +96,10 @@ class CFG(GCFG):
     def __post_init__(self):
         self.BATCH_SIZE = self.BASE_BATCH_SIZE * self.REPLICAS
         self.STEPS_PER_EPOCH = (
-            self.NUM_TRAINING_IMAGES / self.BATCH_SIZE // self.REPLICAS
+            self.NUM_TRAINING_IMAGES / self.BATCH_SIZE // self.REPLICAS 
         )
         self.VALIDATION_STEPS = (
             self.NUM_VALIDATION_IMAGES / self.BATCH_SIZE // self.REPLICAS
         )
         self.WGTS = 1 / self.FOLDS
-        self.CKPT_DIR: Path = self.ROOT.parent / 'models' / self.MODEL / self.SAVE_TIME
+        self.CKPT_DIR: Path = self.ROOT.parent / "models" / self.MODEL / self.SAVE_TIME

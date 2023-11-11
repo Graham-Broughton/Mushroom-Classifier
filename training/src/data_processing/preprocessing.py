@@ -211,13 +211,18 @@ def join_datasets(CFG, root) -> tuple:
 
     df["date"] = pd.to_datetime(df["date"], format="mixed", utc=True)
     df["class_id"] = df["name"].astype("category").cat.codes
-    df['gcs_path'] = df.apply(lambda x: f"gs://{CFG.GCS_REPO}/data/raw/{x['dataset']}/{x['phylum']}_{x['class']}_{x['order']}_{x['family']}_{x['genus']}_{x['specific_epithet']}/{x['file_name']}", axis=1)
+    df['gcs_path'] = df.apply(
+        lambda x: 
+            f"gs://{CFG.GCS_REPO}/data/raw/{x['dataset']}/{x['phylum']}_{x['class']}_{x['order']}_{x['family']}_{x['name']}/{x['file_name']}",
+            axis=1
+        )
 
     month_distribution = month_distributions(df)
     class_prior = class_priors(df)
 
     df["class_priors"] = df["class_id"].map(dict(enumerate(class_prior)))
 
+    df.drop(['image_dir_name', 'image_id', 'rights_holder', 'license', 'user_id', 'valid', 'height', 'width'])
     return df, month_distribution
 
 
