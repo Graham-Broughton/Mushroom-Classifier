@@ -13,13 +13,17 @@ export
 
 all: help
 
-build: 
+build: pyproject.toml
 	@echo Initializing environment...
+	@conda create -n py311 python=3.11 -y
 	@poetry install --no-root
 	@mamba install s5cmd -y
 
 dotenv:
 	./scripts/dotenvs.sh
+
+init: build dotenv
+	@echo "Finished initializing environment..."
 
 #################################################
 ### Data
@@ -50,6 +54,7 @@ fgvcx_2021:
 	@echo "Downloading datasets fgvcx 2021..."
 	@bash scripts/get_data.sh -y 2021
 	@echo "Extracting datasets & removing tar.gz and zip files for 2021 data..."
+	@rm training/data/raw/2021/train_mini*
 	@for f in training/data/raw/2021/*.tar.gz; do tar -xzf $${f} -C training/data/raw/2021/ && rm $${f}; done
 	@echo "Finished extracting 2021 dataset..."
 
