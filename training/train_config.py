@@ -39,16 +39,15 @@ class GCFG:
     FOLDS: int = 5
 
     # MODEL SETTINGS
-    MODEL: str = "swin_large_224"
+    MODEL: str = "swin_tiny_224"
     MODEL_SIZE: int = 224
     OPT: str = "Adam"
     LR_SCHED: str = "CosineRestarts"
-    BASE_BATCH_SIZE: int = 32
+    BASE_BATCH_SIZE: int = 8
 
     # TFRECORD SETTINGS
     NUM_TRAINING_RECORDS: int = 50
     NUM_VALIDATION_RECORDS: int = 2
-    COMBINE_TRAIN_VAL: bool = True
     IMAGE_SIZE: List = field(default_factory=lambda: [256, 256])
     DEBUG: bool = False
 
