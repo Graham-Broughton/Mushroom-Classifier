@@ -5,36 +5,23 @@ from pathlib import Path
 import cv2
 import pandas as pd
 from loguru import logger
-from tqdm import trange
 from sklearn.model_selection import StratifiedKFold
-
-from prefect import Flow, task
+from tqdm import trange
+from tqdm.contrib.concurrent import process_map
 
 environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
 import tensorflow as tf
 
 from training.train_config import GCFG as CFG
+
 CFG = CFG()
 warnings.filterwarnings("ignore")
 
 AUTO = tf.data.experimental.AUTOTUNE
 
 
-def stratified_sample(df: pd.DataFrame, groupby_column: str, sampling_rate: float = 0.01) -> pd.DataFrame:
-    assert 0.0 < sampling_rate <= 1.0
-    assert groupby_column in df.columns
-
-    num_rows = int((df.shape[0] * sampling_rate) // 1)
-    num_classes = len(df[groupby_column].unique())
-    num_rows_per_class = int(max(1, ((num_rows / num_classes) // 1)))
-    df_sample = df.groupby(groupby_column, group_keys=False).apply(lambda x: x.sample(min(len(x), num_rows_per_class)))
-
-    return df_sample
-
-
-# @task
-def load_dataframe(root_path):
+def load_dataframe(root_path: Path):
     """This function loads a dataframe from the given root path.
 
     Parameters:
@@ -44,16 +31,13 @@ def load_dataframe(root_path):
         DataFrame: The loaded dataframe.
     """
     df = pd.read_csv(root_path.parent / "train.csv")
-    val = stratified_sample(df[df["dset"] == "val"], "class_id", sampling_rate=1.0)
-    train = stratified_sample(df[df["dset"] == "train"], "class_id", sampling_rate=1.0)
+    df = df.sample(frac=1.0, random_state=CFG.SEED).reset_index(drop=True)
 
-    del df
-    logger.info("Loaded train and val dataframes")
-    logger.debug(f"Train shape: {train.shape}  :  val shape: {val.shape}")
-    return train, val
+    logger.info("Loaded and shuffled dataframe")
+    logger.debug(f"Dataframe shape: {df.shape}")
+    return df
 
 
-# @task
 def bytes_feature(value):
     """Returns a bytes_list from a string / byte."""
     if isinstance(value, type(tf.constant(0))):
@@ -61,29 +45,26 @@ def bytes_feature(value):
     return tf.train.Feature(bytes_list=tf.train.BytesList(value=[value]))
 
 
-# @task
 def float_feature(value):
     """Returns a float_list from a float / double."""
     return tf.train.Feature(float_list=tf.train.FloatList(value=[value]))
 
 
-# @task
 def int64_feature(value):
     """Returns an int64_list from a bool / enum / int / uint."""
     return tf.train.Feature(int64_list=tf.train.Int64List(value=[value]))
 
 
-# @task
 def serialize_example(
-    feature0,
-    feature1,
-    feature2,
-    feature3,
-    feature4,
-    feature5,
-    feature6,
-    feature7,
-    feature8,
+    feature0: str,
+    feature1: str,
+    feature2: int,
+    feature3: float,
+    feature4: float,
+    feature5: str,
+    feature6: float,
+    feature7: int,
+    feature8: str,
 ):
     """This function serializes an example with given features.
 
@@ -105,8 +86,7 @@ def serialize_example(
     return example_proto.SerializeToString()
 
 
-# @task
-def get_data(df, num_records=107):
+def get_data(df: pd.DataFrame, num_records: int = 107):
     """This function gets data from a dataframe to use in calculating tfrecord attributes.
 
     Parameters:
@@ -123,9 +103,12 @@ def get_data(df, num_records=107):
     return IMGS, SIZE, CT
 
 
-# @Flow
 def write_sp_tfrecords(
-    tfrec_path, img_path, num_train_records, num_val_records, reshape_size
+    tfrec_path: Path,
+    img_path: Path,
+    num_train_records: int,
+    num_val_records: int,
+    reshape_size: int,
 ):
     """This function writes single process TFRecords.
 
@@ -185,8 +168,9 @@ def write_sp_tfrecords(
                     writer.write(example)
 
 
-# @task
-def get_mp_params(tfrec_path, img_path, num_records, reshape_size, dset, df):
+def get_mp_params(
+    tfrec_path: Path, num_records: int, reshape_size: int, df: pd.DataFrame
+):
     """Returns a list of dictionaries containing parameters for creating TensorFlow Records.
 
     Args:
@@ -200,11 +184,14 @@ def get_mp_params(tfrec_path, img_path, num_records, reshape_size, dset, df):
     Returns:
         list: A list of dictionaries containing the parameters for creating TensorFlow Records.
     """
-    IMGS, SIZE, CT = get_data(df, num_records)
+    skf = StratifiedKFold(n_splits=num_records, shuffle=True, random_state=CFG.SEED)
     param_list = []  # multiprocessing requires the arguments to be in a list
-    for j in range(CT):  # for each tfrecord
-        CT2 = min(
-            SIZE, len(IMGS) - j * SIZE
+    for fold, (_, v_idx) in enumerate(
+        skf.split(df, df["class_id"])
+    ):  # for each tfrecord
+        n = len(v_idx)
+        cnt = min(
+            n, df.shape[0] - fold * n
         )  # find the number of images in the tfrecord
 
         # create the path to write the tfrecord to
@@ -213,28 +200,21 @@ def get_mp_params(tfrec_path, img_path, num_records, reshape_size, dset, df):
             path.mkdir(parents=True, exist_ok=True)
 
         image_paths = []
-        image_filenames = []
-
-        for k in range(CT2):  # for each image in the tfrecord
-            # get the image path and filename and save to lists
-            img_filename = IMGS[SIZE * j + k]
-            image_filenames.append(img_filename)
-            image_path = str(img_path / img_filename)
-            image_paths.append(image_path)
+        images = df.iloc[v_idx]
+        image_paths = images["file_path"].to_list()
 
         # once the lists are saved, create a dictionary of parameters and append to the param list
         params = {
-            "df": df,
-            "path": str(path / f"{dset}{j:02d}-{CT2}.tfrec"),
+            "df": df.iloc[v_idx],
+            "path": str(path / f"train{fold:02d}-{cnt}.tfrec"),
             "reshape_size": reshape_size,
             "image_paths": image_paths,
-            "image_filenames": image_filenames,
+            "indices": v_idx,
         }
         param_list.append(params)
     return param_list
 
 
-# @task
 def write_single_mp_tfrecord(params):
     """Writes a single TensorFlow record file from a given dset of parameters.
 
@@ -251,14 +231,11 @@ def write_single_mp_tfrecord(params):
     df = params["df"]
     path = params["path"]
     reshape_size = params["reshape_size"]
-    image_paths = params["image_paths"]
-    image_filenames = params["image_filenames"]
 
     with tf.io.TFRecordWriter(path) as writer:
-        # unnecessary to use CT2 since the paths and filenames were derived from it
-        for image_path, image_filename in zip(
-            image_paths, image_filenames
-        ):  # for each image in the tfrecord..
+        # TODO: Add tqdm functionality in loguru
+        for _, row in df.iterrows():
+            image_path = row["file_path"]  # for each image in the tfrecord..
             # load image from disk, change RGB to cv2 default BGR format, resize to reshape_sizes and encode as jpeg
             img = cv2.imread(image_path)
             img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
@@ -268,22 +245,20 @@ def write_single_mp_tfrecord(params):
             img = cv2.imencode(".jpg", img)[1].tobytes()
 
             # read specific row from dataframe to get data and serialize it
-            row = df.loc[df.file_path == image_filename]
             example = serialize_example(
                 img,
-                str(row.file_name.values[0].split(".")[0]).encode("utf-8"),
-                row.dataset.values[0],
-                row.longitude.values[0],
-                row.latitude.values[0],
-                str(row.date.values[0]).encode("utf-8"),
-                row.class_priors.values[0],
-                row.class_id.values[0],
+                row.file_name.split(".")[0].encode("utf-8"),
+                row.dataset,
+                row.longitude,
+                row.latitude,
+                row.date.encode("utf-8"),
+                row.class_priors,
+                row.class_id,
                 f"{row.genus}_{row.specific_epithet}".encode("utf-8"),
             )
             writer.write(example)
 
 
-# @Flow
 def write_mp_tfrecords(**kwargs):
     """Writes multiple TFRecord files for the mushroom classifier dataset.
 
@@ -295,44 +270,18 @@ def write_mp_tfrecords(**kwargs):
             num_validation_records (int): Number of validation records to write.
             img_size (tuple): Tuple containing the size of the images.
     """
-    from tqdm.contrib.concurrent import process_map
+    df = load_dataframe(root_path=kwargs["img_directory"])
 
-    train, val = load_dataframe(root_path=kwargs["img_directory"])
-    df = pd.concat([train, val])
-    if CFG.COMBINE_TRAIN_VAL:
-        params = get_mp_params(
-            kwargs["tfrecords_directory"],
-            kwargs["img_directory"],
-            kwargs["num_train_records"],
-            kwargs["img_size"],
-            'train',
-            df,
-        )
-        skf = StratifiedKFold(n_splits=kwargs["num_train_records"], shuffle=True, random_state=CFG.SEED)
-        logger.info("Starting multiprocessing tfrecords")
-        # while still in the loop, use multiprocessing to write the tfrecords
-        # process_map(write_single_mp_tfrecord, params, max_workers=8)
-        for fold, (trn_idx, val_idx) in enumerate(skf.split(df, df['class_id'])):
-            totfrec = val_idx
-        logger.info("Finished multiprocessing tfrecords")
-    else:
-        for df, dset in zip(
-            [train, val], ["train", "val"]
-        ):  # for each dataframe get the parameters for multiprocessing
-            params = get_mp_params(
-                kwargs["tfrecords_directory"],
-                kwargs["img_directory"],
-                kwargs["num_train_records"]
-                if dset == "train"
-                else kwargs["num_validation_records"],
-                kwargs["img_size"],
-                dset,
-                df,
-            )
-            logger.info(f"Starting multiprocessing for {dset}")
-            # while still in the loop, use multiprocessing to write the tfrecords
-            process_map(write_single_mp_tfrecord, params, max_workers=8)
-            logger.info(f"Finished multiprocessing for {dset}")
+    params = get_mp_params(
+        kwargs["tfrecords_directory"],
+        kwargs["num_train_records"],
+        kwargs["img_size"],
+        df,
+    )
+    logger.info("Starting multiprocessing tfrecords")
+    # use multiprocessing to write the tfrecords
+    process_map(write_single_mp_tfrecord, params, max_workers=8, leave=True)
+    logger.info("Finished multiprocessing tfrecords")
 
 
 if __name__ == "__main__":
@@ -389,7 +338,7 @@ if __name__ == "__main__":
         "--img-size",
         type=int,
         nargs="?",
-        default=CFG.IMAGE_SIZE,
+        default=256,  # CFG.IMAGE_SIZE,
         help="image size",
     )
     argparser.add_argument(
@@ -399,11 +348,10 @@ if __name__ == "__main__":
         nargs="?",
         const=True,
         default=True,
-        # action="store_true",
         help="whether to use multiprocessing",
     )
     args = argparser.parse_args()
-    
+
     # If statement to use multiprocessing if flag is dset
     if args.multiprocessing:
         logger.info("Writing TFRecords multiprocessing")

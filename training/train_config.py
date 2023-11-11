@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-root = Path(env.get("PYTHONPATH"))
+root = Path(env.get("PYTHONPATH").split(":")[0])
 training = root / "training"
 data = training / "data"
 raw_data = data / "raw"
@@ -35,7 +35,7 @@ class GCFG:
     NUM_TRAINING_IMAGES: int = 0
     NUM_VALIDATION_IMAGES: int = 0
     SAVE_TIME: datetime = SAVE_TIME
-    LOG_FILE: Path = root / 'logs' / f'{SAVE_TIME}.log'
+    LOG_FILE: Path = root / "logs" / f"{SAVE_TIME}.log"
     FOLDS: int = 5
 
     # MODEL SETTINGS
@@ -96,7 +96,7 @@ class CFG(GCFG):
     def __post_init__(self):
         self.BATCH_SIZE = self.BASE_BATCH_SIZE * self.REPLICAS
         self.STEPS_PER_EPOCH = (
-            self.NUM_TRAINING_IMAGES / self.BATCH_SIZE // self.REPLICAS 
+            self.NUM_TRAINING_IMAGES / self.BATCH_SIZE // self.REPLICAS
         )
         self.VALIDATION_STEPS = (
             self.NUM_VALIDATION_IMAGES / self.BATCH_SIZE // self.REPLICAS
