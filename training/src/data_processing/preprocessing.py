@@ -2,12 +2,10 @@ import json
 import numpy as np
 import pandas as pd
 from loguru import logger
-# from prefect import flow, task
 from tqdm import tqdm
 from training.train_config import CFG
 
 
-# @task
 def class_priors(df: pd.DataFrame) -> np.ndarray:
     """Calculates the class priors for a given DataFrame.
 
@@ -25,7 +23,6 @@ def class_priors(df: pd.DataFrame) -> np.ndarray:
     return class_priors / sum(class_priors)
 
 
-# @task
 def month_distributions(df):
     """Calculates the distribution of mushroom classes for each month in the dataset.
 
@@ -51,7 +48,6 @@ def month_distributions(df):
     return month_distributions
 
 
-# @task
 def parse_json(filepath, is_test=False, categories=None):
     """Parses a JSON file and returns relevant dataframes.
 
@@ -80,7 +76,6 @@ def parse_json(filepath, is_test=False, categories=None):
     return info, images
 
 
-# @task
 def join_dataframes(images, annotations, categories, dset=None, locations=None):
     """Join dataframes containing information about images, annotations, categories, and locations (optional).
     Only categories with the supercategory 'Fungi' are included.
@@ -111,7 +106,7 @@ def join_dataframes(images, annotations, categories, dset=None, locations=None):
         errors="ignore",
     )
     if dset is not None:
-        df["set"] = dset
+        df["dset"] = dset
     return df
 
 
@@ -150,11 +145,11 @@ def parse_2018_data(data_root):
     df["dataset"] = "2018"
 
     # Create new directories and paths
-    df["file_name"] = df["file_name"].str.split("/").str[-1]
+    # df["file_name"] = df["file_name"].str.split("/").str[-1]
     df["specific_epithet"] = df["name"].str.split().str[-1]
-    df["image_dir_name"] = df[
-        ["phylum", "class", "order", "family", "genus", "specific_epithet"]
-    ].apply(lambda x: f"Fungi_{'_'.join(x)}", axis=1)
+    # df["image_dir_name"] = df[
+    #     ["phylum", "class", "order", "family", "genus", "specific_epithet"]
+    # ].apply(lambda x: f"Fungi_{'_'.join(x)}", axis=1)
 
     # Drop unneeded columns and rename others
     df = df.drop(["category_id", "date_c"], axis=1).rename(
@@ -190,10 +185,10 @@ def parse_2021_data(data_root):
     df = pd.concat(dfs, ignore_index=True)
 
     df["dataset"] = "2021"
-    df["file_name"] = df["file_name"].str.split("/").str[-1]
-    df["image_dir_name"] = df["image_dir_name"].apply(
-        lambda x: "_".join(x.split("_")[1:])
-    )
+    df["file_name_mod"] = df["file_name"].str.split("/").str[-1]
+    # df["image_dir_name_mod"] = df["image_dir_name"].apply(
+    #     lambda x: "_".join(x.split("_")[1:])
+    # )
     df = df.drop(["category_id", "common_name"], axis=1)
     logger.debug(f"2021 dataframe shape {df.shape}")
     return df
@@ -218,9 +213,9 @@ def join_datasets(CFG, root) -> tuple:
     df = pd.concat([df1, df2], ignore_index=True)
 
     df["date"] = pd.to_datetime(df["date"], format="mixed", utc=True)
-    df["file_path"] = (
-        str(CFG.DATA / df["image_dir_name"] / df["file_name"])
-    )
+    # df["file_path"] = (
+    #     str(CFG.DATA / df["image_dir_name"] / df["file_name"])
+    # )
     df["gcs_path"] = (
         f"gs://{CFG.GCS_REPO}/train/" + df["image_dir_name"] + "/" + df["file_name"]
     )
@@ -242,7 +237,7 @@ if __name__ == "__main__":
     df, month_distribution = join_datasets(CFG, raw_data_root)
     
     logger.debug(f"Final dataframe shape {df.shape}")
-    df.to_csv(raw_data_root / "train.csv", index=False)
+    df.to_csv(CFG.DATA / "train.csv", index=False)
 
     logger.info("Deleting unused images")
     total_filelist = raw_data_root.rglob('*.jpg')

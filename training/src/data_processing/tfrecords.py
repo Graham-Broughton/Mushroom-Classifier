@@ -1,5 +1,6 @@
 import warnings
 from os import environ
+from pathlib import Path
 
 import cv2
 import pandas as pd
@@ -17,7 +18,7 @@ warnings.filterwarnings("ignore")
 AUTO = tf.data.experimental.AUTOTUNE
 
 
-@task
+# @task
 def load_dataframe(root_path):
     """This function loads a dataframe from the given root path.
 
@@ -27,7 +28,7 @@ def load_dataframe(root_path):
     Returns:
         DataFrame: The loaded dataframe.
     """
-    df = pd.read_csv(root_path / "train.csv")
+    df = pd.read_csv(root_path.parent / "train.csv")
     val = df[df["dset"] == "val"].sample(frac=1, random_state=42).reset_index(drop=True)
     train = (
         df[df["dset"] == "train"].sample(frac=1, random_state=42).reset_index(drop=True)
@@ -38,7 +39,7 @@ def load_dataframe(root_path):
     return train, val
 
 
-@task
+# @task
 def bytes_feature(value):
     """Returns a bytes_list from a string / byte."""
     if isinstance(value, type(tf.constant(0))):
@@ -46,19 +47,19 @@ def bytes_feature(value):
     return tf.train.Feature(bytes_list=tf.train.BytesList(value=[value]))
 
 
-@task
+# @task
 def float_feature(value):
     """Returns a float_list from a float / double."""
     return tf.train.Feature(float_list=tf.train.FloatList(value=[value]))
 
 
-@task
+# @task
 def int64_feature(value):
     """Returns an int64_list from a bool / enum / int / uint."""
     return tf.train.Feature(int64_list=tf.train.Int64List(value=[value]))
 
 
-@task
+# @task
 def serialize_example(
     feature0, feature1, feature2, feature3, feature4, feature5, feature6, feature7, feature8
 ):
@@ -82,7 +83,7 @@ def serialize_example(
     return example_proto.SerializeToString()
 
 
-@task
+# @task
 def get_data(df, num_records=107):
     """This function gets data from a dataframe to use in calculating tfrecord attributes.
 
@@ -100,8 +101,8 @@ def get_data(df, num_records=107):
     return IMGS, SIZE, CT
 
 
-@Flow
-def write_sp_tfrecords(tfrec_path, img_path, num_train_records, num_val_records, reshape_sizes):
+# @Flow
+def write_sp_tfrecords(tfrec_path, img_path, num_train_records, num_val_records, reshape_size):
     """This function writes single process TFRecords.
 
     Parameters:
@@ -115,10 +116,10 @@ def write_sp_tfrecords(tfrec_path, img_path, num_train_records, num_val_records,
     # tqdm_logger = logger.add(lambda msg: tqdm.write(msg, end=""))
 
     # load dataframes and iterate over them
-    train, val = load_dataframe.fn(root_path=img_path)
+    train, val = load_dataframe(root_path=img_path)
     for df, dset in zip([train, val], ["train", "val"]):
         num_records = num_train_records if dset == "train" else num_val_records
-        IMGS, SIZE, CT = get_data.fn(df, num_records)
+        IMGS, SIZE, CT = get_data(df, num_records)
 
         # iterate over the number of tfrecords
         for j in trange(CT):
@@ -126,7 +127,7 @@ def write_sp_tfrecords(tfrec_path, img_path, num_train_records, num_val_records,
             CT2 = min(SIZE, len(IMGS) - j * SIZE)  # get the number of images in a tfrecord
 
             # create the path to write the tfrecord to
-            path = tfrec_path / f"tfrecords-jpeg-{reshape_sizes[0]}x{reshape_sizes[1]}"
+            path = tfrec_path / f"tfrecords-jpeg-{reshape_size}x{reshape_size}"
             path.mkdir(parents=True, exist_ok=True)
 
             with tf.io.TFRecordWriter(str(path / f"{dset}{j:02d}-{CT2}.tfrec")) as writer:
@@ -137,12 +138,12 @@ def write_sp_tfrecords(tfrec_path, img_path, num_train_records, num_val_records,
                     # load image from disk, change RGB to cv2 default BGR format, resize to reshape_sizes and encode as jpeg
                     img = cv2.imread(str(img_path / f"{IMGS[SIZE * j + k]}"))
                     img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-                    img = cv2.resize(img, reshape_sizes, cv2.INTER_CUBIC)
+                    img = cv2.resize(img, (reshape_size, reshape_size), cv2.INTER_CUBIC)
                     img = cv2.imencode(".jpg", img)[1].tobytes()
 
                     # read specific row from dataframe to get data and serialize it
                     row = df.loc[df.file_path == IMGS[SIZE * j + k]].iloc[0]
-                    example = serialize_example.fn(
+                    example = serialize_example(
                         img,
                         row.file_name.split('.')[0],
                         row.dataset,
@@ -156,15 +157,15 @@ def write_sp_tfrecords(tfrec_path, img_path, num_train_records, num_val_records,
                     writer.write(example)
 
 
-@task
-def get_mp_params(tfrec_path, img_path, num_records, reshape_sizes, dset, df):
+# @task
+def get_mp_params(tfrec_path, img_path, num_records, reshape_size, dset, df):
     """Returns a list of dictionaries containing parameters for creating TensorFlow Records.
 
     Args:
         tfrec_path (pathlib.Path): The path to the directory where the TensorFlow Records will be saved.
         img_path (pathlib.Path): The path to the directory containing the images.
         num_records (int): The number of records to create.
-        reshape_sizes (tuple): A tuple containing the desired width and height of the images.
+        reshape_size (tuple): A tuple containing the desired width and height of the images.
         dset (str): A string indicating the type of data (e.g. "train", "test", "validation").
         df (DataFrame): A pandas DataFrame containing the image filenames and labels.
 
@@ -179,7 +180,7 @@ def get_mp_params(tfrec_path, img_path, num_records, reshape_sizes, dset, df):
         )  # find the number of images in the tfrecord
 
         # create the path to write the tfrecord to
-        path = tfrec_path / f"tfrecords-jpeg-{reshape_sizes[0]}x{reshape_sizes[1]}"
+        path = tfrec_path / f"tfrecords-jpeg-{reshape_size}x{reshape_size}"
         if not path.is_dir():
             path.mkdir(parents=True, exist_ok=True)
 
@@ -197,7 +198,7 @@ def get_mp_params(tfrec_path, img_path, num_records, reshape_sizes, dset, df):
         params = {
             "df": df,
             "path": str(path / f"{dset}{j:02d}-{CT2}.tfrec"),
-            "reshape_sizes": reshape_sizes,
+            "reshape_size": reshape_size,
             "image_paths": image_paths,
             "image_filenames": image_filenames,
         }
@@ -205,7 +206,7 @@ def get_mp_params(tfrec_path, img_path, num_records, reshape_sizes, dset, df):
     return param_list
 
 
-@task
+# @task
 def write_single_mp_tfrecord(params):
     """Writes a single TensorFlow record file from a given dset of parameters.
 
@@ -221,7 +222,7 @@ def write_single_mp_tfrecord(params):
     # loading the parameters from param dictionary
     df = params["df"]
     path = params["path"]
-    reshape_sizes = params["reshape_sizes"]
+    reshape_size = params["reshape_size"]
     image_paths = params["image_paths"]
     image_filenames = params["image_filenames"]
 
@@ -234,13 +235,13 @@ def write_single_mp_tfrecord(params):
             img = cv2.imread(image_path)
             img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
             img = cv2.resize(
-                img, reshape_sizes, cv2.INTER_CUBIC
+                img, (reshape_size, reshape_size), cv2.INTER_CUBIC
             )  # Fix incorrect colors
             img = cv2.imencode(".jpg", img)[1].tobytes()
 
             # read specific row from dataframe to get data and serialize it
             row = df.loc[df.file_path == image_filename]
-            example = serialize_example.fn(
+            example = serialize_example(
                 img,
                 row.filename.values[0].split('.')[0],
                 row.dataset.values[0],
@@ -254,7 +255,7 @@ def write_single_mp_tfrecord(params):
             writer.write(example)
 
 
-@Flow
+# @Flow
 def write_mp_tfrecords(**kwargs):
     """Writes multiple TFRecord files for the mushroom classifier dataset.
 
@@ -293,6 +294,16 @@ if __name__ == "__main__":
 
     CFG = GCFG()  # need to initialize to make the dataclass work properly
 
+    def str2bool(v):
+        if isinstance(v, bool):
+            return v
+        if v.lower() in ('yes', 'true', 't', 'y', '1'):
+            return True
+        elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+            return False
+        else:
+            raise argparse.ArgumentTypeError('Boolean value expected.')
+        
     # argparse to allow for command line arguments
     argparser = argparse.ArgumentParser()
     argparser.add_argument(
@@ -328,24 +339,29 @@ if __name__ == "__main__":
     argparser.add_argument(
         "-s", "--img-size", 
         type=int, 
-        nargs=2, 
+        nargs="?", 
         default=CFG.IMAGE_SIZE, 
         help="image size"
     )
     argparser.add_argument(
         "-m", "--multiprocessing",
-        action="store_true",
+        type=str2bool,
+        nargs='?',
+        const=False,
+        default=True,
+        # action="store_true",
         help="whether to use multiprocessing",
     )
     args = argparser.parse_args()
-
+    print(args)
     # If statement to use multiprocessing if flag is dset
-    if args.multiprocessing:
+    if not args.multiprocessing:
         logger.info("Writing TFRecords multiprocessing")
+        print(args)
         write_mp_tfrecords(
-            tfrecords_directory=args.tfrecords_directory,
-            img_directory=args.img_directory,
-            num_train_records=args.num_train_records,
+            tfrecords_directory=Path(args.tfrecords_directory),
+            img_directory=Path('./training/data/raw'), #Path(args.img_directory),
+            num_train_records=100, #args.num_train_records,
             num_validation_records=args.num_validation_records,
             img_size=args.img_size,
         )
@@ -356,5 +372,5 @@ if __name__ == "__main__":
             args.img_directory,
             args.num_train_records,
             args.num_validation_records,
-            reshape_sizes=args.img_size,
+            reshape_size=args.img_size,
         )
