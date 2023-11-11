@@ -129,15 +129,6 @@ def train(CFG, strategy):
         )
 
         # CREATE TRAIN AND VALIDATION SUBSETS
-        # files_train = tf.io.gfile.glob(
-        #     [f"{CFG.GCS_REPO}/train{x:02d}*.tfrec" for x in idxT]
-        # )
-        # np.random.shuffle(files_train)
-        # print("#" * 25)
-        # files_valid = tf.io.gfile.glob(
-        #     [f"{CFG.GCS_REPO}/train{x:02d}*.tfrec" for x in idxV]
-        # )
-        # files_test = tf.io.gfile.glob(f"{GCS_PATH}/val*.tfrec")
         files_train = tf.io.gfile.glob(f"{GCS_PATH}/train*.tfrec")
         files_valid = tf.io.gfile.glob(f"{GCS_PATH}/val*.tfrec")
 
