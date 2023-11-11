@@ -9,7 +9,7 @@ include .env
 export
 
 # Install the dependencies
-.PHONY: all build all_datasets datasets_of_interrest fgvcx_2018 fgvcx_2019 fgvcx_2021 preprocess_data tfrecords build_old_tf resave_base_model_weights get_base_models get_deploy_model deploy help
+.PHONY: all build init all_datasets datasets_of_interest fgvcx_2018 fgvcx_2019 fgvcx_2021 preprocess_data tfrecords download_model_weights get_deploy_model deploy help
 
 all: help
 
@@ -75,7 +75,7 @@ tfrecords: training/data/train.csv
 	@echo "Creating tfrecords..."
 	@: $(eval IMG_DIR := $(shell bash -c 'read -p "Where are the images located (OPTIONAL, default: ./training/data/raw)? " image_path; echo $$image_path'))
 	@: $(eval TFREC_DIR := $(shell bash -c 'read -p "Where should the tfrecords be saved (OPTIONAL, default: ./training/data/)? " tfrecord_path; echo $$tfrecord_path'))
-	@: $(eval TRAIN_RECS := $(shell bash -c 'read -p "Number of train image tfrecords (OPTIONAL, default: 107)? " num_train_records; echo $$num_train_records'))
+	@: $(eval TRAIN_RECS := $(shell bash -c 'read -p "Number of train image tfrecords (OPTIONAL, default: 100)? " num_train_records; echo $$num_train_records'))
 	@: $(eval VAL_RECS := $(shell bash -c 'read -p "Number of validation image tfrecords (OPTIONAL, default: 5)? " num_val_records; echo $$num_val_records'))
 	@: $(eval IMG_SIZES := $(shell bash -c 'read -p "Image height and width (REQUIRED, default: 256)? " image_size; echo $$image_size'))
 	@: $(eval MULTIPROCESSING := $(shell bash -c 'read -p "Use multiprocessing (OPTIONAL, default: True)? " multiprocessing; echo $$multiprocessing'))
@@ -98,25 +98,6 @@ download_model_weights:
 
 	@gsutil -m cp -r "gs://$(GCS_REPO)/$(GCS_BASE_MODELS)/*" ./training/base_models
 	@echo "Finished downloading model weights..."
-
-# # Build the tensorflow 2.10.0 environment, it is needed to resave the model weights into a SavedModel format
-# build_old_tf: ./training/base_models/checkpoints/Pipfile.lock
-# 	@echo "Building tensorflow 2.10.0 environment..."
-# 	@cd ./training/base_models/checkpoints && pipenv install --skip-lock
-# 	@echo "Finished building tensorflow 2.10.0 environment..."
-
-# resave_base_model_weights:  download_model_weights build_old_tf
-# 	@echo "Resaving model weights..."
-# 	@cd ./training/base_models/checkpoints && pipenv run resave
-# 	@rm -rf ./training/base_models/checkpoints
-# 	@echo "Finished resaving model weights..."
-
-# # Download the re-saved models
-# get_base_models:
-# 	@echo "Downloading models..."
-# 	@mkdir -p ./training/base_models
-# 	@gsutil -m cp -r "gs://$(GCS_REPO)/$(GCS_BASE_MODELS)/*"" ./training/base_models/
-# 	@echo "Finished downloading models..."
 
 #################################################
 ### Deploy
