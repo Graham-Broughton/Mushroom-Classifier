@@ -7,12 +7,12 @@ import src as tr_fn
 import tensorflow as tf
 import tensorflow.keras.backend as K
 import wandb
-from training.train_config import CFG, GCFG
 from loguru import logger
 from sklearn.metrics import roc_auc_score
 
 # import mlflow
 from sklearn.model_selection import KFold
+from train_config import CFG, GCFG
 
 from prefect import Flow
 
@@ -20,7 +20,6 @@ from prefect import Flow
 @Flow
 def main(CFG2, CFG, replicas, strategy):
     train_filenames, val_filenames = tr_fn.select_dataset(CFG2)
-
 
     # CFG = tr_fn.get_new_cfg(replicas, CFG, train_filenames, val_filenames)
     CFG = CFG(
@@ -69,8 +68,8 @@ def main(CFG2, CFG, replicas, strategy):
         tr_fn.get_training_dataset(train_filenames, CFG),
         steps_per_epoch=CFG.STEPS_PER_EPOCH,
         epochs=CFG.EPOCHS,
-        validation_data=tr_fn.get_validation_dataset(val_filenames, CFG),
-        validation_steps=CFG.VALIDATION_STEPS,
+        # validation_data=tr_fn.get_validation_dataset(val_filenames, CFG),
+        # validation_steps=CFG.VALIDATION_STEPS,
         callbacks=tr_fn.make_callbacks(CFG),
     )
 
@@ -88,7 +87,9 @@ def get_history(model, fold, files_train, files_valid, CFG):
         epochs=CFG.EPOCHS,
         callbacks=tr_fn.make_callbacks(CFG),
         steps_per_epoch=CFG.STEPS_PER_EPOCH,
-        validation_data=tr_fn.get_validation_dataset(files_valid, CFG),  # class_weight = {0:1,1:2},
+        validation_data=tr_fn.get_validation_dataset(
+            files_valid, CFG
+        ),  # class_weight = {0:1,1:2},
         verbose=CFG.VERBOSE,
     )
     return history
@@ -117,7 +118,9 @@ def train(CFG, strategy):
     }
     GCS_PATH = GCS_PATH_SELECT[CFG2.IMAGE_SIZE[0]]
 
-    for fold, (idxT, idxV) in enumerate(skf.split(np.arange(GCS_RECORDS_CONVERTER[CFG2.IMAGE_SIZE[0]]))):
+    for fold, (idxT, idxV) in enumerate(
+        skf.split(np.arange(GCS_RECORDS_CONVERTER[CFG2.IMAGE_SIZE[0]]))
+    ):
         # DISPLAY FOLD INFO
         print("#" * 25)
         print("#### FOLD", fold + 1)
@@ -151,7 +154,7 @@ def train(CFG, strategy):
 
         # PREDICT OOF USING TTA
         logger.info("Predicting OOF with TTA...")
-        ds_valid = tr_fn.get_validation_dataset(files_valid, CFG),
+        ds_valid = (tr_fn.get_validation_dataset(files_valid, CFG),)
         ct_valid = tr_fn.count_data_items(files_valid)
         STEPS = CFG.TTA * ct_valid / CFG.BATCH_SIZES / 4 / CFG.REPLICAS
         pred = model.predict(ds_valid, steps=STEPS, verbose=CFG.VERBOSE)[
