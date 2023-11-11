@@ -13,7 +13,7 @@ export
 
 all: help
 
-build: | poetry.lock
+build: 
 	@echo Initializing environment...
 	@poetry install --no-root
 	@mamba install s5cmd -y
