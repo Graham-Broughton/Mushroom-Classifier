@@ -148,7 +148,7 @@ def write_sp_tfrecords(
 
                     # load image from disk, change RGB to cv2 default BGR format, resize to reshape_sizes and encode as jpeg
                     img = cv2.imread(str(img_path / f"{IMGS[SIZE * j + k]}"))
-                    img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+                    # img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
                     img = cv2.resize(img, (reshape_size, reshape_size), cv2.INTER_CUBIC)
                     img = cv2.imencode(".jpg", img)[1].tobytes()
 

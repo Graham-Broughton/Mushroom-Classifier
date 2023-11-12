@@ -3,10 +3,10 @@
 ## An SMS based app by Graham Broughton
 
 ## About the Project
-This repository contains all the code required to train and deploy a Swin (Shifted WINdows) transformer for mushroom classification. The model was trained on ~90 000 images containing ~470 species which resulted in ~80% top1 and ~96% top3 validation accuracy on images of resolution (224, 224). Training is performed on Google Cloud Platform (GCP) TPU v3-8 VM's where epoch durations are just shy of one minute. To deploy the model as an SMS based service, Twilio webhooks were set up to automatically respond to the client's number with an SMS if the message contained at least one photo. This project was designed with ease of use in mind, Makefile's were relied upon heavily to simplify operation down to a single word. Along the same lines, Terraform was used to simplify and ensure the proper GCP resources are requisitioned.
+This repository contains all the code required to train and deploy a Swin (Shifted WINdows) transformer model, including downloading images, for mushroom classification. The images came from a few different sources, mostly the FGVCX 2021 & 2018 competitions mostly hosted on Kaggle. These sources supplied the model with ~100 000 images to train on containing ~470 species. This project used Google Cloud's TPU v3-8 VM's, which drastically reduced epoch time to 30-60 seconds. The training protocol resulted in validation accuracies ~80% top1 and ~96% top3 for images of resolution (224, 224). To deploy the model as an SMS based service, Twilio webhooks were set up to automatically respond to the client's number with an SMS, only if the message contained at least one photo. This project was designed with ease of use in mind, Makefile's were relied upon heavily to simplify operation down to a single word. Along the same lines, Terraform was used to simplify and ensure the proper GCP resources are requisitioned.
 
 ## Getting Started
-<!-- Most of the dependencies are found in Pipfile's throughout the project but there are still a few things you need to do first: -->
+
 ### Prerequisites:
 
 - Ensure you have a working python 3.11 installation

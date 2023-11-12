@@ -7,3 +7,4 @@ from src.training.utils import (
     set_seed,
     tpu_test,
 )
+from src.visuals.training_viz import display_batch_of_images
