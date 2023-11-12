@@ -39,11 +39,11 @@ class GCFG:
     FOLDS: int = 5
 
     # MODEL SETTINGS
-    MODEL: str = "swin_tiny_224"
+    MODEL: str = "swin_large_224"
     MODEL_SIZE: int = 224
     OPT: str = "Adam"
     LR_SCHED: str = "CosineRestarts"
-    BASE_BATCH_SIZE: int = 8
+    BASE_BATCH_SIZE: int = 16
 
     # TFRECORD SETTINGS
     NUM_TRAINING_RECORDS: int = 50

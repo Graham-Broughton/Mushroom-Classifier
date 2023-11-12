@@ -138,7 +138,7 @@ def get_mat(rotation, shear, height_zoom, width_zoom, height_shift, width_shift)
 def transform(image, CFG):
     # input image - is one image of size [dim,dim,3] not a batch of [b,dim,dim,3]
     # output - image randomly rotated, sheared, zoomed, and shifted
-    DIM = CFG.MODEL_SIZE
+    DIM = CFG.IMAGE_SIZE[0]
     XDIM = DIM % 2  # fix for size 331   
 
     rot = CFG.ROT_ * tf.random.normal([1], dtype='float32')
@@ -174,8 +174,8 @@ def prepare_image(img, CFG, augment=True, dim=256):
     img = tf.cast(img, tf.float32) / 255.0
 
     if augment:
-        img = tf.image.random_crop(img, [CFG.MODEL_SIZE, CFG.MODEL_SIZE, 3])
         img = transform(img, CFG)
+        img = tf.image.random_crop(img, [CFG.MODEL_SIZE, CFG.MODEL_SIZE, 3])
         img = tf.image.random_flip_left_right(img)
         # img = tf.image.random_hue(img, 0.01)
         img = tf.image.random_saturation(img, 0.7, 1.3)
@@ -188,7 +188,7 @@ def prepare_image(img, CFG, augment=True, dim=256):
 
 
 def get_dataset(
-    files, CFG, augment=False, shuffle=False, repeat=False, labeled=True, batch_size=16, dim=256
+    files, CFG, augment=False, shuffle=False, repeat=False, labeled=True, dim=256
     ):
     ds = tf.data.TFRecordDataset(files, num_parallel_reads=AUTO)
     ds = ds.cache()
@@ -212,7 +212,7 @@ def get_dataset(
             img, CFG, augment=augment, dim=dim), imgname_or_label), num_parallel_calls=AUTO
     )
 
-    ds = ds.batch(batch_size * CFG.REPLICAS)
+    ds = ds.batch(CFG.BATCH_SIZE)
     ds = ds.prefetch(AUTO)
     return ds
     

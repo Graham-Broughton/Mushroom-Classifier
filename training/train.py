@@ -17,15 +17,15 @@ from train_config import CFG, GCFG
 from prefect import Flow
 
 
-@Flow
-def main(CFG2, CFG, replicas, strategy):
-    train_filenames, val_filenames = tr_fn.select_dataset(CFG2)
+# @Flow
+def main(CFG, CFG2, replicas, strategy):
+    train_filenames, val_filenames = tr_fn.select_dataset.fn(CFG2)
 
     # CFG = tr_fn.get_new_cfg(replicas, CFG, train_filenames, val_filenames)
     CFG = CFG(
         REPLICAS=replicas,
-        NUM_TRAINING_IMAGES=tr_fn.count_data_items(train_filenames),
-        NUM_VALIDATION_IMAGES=tr_fn.count_data_items(val_filenames),
+        NUM_TRAINING_IMAGES=tr_fn.count_data_items.fn(train_filenames),
+        NUM_VALIDATION_IMAGES=tr_fn.count_data_items.fn(val_filenames),
     )
 
     wandb.init(
@@ -61,7 +61,7 @@ def main(CFG2, CFG, replicas, strategy):
 
     logger.info("Building Model...")
     with strategy.scope():
-        model = tr_fn.create_model(CFG, class_dict)
+        model = tr_fn.create_model.fn(CFG, class_dict)
 
     logger.info("Training model...")
     model.fit(
@@ -70,7 +70,7 @@ def main(CFG2, CFG, replicas, strategy):
         epochs=CFG.EPOCHS,
         # validation_data=tr_fn.get_validation_dataset(val_filenames, CFG),
         # validation_steps=CFG.VALIDATION_STEPS,
-        callbacks=tr_fn.make_callbacks(CFG),
+        callbacks=tr_fn.make_callbacks.fn(CFG),
     )
 
     try:
@@ -97,42 +97,7 @@ def get_history(model, files_train, files_valid, CFG):
 
 def train_one_fold(CFG, strategy, fold, files_train, files_valid, *args):
     # BUILD MODEL
-    K.clear_session()
-    with strategy.scope():
-        model = tr_fn.create_model.fn(CFG, class_dict)
 
-    # TRAIN
-    history, model = get_history(model, files_train, files_valid, CFG)
-
-    oof_pred = args.oof_pred
-    oof_tar = args.oof_tar
-    oof_val = args.oof_val
-    oof_names = args.oof_names
-    oof_folds = args.oof_folds
-
-    # PREDICT OOF USING TTA
-    logger.info("Predicting OOF with TTA...")
-    ds_valid = (tr_fn.get_validation_dataset(files_valid, CFG),)
-    ct_valid = tr_fn.count_data_items.fn(files_valid)
-    STEPS = CFG.TTA * ct_valid / CFG.BATCH_SIZES / 4 / CFG.REPLICAS
-    pred = model.predict(ds_valid, steps=STEPS, verbose=CFG.VERBOSE)[
-        : CFG.TTA * ct_valid,
-    ]
-    oof_pred.append(np.mean(pred.reshape((ct_valid, CFG.TTA), order="F"), axis=1))
-    # oof_pred.append(model.predict(get_dataset(files_valid,dim=CFG.IMAGE_SIZE),verbose=1))
-
-    oof_tar, oof_folds, oof_names = get_oof_target_names(files_valid, oof_tar, oof_folds, oof_names, CFG, fold)
-
-    # REPORT RESULTS
-    auc = roc_auc_score(oof_tar[-1], oof_pred[-1])
-    oof_val.append(np.max(history.history["val_auc"]))
-    logger.info(
-        f"#### FOLD {fold + 1} OOF AUC without TTA = {oof_val[-1]}, with TTA = {auc}"
-    )
-
-    # PLOT TRAINING
-    if CFG.DISPLAY_PLOT:
-        tr_fn.plot_training(history, fold, CFG)
     
     return model, oof_pred, oof_tar, oof_val, oof_names, oof_folds
 
@@ -172,7 +137,7 @@ def get_oof_target_names(files_valid, oof_tar, oof_folds, oof_names, CFG, fold):
     return oof_tar, oof_folds, oof_names
 
 
-def train(CFG, CFG2, strategy, replicas):
+def train(CFG, CFG2, replicas, strategy):
     skf = KFold(n_splits=CFG.FOLDS, shuffle=True, random_state=CFG.SEED)
     oof_pred = []
     oof_tar = []
@@ -240,8 +205,77 @@ def train(CFG, CFG2, strategy, replicas):
                 "LR_SCHED",
                 "MODEL",
             ],)
-        model, oof_pred, oof_tar, oof_val, oof_names, oof_folds = \
-            train_one_fold(CFG, strategy, fold, files_train, files_valid, oof_pred, oof_tar, oof_val, oof_names, oof_folds)
+        
+        K.clear_session()
+        with strategy.scope():
+            model = tr_fn.create_model.fn(CFG, class_dict)
+
+        # TRAIN
+        logger.info("Training...")
+        history = model.fit(
+            tr_fn.get_training_dataset(files_train, CFG),
+            epochs=CFG.EPOCHS,
+            callbacks=tr_fn.make_callbacks.fn(CFG),
+            steps_per_epoch=CFG.STEPS_PER_EPOCH,
+            validation_data=tr_fn.get_validation_dataset(
+                files_valid, CFG
+            ),  # class_weight = {0:1,1:2},
+            verbose=CFG.VERBOSE,
+        )
+
+        # PREDICT OOF USING TTA
+        logger.info("Predicting OOF with TTA...")
+        ds_valid = (tr_fn.get_validation_dataset(files_valid, CFG),)
+        ct_valid = tr_fn.count_data_items.fn(files_valid)
+        STEPS = CFG.TTA * ct_valid / CFG.BATCH_SIZES / 4 / CFG.REPLICAS
+        pred = model.predict(ds_valid, steps=STEPS, verbose=CFG.VERBOSE)[
+            : CFG.TTA * ct_valid,
+        ]
+        oof_pred.append(np.mean(pred.reshape((ct_valid, CFG.TTA), order="F"), axis=1))
+        # oof_pred.append(model.predict(get_dataset(files_valid,dim=CFG.IMAGE_SIZE),verbose=1))
+
+        # GET OOF TARGETS AND NAMES
+        ds_valid = tr_fn.get_dataset(
+            files_valid,
+            CFG,
+            augment=False,
+            repeat=False,
+            dim=CFG.IMAGE_SIZE,
+            labeled=True,
+            return_image_names=True,
+        )
+        oof_tar.append(
+            np.array([target.numpy() for img, target in iter(ds_valid.unbatch())])
+        )
+        oof_folds.append(np.ones_like(oof_tar[-1], dtype="int8") * fold)
+        ds = tr_fn.get_dataset(
+            files_valid,
+            CFG,
+            augment=False,
+            repeat=False,
+            dim=CFG.IMAGE_SIZE,
+            labeled=False,
+            return_image_names=True,
+        )
+        oof_names.append(
+            np.array(
+                [
+                    img_name.numpy().decode("utf-8")
+                    for img, img_name in iter(ds.unbatch())
+                ]
+            )
+        )
+
+        # REPORT RESULTS
+        auc = roc_auc_score(oof_tar[-1], oof_pred[-1])
+        oof_val.append(np.max(history.history["val_auc"]))
+        logger.info(
+            f"#### FOLD {fold + 1} OOF AUC without TTA = {oof_val[-1]}, with TTA = {auc}"
+        )
+
+        # PLOT TRAINING
+        if CFG.DISPLAY_PLOT:
+            tr_fn.plot_training(history, fold, CFG)
         
         wandb.finish()
 
@@ -264,4 +298,4 @@ if __name__ == "__main__":
     logger.debug(f"Tensorflow version {tf.__version__}")
 
     # main(CFG2, CFG, replicas, strategy)
-    train(CFG, CFG2, strategy, replicas)
+    train(CFG, CFG2, replicas, strategy)
