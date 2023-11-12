@@ -1,9 +1,9 @@
 import tensorflow as tf
 import wandb
-from prefect import task, Flow
+# from prefect import task, Flow
 
 
-@task
+# @task
 def make_callbacks(CFG):
     options = tf.saved_model.SaveOptions(
         experimental_io_device="/job:localhost"
@@ -36,7 +36,7 @@ def make_callbacks(CFG):
     return callbacks
 
 
-@task
+# @task
 def create_model(CFG, class_dict):
     # model = tf.keras.models.load_model(CFG.ROOT / 'base_models' / CFG.MODEL, compile=False)  # For use with TPU-VM's/GPU's
     model = tf.keras.models.load_model(
@@ -44,7 +44,7 @@ def create_model(CFG, class_dict):
     )  # For use with Colab TPU/ TPU nodes
 
     loss = tf.keras.losses.SparseCategoricalCrossentropy()
-    opt = create_optimizer.fn(CFG)
+    opt = create_optimizer(CFG)
     top3_acc = tf.keras.metrics.SparseTopKCategoricalAccuracy(
         k=3, name="sparse_top_3_categorical_accuracy"
     )
@@ -69,7 +69,7 @@ def create_model(CFG, class_dict):
 #         return self.initial_learning_rate / (step + 1)
 
 
-@task
+# @task
 def get_lr_callback(*args, batch_size=8):
     def lrfn(epoch):
         if epoch < args.lr_ramp_ep:
@@ -89,7 +89,7 @@ def get_lr_callback(*args, batch_size=8):
     return lr_callback
 
 
-@task
+# @task
 def create_optimizer(CFG):
     if CFG.LR_SCHED == "CosineWarmup":
         learning_rate_fn = tf.keras.optimizers.schedules.CosineDecay(
