@@ -154,6 +154,7 @@ def train(CFG, CFG2, replicas, strategy):
     }
     GCS_RECORDS_CONVERTER = {
         192: 25,
+        224: 33,
         256: 50,
         384: 75,
         512: 100,
@@ -186,7 +187,7 @@ def train(CFG, CFG2, replicas, strategy):
         logger.info(
             f"# Image Size {CFG.IMAGE_SIZE} with Model {CFG.MODEL} and batch_sz {CFG.BATCH_SIZE}"
         )
-
+        config=wandb.helper.parse_config(CFG, include=('ALPHA', 'AUGMENT', 'BATCH_SIZE', 'EPOCHS', 'ES_PATIENCE', 'FOLDS', 'IMAGE_SIZE', 'LR_START', 'MODEL_SIZE', 'SEED', 'TTA', ''))
         wandb.init(
             project="Mushroom-Classifier", tags=[CFG.MODEL, CFG.OPT, CFG.LR_SCHED, str(CFG.IMAGE_SIZE[0]), str(fold)],
             config=CFG, dir="../", group='cross_val',

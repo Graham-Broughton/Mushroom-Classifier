@@ -20,7 +20,7 @@ def tpu_test():
 
     if tpu:
         tf.tpu.experimental.initialize_tpu_system(tpu)
-        strategy = tf.distribute.experimental.TPUStrategy(tpu)
+        strategy = tf.distribute.TPUStrategy(tpu)
     else:
         strategy = tf.distribute.get_strategy() # Default strategy that works on CPU and single GPU
         print('Running on CPU instead')
