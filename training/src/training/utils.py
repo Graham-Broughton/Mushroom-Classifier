@@ -2,10 +2,10 @@ import numpy as np
 import tensorflow as tf
 import os
 import re
-from prefect import task, Flow
+# from prefect import task, Flow
 
 
-@task
+# @task
 def tpu_test():
     # Detect hardware
     # cluster_resolver = tf.distribute.cluster_resolver.TPUClusterResolver(tpu='local')
@@ -28,7 +28,7 @@ def tpu_test():
     return strategy, replicas
 
 
-@task
+# @task
 def get_new_cfg(replicas, CFG, train_filenames, val_filenames):
     CFG = CFG(
         REPLICAS=replicas,
@@ -38,21 +38,21 @@ def get_new_cfg(replicas, CFG, train_filenames, val_filenames):
     return CFG
 
 
-@task
+# @task
 def count_data_items(filenames):
     n = [int(re.compile(r"-([0-9]*)\.").search(filename).group(1)) 
          for filename in filenames]
     return np.sum(n)
 
 
-@task
+# @task
 def set_seed(seed=42):
     os.environ['PYTHONHASHSEED'] = str(seed)
     np.random.seed(seed)
     tf.random.set_seed(seed)
 
 
-@task
+# @task
 def select_dataset(CFG2):
     GCS_PATH_SELECT = {
         192: f"gs://{CFG2.GCS_REPO}/tfrecords-jpeg-192x192",

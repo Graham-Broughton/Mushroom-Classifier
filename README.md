@@ -3,7 +3,7 @@
 ## An SMS based app by Graham Broughton
 
 ## About the Project
-This repository contains all the code required to train and deploy a Swin (Shifted WINdows) transformer model, including downloading images, for mushroom classification. The images came from a few different sources, mostly the FGVCX 2021 & 2018 competitions mostly hosted on Kaggle. These sources supplied the model with ~100 000 images to train on containing ~470 species. This project used Google Cloud's TPU v3-8 VM's, which drastically reduced epoch time to 30-60 seconds. The training protocol resulted in validation accuracies ~80% top1 and ~96% top3 for images of resolution (224, 224). To deploy the model as an SMS based service, Twilio webhooks were set up to automatically respond to the client's number with an SMS, only if the message contained at least one photo. This project was designed with ease of use in mind, Makefile's were relied upon heavily to simplify operation down to a single word. Along the same lines, Terraform was used to simplify and ensure the proper GCP resources are requisitioned.
+This repository contains all the code required to train and deploy a Swin (Shifted WINdows) transformer model, including downloading images, for mushroom classification. The images came from a few different sources, mostly the FGVCX 2021 & 2018 competitions mostly hosted on Kaggle. These sources supplied the model with ~100 000 images to train on containing ~470 species. This project used Google Cloud's TPU v3-8 VM's, which drastically reduced epoch time to 30-60 seconds. The training protocol resulted in validation accuracies ~80% top1 and ~96% top3 for images of resolution (224, 224). To deploy the model as an SMS based service, Twilio webhooks were set up to automatically respond to the client's number with an SMS, only if the message contained at least one photo. This project was designed with ease of use in mind, Makefile's were relied upon heavily to simplify operations down to a single word. <Along the same lines, Terraform was used to simplify and ensure the proper GCP resources are requisitioned.>
 
 ## Getting Started
 
@@ -15,7 +15,7 @@ This repository contains all the code required to train and deploy a Swin (Shift
 - Create two other service accounts and save the credentials: 
   - the first one will need admin privileges (Terraform)
   - the second will be for managing permissions around the files so leave it blank for
-- Install Poetry
+- Install Poetry & set up a Weights and Biases account for MLOPs
 
 ### Installation:
 
@@ -23,22 +23,20 @@ This repository contains all the code required to train and deploy a Swin (Shift
 
     `git clone https://github.com/Graham-Broughton/Mushroom-Classifier`
 
-2. Create an .env file in the root directory from the .envsample template provided
-3. Move the Terraform JSON credentials into the 'infrastructure' folder, rename to terraform-account.json
+2. Create an .env file in the root directory using the .envsample file as a template
+3. Move the Terraform JSON credentials into the 'infrastructure' folder, rename it to terraform-account.json (the other ones can just styy in the root dir)
 
 ## Usage
 
-As stated previously, this project was designed to be very easy to use while still permitting broad user configurability. In this section, we will cover the makefile commands provided and area's for user configurations.
+As stated previously, this project was designed to be very easy to use while still permitting broad user configurability. In this section, we will cover the makefile commands provided and areas for user configurations.
 
-### Pre-Use Configuration
+### Important Make Commands
 
-1. `make build` Installs the requirements in a virtual environment managed by Poetry
-2. `make dotenvs` Adds to, and copies the .env file you created to all the places it needs to be
-
-### Data Preprocessing
-
-1. `make datasets_of_interest` Downloads the required datasets that contain GPS data (FGVCX 2018 & 2021) using the respective make commands. You will need around 350Gb of disk space for this step. The data strain is much lower when preprocessing is complete, you can create a new VM with much less disk space afterwords.
-2. ``
+1. `make init` Installs the requirements in a virtual environment managed by Poetry & copies the .env file to needed locations.
+2. `make dotenv` Adds to, and copies the .env file you created to all the places it needs to be.
+3. `make -j2 datasets_of_interest` Download & extracts the required datasets (FGVCX 2018 & 2021). You will need around 700Gb of disk space for this step. The data strain is much lower when preprocessing is complete, you can create a new VM with much less disk space afterwords.
+4. `make tfrecords` Removes non-fungal images and processes and combines the associated json data from the datasets into a useable dataframe. This dataframe is then used for processing the images and important metadata into TFRecords.
+5. `make deploy` Download the latest model version from Weights and Biases and deploy it.
 
 
 

@@ -71,7 +71,7 @@ preprocess_data:
 	@poetry run python training/src/data_processing/preprocessing.py
 	@echo "Finished preprocessing data..."
 
-tfrecords: training/data/train.csv
+tfrecords: preprocess_data
 	@echo "Creating tfrecords..."
 	@: $(eval IMG_DIR := $(shell bash -c 'read -p "Where are the images located (OPTIONAL, default: ./training/data/raw)? " image_path; echo $$image_path'))
 	@: $(eval TFREC_DIR := $(shell bash -c 'read -p "Where should the tfrecords be saved (OPTIONAL, default: ./training/data/)? " tfrecord_path; echo $$tfrecord_path'))
@@ -138,6 +138,7 @@ help:
 	@echo "========================================="
 	@echo "build:             					- Install the dependencies"
 	@echo "dotenv:            					- Create the .env files"
+	@echo "init:              					- Initialize the environment"
 	@echo "all_datasets:      					- Download all dataset years"
 	@echo "fgvcx_2018:        					- Download the 2018 dataset"
 	@echo "fgvcx_2019:        					- Download the 2019 dataset"
@@ -145,9 +146,6 @@ help:
 	@echo "preprocess_data:   					- Preprocess the data & tidy unused files"
 	@echo "tfrecords:         					- Convert the images to tfrecords with many user options"	
 	@echo "download_model_weights: 				- Download Tensorflow model weights from a GitHub repo"
-	@echo "build_old_tf:      					- Build the tensorflow 2.10.0 environment, needed to resave model weights into SavedModel format"
-	@echo "resave_base_model_weights:				- Resave the model weights into a SavedModel format"
-	@echo "get_base_models:   					- Download the re-saved models"
 	@echo "get_deploy_model:  					- Download the latest registered model from wandb"
 	@echo "deploy:            					- Deploy the model to a local server using ngrok"
 	@echo "terraform:         					- Deploy the model to GCP using Terraform"
