@@ -17,23 +17,21 @@ def decode_image(image_data, CFG):
 # @task
 def read_labeled_tfrecord(CFG, example):
     feature_description = {
-        "image/encoded": tf.io.FixedLenFeature([], tf.string),
-        "image/id": tf.io.FixedLenFeature([], tf.string),
-        "image/meta/dataset": tf.io.FixedLenFeature([], tf.int64),
-        "image/meta/longitude": tf.io.FixedLenFeature([], tf.float32),
-        "image/meta/latitude": tf.io.FixedLenFeature([], tf.float32),
-        "image/meta/date": tf.io.FixedLenFeature([], tf.string),
-        "image/meta/class_priors": tf.io.FixedLenFeature([], tf.float32),
-        "image/class/label": tf.io.FixedLenFeature([], tf.int64),
-        "image/class/text": tf.io.FixedLenFeature([], tf.string),
+        "image": tf.io.FixedLenFeature([], tf.string),
+        "dataset": tf.io.FixedLenFeature([], tf.int64),
+        "longitude": tf.io.FixedLenFeature([], tf.float32),
+        "latitude": tf.io.FixedLenFeature([], tf.float32),
+        "norm_date": tf.io.FixedLenFeature([], tf.float32),
+        "class_priors": tf.io.FixedLenFeature([], tf.float32),
+        "class_id": tf.io.FixedLenFeature([], tf.int64),
     }
     example = tf.io.parse_single_example(example, feature_description)
     # image = tf.image.decode_jpeg(example["image/encoded"], channels=3)
     # image = decode_image(example["image/encoded"], CFG)
     # image = tf.reshape(image, [*CFG.IMAGE_SIZE, 3]) # explicit size needed for TPU
     # image = tf.cast(image, tf.float32)
-    label = tf.cast(example["image/class/label"], tf.int32)
-    return example["image/encoded"], label
+    label = tf.cast(example["class_id"], tf.int32)
+    return example["image"], label
 
 
 def read_unlabeled_tfrecord(example):
@@ -141,12 +139,12 @@ def transform(image, CFG):
     DIM = CFG.IMAGE_SIZE[0]
     XDIM = DIM % 2  # fix for size 331   
 
-    rot = CFG.ROT_ * tf.random.normal([1], dtype='float32')
-    shr = CFG.SHR_ * tf.random.normal([1], dtype='float32')
-    h_zoom = 1.0 + tf.random.normal([1], dtype='float32') / CFG.HZOOM_
-    w_zoom = 1.0 + tf.random.normal([1], dtype='float32') / CFG.WZOOM_
-    h_shift = CFG.HSHIFT_ * tf.random.normal([1], dtype='float32')
-    w_shift = CFG.WSHIFT_ * tf.random.normal([1], dtype='float32')
+    rot = 15. * tf.random.normal([1], dtype='float32')
+    shr = 5. * tf.random.normal([1], dtype='float32')
+    h_zoom = 1.0 + tf.random.normal([1], dtype='float32') / 10.
+    w_zoom = 1.0 + tf.random.normal([1], dtype='float32') / 10.
+    h_shift = 16. * tf.random.normal([1], dtype='float32')
+    w_shift = 16. * tf.random.normal([1], dtype='float32')
 
     # GET TRANSFORMATION MATRIX
     m = get_mat(rot, shr, h_zoom, w_zoom, h_shift, w_shift)

@@ -54,10 +54,17 @@ def main(CFG, CFG2, replicas, strategy):
         for image, label in tr_fn.get_training_dataset(train_filenames, CFG).take(3):
             logger.debug(f"{image.numpy().shape, label.numpy().shape}")
         logger.debug(f"Training data label examples: {label.numpy()}")
+
         logger.debug("Validation data shapes:")
         for image, label in tr_fn.get_validation_dataset(val_filenames, CFG).take(3):
             logger.debug(f"{image.numpy().shape, label.numpy().shape}")
         logger.debug(f"Validation data label examples: {label.numpy()}")
+
+        # Peek at training data
+        training_dataset = tr_fn.get_training_dataset()
+        training_dataset = training_dataset.unbatch().batch(20)
+        train_batch = iter(training_dataset)
+        tr_fn.display_batch_of_images(next(train_batch))
 
     logger.info("Building Model...")
     with strategy.scope():
@@ -68,8 +75,8 @@ def main(CFG, CFG2, replicas, strategy):
         tr_fn.get_training_dataset(train_filenames, CFG),
         steps_per_epoch=CFG.STEPS_PER_EPOCH,
         epochs=CFG.EPOCHS,
-        # validation_data=tr_fn.get_validation_dataset(val_filenames, CFG),
-        # validation_steps=CFG.VALIDATION_STEPS,
+        validation_data=tr_fn.get_validation_dataset(val_filenames, CFG),
+        validation_steps=CFG.VALIDATION_STEPS,
         callbacks=tr_fn.make_callbacks.fn(CFG),
     )
 
@@ -187,10 +194,12 @@ def train(CFG, CFG2, replicas, strategy):
         logger.info(
             f"# Image Size {CFG.IMAGE_SIZE} with Model {CFG.MODEL} and batch_sz {CFG.BATCH_SIZE}"
         )
-        config=wandb.helper.parse_config(CFG, include=('ALPHA', 'AUGMENT', 'BATCH_SIZE', 'EPOCHS', 'ES_PATIENCE', 'FOLDS', 'IMAGE_SIZE', 'LR_START', 'MODEL_SIZE', 'SEED', 'TTA', ''))
+        config=wandb.helper.parse_config(
+            CFG, include=('ALPHA', 'AUGMENT', 'BATCH_SIZE', 'EPOCHS', 'ES_PATIENCE', 'FOLDS', 'IMAGE_SIZE', 'LR_START', 'MODEL_SIZE', 'SEED', 'TTA')
+        )
         wandb.init(
             project="Mushroom-Classifier", tags=[CFG.MODEL, CFG.OPT, CFG.LR_SCHED, str(CFG.IMAGE_SIZE[0]), str(fold)],
-            config=CFG, dir="../", group='cross_val',
+            config=config, dir="../", group='cross_val',
             config_exclude_keys=[
                 "DEBUG",
                 "GCS_REPO",
@@ -228,7 +237,7 @@ def train(CFG, CFG2, replicas, strategy):
         logger.info("Predicting OOF with TTA...")
         ds_valid = (tr_fn.get_validation_dataset(files_valid, CFG),)
         ct_valid = tr_fn.count_data_items.fn(files_valid)
-        STEPS = CFG.TTA * ct_valid / CFG.BATCH_SIZES / 4 / CFG.REPLICAS
+        STEPS = CFG.TTA * ct_valid / CFG.BATCH_SIZE / 4 / CFG.REPLICAS
         pred = model.predict(ds_valid, steps=STEPS, verbose=CFG.VERBOSE)[
             : CFG.TTA * ct_valid,
         ]
@@ -299,4 +308,4 @@ if __name__ == "__main__":
     logger.debug(f"Tensorflow version {tf.__version__}")
 
     # main(CFG2, CFG, replicas, strategy)
-    train(CFG, CFG2, replicas, strategy)
+    main(CFG, CFG2, replicas, strategy)
