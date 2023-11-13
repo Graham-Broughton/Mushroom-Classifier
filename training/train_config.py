@@ -16,7 +16,7 @@ SAVE_TIME = datetime.now().strftime("%m%d-%H%M")
 
 
 @dataclass
-class GCFG:
+class CFG:
     # GENERAL SETTINGS
     SEED: int = 32
     VERBOSE: int = 2
@@ -53,17 +53,13 @@ class GCFG:
     AUGMENT: bool = True
     TTA: int = 11
     EPOCHS: int = 30
-    BASE_BATCH_SIZE: int = 32
+    BASE_BATCH_SIZE: int = 4
     BATCH_SIZE: int = 0
     NUM_TRAINING_IMAGES: int = 0
     NUM_VALIDATION_IMAGES: int = 0
     STEPS_PER_EPOCH: int = 0
     VALIDATION_STEPS: int = 0    
 
-
-@dataclass
-class CFG(GCFG):
-    # TRAIN SETTINGS
     ## LEARNING RATE SETTINGS
     ### Cosine
     # LR_START: float = 0.0001
@@ -76,14 +72,3 @@ class CFG(GCFG):
     # ### CosineRestarts
     # LR_START: float = 0.00001
     # ALPHA: float = 0.00005
-
-    ### InverseTime
-
-    def __post_init__(self):
-        self.BATCH_SIZE = self.BASE_BATCH_SIZE * self.REPLICAS
-        self.STEPS_PER_EPOCH = (
-            self.NUM_TRAINING_IMAGES / self.BATCH_SIZE // self.REPLICAS
-        )
-        self.VALIDATION_STEPS = (
-            self.NUM_VALIDATION_IMAGES / self.BATCH_SIZE // self.REPLICAS
-        )
