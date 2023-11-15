@@ -1,27 +1,101 @@
-import os, pickle
+from tensorflow import keras
 import tensorflow as tf
-from datetime import datetime
-import wandb
-from wandb.keras import WandbCallback, WandbModelCheckpoint
+from tensorflow.keras import layers, models
+from sklearn.model_selection import train_test_split
+import os
+from pickle import load
+import re
 import numpy as np
+import wandb
 from loguru import logger
-# from prefect import task, flow
-# import mlflow
-# from sklearn.metrics import f1_score, precision_score, recall_score, confusion_matrix
-import src as tr_fn
-from src.visuals import training_viz
-from train_config import CFG, GCFG
+from train_config import CFG
+import warnings
+from tfswin import SwinTransformerV2Large256, preprocess_input
+warnings.simplefilter(action="ignore", category=FutureWarning)
+warnings.simplefilter(action="ignore", category=Warning)
 
+CFG = CFG()
+
+try:  # detect TPUs
+    tpu = tf.distribute.cluster_resolver.TPUClusterResolver(tpu='local')  # TPU detection
+    tf.config.experimental_connect_to_cluster(tpu)
+    tf.tpu.experimental.initialize_tpu_system(tpu)
+    strategy = tf.distribute.TPUStrategy(tpu)
+except ValueError:  # detect GPUs
+    strategy = tf.distribute.get_strategy()  # default strategy that works on CPU and single GPU
+
+REPLICAS = strategy.num_replicas_in_sync
+print("Number of Accelerators: ", strategy.num_replicas_in_sync)
 
 AUTO = tf.data.experimental.AUTOTUNE
-class_dict = pickle.load(open("class_dict.pkl", "rb"))
+class_dict = load(open("class_dict.pkl", "rb"))
 
-cluster_resolver = tf.distribute.cluster_resolver.TPUClusterResolver(tpu='local')
-tf.config.experimental_connect_to_cluster(cluster_resolver)
-tf.tpu.experimental.initialize_tpu_system(cluster_resolver)
-strategy = tf.distribute.TPUStrategy(cluster_resolver)
-replicas = strategy.num_replicas_in_sync
 
+def count_data_items(filenames):
+    n = [int(re.compile(r"-([0-9]*)\.").search(filename).group(1)) 
+         for filename in filenames]
+    return np.sum(n)
+
+def decode_image(image_data, CFG):
+    image = tf.image.decode_jpeg(image_data, channels=3)  # image format uint8 [0,255]
+    image = tf.cast(image, tf.uint8)
+    image = tf.image.resize_with_crop_or_pad(image, 384, 384)
+    image = tf.image.resize(image, size=CFG.IMAGE_SIZE, method="lanczos5")
+    
+    return image
+
+def read_labeled_tfrecord(example, CFG):
+    feature_description = {
+        "image/encoded": tf.io.FixedLenFeature([], tf.string),
+        "image/id": tf.io.FixedLenFeature([], tf.string),
+        "image/meta/dataset": tf.io.FixedLenFeature([], tf.int64),
+        "image/meta/longitude": tf.io.FixedLenFeature([], tf.float32),
+        "image/meta/latitude": tf.io.FixedLenFeature([], tf.float32),
+        "image/meta/date": tf.io.FixedLenFeature([], tf.string),
+        "image/meta/class_priors": tf.io.FixedLenFeature([], tf.float32),
+        "image/class/label": tf.io.FixedLenFeature([], tf.int64),
+        "image/class/text": tf.io.FixedLenFeature([], tf.string),
+    }
+    example = tf.io.parse_single_example(example, feature_description)
+    image = decode_image(example["image/encoded"], CFG)
+    label = tf.cast(example["image/class/label"], tf.int32)
+    return image, label
+
+def load_dataset(filenames, CFG):
+  # read from TFRecords. For optimal performance, read from multiple
+  # TFRecord files at once and set the option experimental_deterministic = False
+  # to allow order-altering optimizations.
+
+  option_no_order = tf.data.Options()
+  option_no_order.experimental_deterministic = False
+
+  dataset = tf.data.TFRecordDataset(filenames, num_parallel_reads=AUTO)
+  dataset = dataset.with_options(option_no_order)
+  dataset = dataset.map(lambda x: read_labeled_tfrecord(x, CFG), num_parallel_calls=AUTO)
+  return dataset
+
+def get_model(model_url: str, res: int = 256, num_classes: int = 467) -> tf.keras.Model:
+    inputs = layers.Input(shape=(*res, 3), dtype='int8')
+    outputs = SwinTransformerV2Large256(include_top=False, pooling='avg', input_shape=[*res, 3])(inputs)
+    outputs = layers.Dense(num_classes, activation='softmax')(outputs)
+    model = models.Model(inputs=inputs, outputs=outputs)
+
+    return model
+
+def get_batched_dataset(filenames, CFG, train=False):
+  dataset = load_dataset(filenames, CFG)
+  dataset = dataset.map(lambda x, y: (preprocess_input(x), y), num_parallel_calls=AUTO)
+  # dataset = dataset.cache() # This dataset fits in RAM
+  if train:
+    # Best practices for Keras:
+    # Training dataset: repeat then batch
+    # Evaluation dataset: do not repeat
+    dataset = dataset.repeat()
+    # dataset = dataset.shuffle(BATCH_SIZE * 10)
+  dataset = dataset.batch(CFG.BATCH_SIZE, drop_remainder=True)
+  dataset = dataset.prefetch(AUTO) # prefetch next batch while training (autotune prefetch buffer size)
+  # should shuffle too but this dataset was well shuffled on disk already
+  return dataset
 
 def main(CFG2, CFG, replicas):
     # strategy, replicas = tr_fn.tpu_test()
