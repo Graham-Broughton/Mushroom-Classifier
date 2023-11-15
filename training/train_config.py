@@ -3,7 +3,6 @@ from datetime import datetime
 from os import environ as env
 from pathlib import Path
 from typing import List
-
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -12,6 +11,7 @@ root = Path(env.get("PYTHONPATH").split(":")[0])
 training = root / "training"
 data = training / "data"
 raw_data = data / "raw"
+
 SAVE_TIME = datetime.now().strftime("%m%d-%H%M")
 
 
@@ -20,16 +20,14 @@ class CFG:
     # GENERAL SETTINGS
     SEED: int = 32
     VERBOSE: int = 2
-    REPLICAS: int = 1
     SAVE_TIME: datetime = SAVE_TIME
     DEBUG: bool = False
     FOLDS: int = 5
     DISPLAY_PLOT: bool = True
 
     # MODEL SETTINGS
-    MODEL: str = "swin_large_224"
-    MODEL_SIZE: int = 224
-    OPT: str = "Adam"
+    MODEL: str = "swinv2_large_256"
+    OPT: str = "AdamW"
     LR_SCHED: str = "CosineWarmup"
     WGTS: float = 1 / FOLDS
     ES_PATIENCE: int = 5
@@ -42,22 +40,20 @@ class CFG:
     GCS_REPO: str = env.get("GCS_REPO")
     GCS_BASE_MODELS: str = env.get("GCS_BASE_MODELS")
     LOG_FILE: Path = root / "logs" / f"{SAVE_TIME}.log"
-    CKPT_DIR: Path = ROOT.parent / "models" / MODEL / SAVE_TIME
+    CKPT_DIR: Path = ROOT / "models" / MODEL / SAVE_TIME
 
     # TFRECORD SETTINGS
-    NUM_TRAINING_RECORDS: int = 50
-    NUM_VALIDATION_RECORDS: int = 2
-    IMAGE_SIZE: List = field(default_factory=lambda: [224, 224])
+    NUM_TRAINING_RECORDS: int = 100
+    IMAGE_SIZE: List = field(default_factory=lambda: [256, 256])
 
     # DATASET SETTINGS
     AUGMENT: bool = True
     TTA: int = 11
     EPOCHS: int = 30
-    BASE_BATCH_SIZE: int = 4
+    BASE_BATCH_SIZE: int = 32
     BATCH_SIZE: int = 0
-    NUM_TRAINING_IMAGES: int = 0
-    NUM_VALIDATION_IMAGES: int = 0
-    STEPS_PER_EPOCH: int = 0
+    RAW_SIZE: int = 256
+    TRAIN_STEPS: int = 0
     VALIDATION_STEPS: int = 0    
 
     ## LEARNING RATE SETTINGS
@@ -71,4 +67,17 @@ class CFG:
 
     # ### CosineRestarts
     # LR_START: float = 0.00001
-    # ALPHA: float = 0.00005
+    # ALPHA: float = 0.00005    
+
+    def get_warmup_steps(self, steps_multiplier=1.0):
+        self.WARMUP_STEPS = int(self.TRAIN_STEPS * steps_multiplier)
+        return self.WARMUP_STEPS
+    
+    def get_steps(self, num_train_images, num_val_images, batch_size):
+        self.TRAIN_STEPS = num_train_images // batch_size
+        self.VALIDATION_STEPS = num_val_images // batch_size
+        return self.TRAIN_STEPS, self.VALIDATION_STEPS
+    
+    def get_batch_size(self, replicas):
+        self.BATCH_SIZE = self.BASE_BATCH_SIZE * replicas
+        return self.BASE_BATCH_SIZE * replicas
