@@ -1,20 +1,22 @@
-import os
-import pickle
-import sys
-
-import numpy as np
-import src as tr_fn
+from tensorflow import keras
 import tensorflow as tf
 import tensorflow.keras.backend as K
+from tensorflow.keras import layers, models
+from sklearn.model_selection import train_test_split
+from pickle import load
+import re
+import math
+import numpy as np
+import matplotlib.pyplot as plt
 import wandb
 from loguru import logger
-from sklearn.metrics import roc_auc_score
+from train_config import CFG
+import warnings
+from tfswin import SwinTransformerV2Large256, preprocess_input
+warnings.simplefilter(action="ignore", category=FutureWarning)
+warnings.simplefilter(action="ignore", category=Warning)
 
-# import mlflow
-from sklearn.model_selection import KFold
-from train_config import CFG, GCFG
-
-from prefect import Flow
+CFG = CFG()
 
 
 # @Flow
