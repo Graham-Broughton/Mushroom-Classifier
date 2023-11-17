@@ -58,13 +58,13 @@ def int64_feature(value):
 def serialize_example(
     feature0: str,
     feature1: str,
-    feature2: int,
+    feature2: float,
     feature3: float,
-    feature4: float,
-    feature5: str,
-    feature6: float,
+    feature4: str,
+    feature5: float,
+    feature6: int,
     feature7: int,
-    feature8: str,
+    feature8: int,
 ):
     """This function serializes an example with given features.
 
@@ -74,13 +74,13 @@ def serialize_example(
     feature = {
         "image/encoded": bytes_feature(feature0),
         "image/id": bytes_feature(feature1),
-        "image/meta/dataset": int64_feature(feature2),
-        "image/meta/longitude": float_feature(feature3),
-        "image/meta/latitude": float_feature(feature4),
-        "image/meta/date": bytes_feature(feature5),
-        "image/meta/class_priors": float_feature(feature6),
-        "image/class/label": int64_feature(feature7),
-        "image/class/text": bytes_feature(feature8),
+        "image/meta/longitude": float_feature(feature2),
+        "image/meta/latitude": float_feature(feature3),
+        "image/meta/date": bytes_feature(feature4),
+        "image/meta/class_priors": float_feature(feature5),
+        "image/meta/width": int64_feature(feature6),
+        "image/meta/height": int64_feature(feature7),
+        "image/class/label": int64_feature(feature8),
     }
     example_proto = tf.train.Example(features=tf.train.Features(feature=feature))
     return example_proto.SerializeToString()
@@ -123,50 +123,46 @@ def write_sp_tfrecords(
     # tqdm_logger = logger.add(lambda msg: tqdm.write(msg, end=""))
 
     # load dataframes and iterate over them
-    train, val = load_dataframe(root_path=img_path)
-    for df, dset in zip([train, val], ["train", "val"]):
-        num_records = num_train_records if dset == "train" else num_val_records
-        IMGS, SIZE, CT = get_data(df, num_records)
+    df = load_dataframe(root_path=img_path)
+    num_records = num_train_records
+    IMGS, SIZE, CT = get_data(df, num_records)
 
-        # iterate over the number of tfrecords
-        for j in trange(CT):
-            logger.info(f"Writing {j:02d} of {CT} {dset} tfrecords")
-            CT2 = min(
-                SIZE, len(IMGS) - j * SIZE
-            )  # get the number of images in a tfrecord
+    # iterate over the number of tfrecords
+    for j in trange(CT):
+        logger.info(f"Writing {j:02d} of {CT} tfrecords")
+        CT2 = min(
+            SIZE, len(IMGS) - j * SIZE
+        )  # get the number of images in a tfrecord
 
-            # create the path to write the tfrecord to
-            path = tfrec_path / f"tfrecords-jpeg-{reshape_size}x{reshape_size}"
-            path.mkdir(parents=True, exist_ok=True)
+        # create the path to write the tfrecord to
+        path = tfrec_path / f"tfrecords-jpeg-{reshape_size}x{reshape_size}"
+        path.mkdir(parents=True, exist_ok=True)
 
-            with tf.io.TFRecordWriter(
-                str(path / f"{dset}{j:02d}-{CT2}.tfrec")
-            ) as writer:
-                for k in trange(CT2, leave=False):  # for each image in the tfrecord
-                    if k % 100 == 0:
-                        logger.info(f"Writing {k:02d} of {CT2} {dset} tfrecord images")
+        with tf.io.TFRecordWriter(
+            str(path / f"train{j:02d}-{CT2}.tfrec")
+        ) as writer:
+            for k in trange(CT2, leave=False):  # for each image in the tfrecord
+                if k % 100 == 0:
+                    logger.info(f"Writing {k:02d} of {CT2} train tfrecord images")
 
-                    # load image from disk, change RGB to cv2 default BGR format, resize to reshape_sizes and encode as jpeg
-                    img = cv2.imread(str(img_path / f"{IMGS[SIZE * j + k]}"))
-                    # img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-                    img = cv2.resize(img, (reshape_size, reshape_size), cv2.INTER_CUBIC)
-                    img = cv2.imencode(".jpg", img)[1].tobytes()
+                # load image from disk, change RGB to cv2 default BGR format, resize to reshape_sizes and encode as jpeg
+                img = cv2.imread(str(img_path / f"{IMGS[SIZE * j + k]}"))
+                img = cv2.imencode(".jpg", img)[1].tobytes()
 
-                    # read specific row from dataframe to get data and serialize it
-                    row = df.loc[df.file_path == IMGS[SIZE * j + k]].iloc[0]
-                    example = serialize_example(
-                        img,
-                        row.file_name.split(".")[0],
-                        row.dataset,
-                        row.longitude,
-                        row.latitude,
-                        row.date,
-                        row.class_priors,
-                        row.class_id,
-                        f"{row.genus}_{row.specific_epithet}",
-                    )
-                    writer.write(example)
-
+                # read specific row from dataframe to get data and serialize it
+                row = df.loc[df.file_path == IMGS[SIZE * j + k]].iloc[0]
+                example = serialize_example(
+                    img,
+                    row.file_name.split(".")[0],
+                    row.longitude,
+                    row.latitude,
+                    row.date,
+                    row.class_priors,
+                    row.width,
+                    row.height,
+                    row.class_id,
+                )
+                writer.write(example)
 
 def get_mp_params(
     tfrec_path: Path, num_records: int, reshape_size: int, df: pd.DataFrame
