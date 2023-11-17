@@ -2,17 +2,11 @@ import numpy as np
 import tensorflow as tf
 import os
 import re
-# from prefect import task, Flow
+import random
 
 
-# @task
 def tpu_test():
     # Detect hardware
-    # cluster_resolver = tf.distribute.cluster_resolver.TPUClusterResolver(tpu='local')
-    # tf.config.experimental_connect_to_cluster(cluster_resolver)
-    # tf.tpu.experimental.initialize_tpu_system(cluster_resolver)
-    # strategy = tf.distribute.TPUStrategy(cluster_resolver)
-
     try:
         tpu = tf.distribute.cluster_resolver.TPUClusterResolver(tpu='local')
     except ValueError: 
@@ -27,8 +21,6 @@ def tpu_test():
     replicas = strategy.num_replicas_in_sync
     return strategy, replicas
 
-
-# @task
 def get_new_cfg(replicas, CFG, train_filenames, val_filenames):
     CFG = CFG(
         REPLICAS=replicas,
@@ -37,22 +29,18 @@ def get_new_cfg(replicas, CFG, train_filenames, val_filenames):
     )
     return CFG
 
-
-# @task
 def count_data_items(filenames):
     n = [int(re.compile(r"-([0-9]*)\.").search(filename).group(1)) 
          for filename in filenames]
     return np.sum(n)
 
+def seed_all(s):
+    random.seed(s)
+    np.random.seed(s)
+    tf.random.set_seed(s)
+    os.environ['TF_CUDNN_DETERMINISTIC'] = '1'
+    os.environ['PYTHONHASHSEED'] = str(s) 
 
-# @task
-def set_seed(seed=42):
-    os.environ['PYTHONHASHSEED'] = str(seed)
-    np.random.seed(seed)
-    tf.random.set_seed(seed)
-
-
-# @task
 def select_dataset(CFG2):
     GCS_PATH_SELECT = {
         192: f"gs://{CFG2.GCS_REPO}/tfrecords-jpeg-192x192",
@@ -60,6 +48,7 @@ def select_dataset(CFG2):
         256: f"gs://{CFG2.GCS_REPO}/tfrecords-jpeg-256x256",
         384: f"gs://{CFG2.GCS_REPO}/tfrecords-jpeg-384x384",
         512: f"gs://{CFG2.GCS_REPO}/tfrecords-jpeg-512x512",
+        None: f"gs://{CFG2.GCS_REPO}/tfrecords-jpeg-raw",
     }
     GCS_PATH = GCS_PATH_SELECT[CFG2.IMAGE_SIZE[0]]
 

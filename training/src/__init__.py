@@ -8,3 +8,4 @@ from src.training.utils import (
     tpu_test,
 )
 from src.visuals.training_viz import display_batch_of_images
+from src.training.pathrecordsconverter import PathRecordsConverter
