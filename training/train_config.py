@@ -24,6 +24,7 @@ class CFG:
     DEBUG: bool = False
     FOLDS: int = 5
     DISPLAY_PLOT: bool = True
+    FIRST_FOLD_ONLY: bool = False
 
     # MODEL SETTINGS
     MODEL: str = "swinv2_large_256"
@@ -31,6 +32,7 @@ class CFG:
     LR_SCHED: str = "CosineWarmup"
     WGTS: float = 1 / FOLDS
     ES_PATIENCE: int = 5
+    ES_MONITOR: str = "val_accuracy"
 
     # PATHS
     ROOT: Path = root
@@ -44,17 +46,16 @@ class CFG:
 
     # TFRECORD SETTINGS
     NUM_TRAINING_RECORDS: int = 100
-    IMAGE_SIZE: List = field(default_factory=lambda: [256, 256])
+    GCS_IMAGE_SIZE: List = field(default_factory=lambda: [None, None])
 
     # DATASET SETTINGS
     AUGMENT: bool = True
     TTA: int = 11
-    EPOCHS: int = 30
+    EPOCHS: int = 40
     BASE_BATCH_SIZE: int = 32
     BATCH_SIZE: int = 0
-    RAW_SIZE: int = 256
-    TRAIN_STEPS: int = 0
-    VALIDATION_STEPS: int = 0    
+    RAW_SIZE: List = field(default_factory=lambda: [384, 384])
+    CROP_SIZE: List = field(default_factory=lambda: [256, 256])
 
     ## LEARNING RATE SETTINGS
     ### Cosine
