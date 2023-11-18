@@ -13,7 +13,7 @@ environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
 import tensorflow as tf
 
-from training.train_config import GCFG as CFG
+from training.train_config import CFG
 
 CFG = CFG()
 warnings.filterwarnings("ignore")
@@ -107,7 +107,7 @@ def write_sp_tfrecords(
     tfrec_path: Path,
     img_path: Path,
     num_train_records: int,
-    num_val_records: int,
+    # num_val_records: int,
     reshape_size: int,
 ):
     """This function writes single process TFRecords.
@@ -321,14 +321,14 @@ if __name__ == "__main__":
         default=CFG.NUM_TRAINING_RECORDS,
         help="number of train records",
     )
-    argparser.add_argument(
-        "-v",
-        "--num-validation-records",
-        type=int,
-        nargs="?",
-        default=CFG.NUM_VALIDATION_RECORDS,
-        help="number of validation records",
-    )
+    # argparser.add_argument(
+    #     "-v",
+    #     "--num-validation-records",
+    #     type=int,
+    #     nargs="?",
+    #     default=CFG.NUM_VALIDATION_RECORDS,
+    #     help="number of validation records",
+    # )
     argparser.add_argument(
         "-s",
         "--img-size",
@@ -364,6 +364,6 @@ if __name__ == "__main__":
             args.tfrecords_directory,
             args.img_directory,
             args.num_train_records,
-            args.num_validation_records,
+            # args.num_validation_records,
             reshape_size=args.img_size,
         )
