@@ -60,11 +60,12 @@ def serialize_example(
     feature1: str,
     feature2: float,
     feature3: float,
-    feature4: str,
-    feature5: float,
-    feature6: int,
+    feature4: int,
+    feature5: int,
+    feature6: float,
     feature7: int,
     feature8: int,
+    feature9: int,
 ):
     """This function serializes an example with given features.
 
@@ -76,11 +77,12 @@ def serialize_example(
         "image/id": bytes_feature(feature1),
         "image/meta/longitude": float_feature(feature2),
         "image/meta/latitude": float_feature(feature3),
-        "image/meta/date": bytes_feature(feature4),
-        "image/meta/class_priors": float_feature(feature5),
-        "image/meta/width": int64_feature(feature6),
-        "image/meta/height": int64_feature(feature7),
-        "image/class/label": int64_feature(feature8),
+        "image/meta/month": int64_feature(feature4),
+        "image/meta/day": int64_feature(feature5),
+        "image/meta/class_priors": float_feature(feature6),
+        "image/meta/width": int64_feature(feature7),
+        "image/meta/height": int64_feature(feature8),
+        "image/class/label": int64_feature(feature9),
     }
     example_proto = tf.train.Example(features=tf.train.Features(feature=feature))
     return example_proto.SerializeToString()
