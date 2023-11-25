@@ -2,7 +2,7 @@ TARGET_DATA_DIR="./training/data/raw"
 S3_BASE="s3://ml-inat-competition-datasets"
 SHELL = bash 
 .SHELLFLAGS = -ec -o pipefail
-MODEL_DIR=./deploy/model
+MODEL_DIR=./app/model
 MODEL_MARKER=$(MODEL_DIR)/.downloaded
 
 include .env
@@ -110,7 +110,7 @@ get_deploy_model: $(MODEL_MARKER)
 # Deploy the model to a local server using ngrok
 deploy: get_deploy_model
 	@echo "Deploying model..."
-	@cd deploy && pipenv run python app.py & 
+	@cd app && pipenv run python app.py & 
 	@ngrok http 5000
 	@echo "Finished deploying model..."
 

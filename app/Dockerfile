@@ -8,8 +8,8 @@ WORKDIR /usr/app
 COPY . /usr/app
 
 # Install any needed packages specified in Pipfile
-RUN pip install pipenv
-RUN pipenv install --deploy --ignore-pipfile
+RUN pip install poetry 
+RUN poetry install --with deploy --no-root
 
 # Make port 8080 available to the world outside this container
 EXPOSE 8080
@@ -18,4 +18,4 @@ EXPOSE 8080
 ENV NAME World
 
 # Run app.py when the container launches
-CMD ["pipenv", "run", "python", "app.py"]
+CMD ["poetry", "run", "python", "app.py"]
