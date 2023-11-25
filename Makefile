@@ -4,6 +4,11 @@ SHELL = bash
 .SHELLFLAGS = -ec -o pipefail
 MODEL_DIR=./app/model
 MODEL_MARKER=$(MODEL_DIR)/.downloaded
+PROJECT_ID := $(shell gcloud config get-value project)
+HOSTNAME := us-central1-docker.pkg.dev
+ARTIFACT_REPO := mushroom-classifier-deploy
+IMAGE_NAME := model-image
+GCR_TAG := ${HOSTNAME}/${PROJECT_ID}/${ARTIFACT_REPO}/${IMAGE_NAME}:
 
 include .env
 export
@@ -121,6 +126,15 @@ $(MODEL_MARKER):
 	@pipenv run wandb artifact get model-registry/$(WANDB_REGISTERED_MODEL):latest --root $(MODEL_DIR)
 	@touch $(MODEL_MARKER)
 
+run_grc_build: get_deploy_model
+	@: $(eval VERSION := $(shell bash -c 'read -p "What version should it be tagged? " version; echo $$version'))
+	@echo "${GCR_TAG}${VERSION}"
+	@cd app && gcloud builds submit --tag "${GCR_TAG}${VERSION}"
+
+cloud_run_deploy:
+	@cd app && gcloud run deploy mushroom-classifier --image=${GCR_TAG}${VERSION} --max-instances=1 --min-instances=0 --port=5000 \
+--allow-unauthenticated --region=europe-west1 --memory=16Gi --cpu=4 -q
+
 #################################################
 ### Terraform
 #################################################
@@ -140,6 +154,7 @@ help:
 	@echo "dotenv:            					- Create the .env files"
 	@echo "init:              					- Initialize the environment"
 	@echo "all_datasets:      					- Download all dataset years"
+	@echo "datasets_of_interest: 				- Download only the years of interest"
 	@echo "fgvcx_2018:        					- Download the 2018 dataset"
 	@echo "fgvcx_2019:        					- Download the 2019 dataset"
 	@echo "fgvcx_2021:        					- Download the 2021 dataset"
@@ -148,6 +163,8 @@ help:
 	@echo "download_model_weights: 				- Download Tensorflow model weights from a GitHub repo"
 	@echo "get_deploy_model:  					- Download the latest registered model from wandb"
 	@echo "deploy:            					- Deploy the model to a local server using ngrok"
+	@echo "run_grc_build:     					- Build the model on GCP using Cloud Build"
+	@echo "cloud_run_deploy:  					- Deploy the model to Cloud Run"
 	@echo "terraform:         					- Deploy the model to GCP using Terraform"
 	@echo "========================================="
 

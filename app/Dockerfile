@@ -9,13 +9,10 @@ COPY . /usr/app
 
 # Install any needed packages specified in Pipfile
 RUN pip install poetry 
-RUN poetry install --with deploy --no-root
+RUN poetry install --no-root
 
-# Make port 8080 available to the world outside this container
-EXPOSE 8080
-
-# Define environment variable
-ENV NAME World
+# Make port 5000 available to the world outside this container
+EXPOSE 5000
 
 # Run app.py when the container launches
-CMD ["poetry", "run", "python", "app.py"]
+CMD ["poetry", "run", "uvicorn", "--app-dir", ".", "app:app", "--host", "0.0.0.0", "--port", "5000"]
