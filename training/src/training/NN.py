@@ -1,9 +1,14 @@
+import math
+
+import matplotlib.pyplot as plt
+import numpy as np
 import tensorflow as tf
 import wandb
-# from prefect import task, Flow
+from tensorflow.keras import Model, Sequential, layers
+
+from src.models.SwinTransformer import SwinTransformer
 
 
-# @task
 def make_callbacks(CFG):
     options = tf.saved_model.SaveOptions(
         experimental_io_device="/job:localhost"
@@ -36,60 +41,106 @@ def make_callbacks(CFG):
     return callbacks
 
 
-# @task
 def create_model(CFG, class_dict):
-    # model = tf.keras.models.load_model(CFG.ROOT / 'base_models' / CFG.MODEL, compile=False)  # For use with TPU-VM's/GPU's
-    model = tf.keras.models.load_model(
-        f"gs://{CFG.GCS_REPO}/{CFG.GCS_BASE_MODELS}/{CFG.MODEL}/base_model", compile=False
-    )  # For use with Colab TPU/ TPU nodes
-
-    loss = tf.keras.losses.SparseCategoricalCrossentropy()
-    opt = create_optimizer(CFG)
-    top3_acc = tf.keras.metrics.SparseTopKCategoricalAccuracy(
-        k=3, name="sparse_top_3_categorical_accuracy"
+    img_adjust_layer = layers.Lambda(
+        lambda data: tf.keras.applications.imagenet_utils.preprocess_input(
+            tf.cast(data, tf.float32), mode="torch"
+        ),
+        input_shape=[*CFG.CROP_SIZE, 3],
+    )
+    pretrained_model = SwinTransformer(
+        CFG.MODEL,
+        num_classes=len(class_dict),
+        include_top=False,
+        pretrained=True,
+        use_tpu=True,
     )
 
-    model.compile(
-        optimizer=opt, loss=loss, metrics=["sparse_categorical_accuracy", top3_acc]
+    model1 = Sequential(
+        [
+            img_adjust_layer,
+            pretrained_model,
+        ]
     )
 
-    return model
+    # Define the first layer of model2 separately to specify input shape
+    input_meta = layers.Input(shape=(6,))
+    x = layers.Dense(64, activation="relu")(input_meta)
+    x = layers.Dropout(0.5)(x)  # Optional
+    x = layers.Dense(128, activation="relu")(x)
+    x = layers.BatchNormalization()(x)
+    output_meta = layers.Dense(1536)(x)
+    model2 = Model(inputs=input_meta, outputs=output_meta)
+
+    # Assuming input_image is the input layer for model1
+    input_image = layers.Input(shape=model1.input_shape[1:])
+    model1_output = model1(input_image)
+    model2_output = model2(input_meta)
+
+    # Concatenate the outputs
+    combined = tf.keras.layers.concatenate([model1_output, model2_output])
+    combined = layers.BatchNormalization()(combined)
+    output = layers.Dense(len(class_dict), activation="softmax")(combined)
+
+    # Create the final model
+    final_model = Model(inputs=[input_image, input_meta], outputs=output)
+
+    top3 = tf.keras.metrics.SparseTopKCategoricalAccuracy(3, name="top-3-accuracy")
+
+    final_model.compile(
+        optimizer=tf.keras.optimizers.Adam(learning_rate=1e-5, epsilon=1e-8),
+        loss="sparse_categorical_crossentropy",
+        metrics=["accuracy", top3],
+    )
+    final_model.summary()
+
+    return final_model
 
 
-# class MyLRSchedule(tf.keras.optimizers.schedules.LearningRateSchedule):
-#     def __init__(self, args):
-#         lr_start = 0.000005
-#         lr_max = 0.00000125 * CFG.REPLICAS * batch_size
-#         lr_min = 0.000001
-#         lr_ramp_ep = 5
-#         lr_sus_ep = 0
-#         lr_decay = 0.8
+def get_lr_callback(CFG, batch_size=8, plot=False):
+    lr_start = 0.0000005
+    lr_max = 0.00000050 * batch_size
+    lr_min = 0.0000001
+    lr_ramp_ep = 4
+    lr_sus_ep = 0
+    lr_decay = 0.8
 
-#     def __call__(self, step):
-#         return self.initial_learning_rate / (step + 1)
-
-
-# @task
-def get_lr_callback(*args, batch_size=8):
     def lrfn(epoch):
-        if epoch < args.lr_ramp_ep:
-            lr = (args.lr_max - args.lr_start) / args.lr_ramp_ep * epoch + args.lr_start
+        if epoch < lr_ramp_ep:
+            lr = (lr_max - lr_start) / lr_ramp_ep * epoch + lr_start
 
-        elif epoch < args.lr_ramp_ep + args.lr_sus_ep:
-            lr = args.lr_max
+        elif epoch < lr_ramp_ep + lr_sus_ep:
+            lr = lr_max
 
-        else:
-            lr = (args.lr_max - args.lr_min) * args.lr_decay ** (
-                epoch - args.lr_ramp_ep - args.lr_sus_ep
-            ) + args.lr_min
+        elif CFG.SCHEDULER == "exp":
+            lr = (lr_max - lr_min) * lr_decay ** (
+                epoch - lr_ramp_ep - lr_sus_ep
+            ) + lr_min
 
+        elif CFG.SCHEDULER == "cosine":
+            decay_total_epochs = CFG.EPOCHS - lr_ramp_ep - lr_sus_ep + 3
+            decay_epoch_index = epoch - lr_ramp_ep - lr_sus_ep
+            phase = math.pi * decay_epoch_index / decay_total_epochs
+            cosine_decay = 0.4 * (1 + math.cos(phase))
+            lr = (lr_max - lr_min) * cosine_decay + lr_min
         return lr
+
+    if plot:
+        plt.figure(figsize=(10, 5))
+        plt.plot(
+            np.arange(CFG.EPOCHS),
+            [lrfn(epoch) for epoch in np.arange(CFG.EPOCHS)],
+            marker="o",
+        )
+        plt.xlabel("epoch")
+        plt.ylabel("learning rate")
+        plt.title("Learning Rate Scheduler")
+        plt.show()
 
     lr_callback = tf.keras.callbacks.LearningRateScheduler(lrfn, verbose=False)
     return lr_callback
 
 
-# @task
 def create_optimizer(CFG):
     if CFG.LR_SCHED == "CosineWarmup":
         learning_rate_fn = tf.keras.optimizers.schedules.CosineDecay(
