@@ -2,7 +2,6 @@ from pickle import load
 
 import numpy as np
 import src.preprocessing as preprocessing
-import tensorflow as tf
 from flask import Flask, request
 from twilio.twiml.messaging_response import MessagingResponse
 
@@ -10,7 +9,7 @@ app = Flask(__name__)
 
 # Load the model, class dictionary and config module
 class_d = load(open("class_dict.pkl", "rb"))
-model = tf.keras.models.load_model("model")
+model = preprocessing.get_model("./model/")
 IMAGE_SIZE = [224, 224]
 
 
@@ -52,13 +51,18 @@ def topk(array, k, axis=-1, sorted=True):
 def model_predictions(dataset):
     """Predicts the top 3 most likely mushroom species from an image URL using a pre-trained model.
 
+    Args:
+        dataset (list): A list of numpy.ndarrays containing the image data.
 
     Returns:
         list: A list of tuples, where each tuple contains a mushroom species name and its corresponding probability score.
     """
     # Predict
-    preds = model.predict(dataset)
-    predictions = topk(preds, 3)
+    predictions = []
+    for data in dataset:
+        preds = model.predict(data)
+        preds = topk(preds, 3)
+        predictions.append(preds)
     return predictions
 
 
@@ -106,13 +110,12 @@ def evaluate_preds(preds, upper_lim=0.90, middle_lim=0.60, lower_lim=0.30):
             )
             message = message[0] + "\n".join(message[1])
 
-    # Map the predicted class to its label (modify this as per your labels)
     return message
 
 
 @app.route("/sms", methods=["POST"])
 def sms_response():
-    """Responds to an incoming SMS with a message requesting an image of a mushroom to be identified.
+    """Responds to incoming MMS(s) with the models best ID of the mushroom.
 
     Returns:
         str: A string representation of the response message to be sent back to the user.
@@ -139,11 +142,11 @@ def sms_response():
         # Get prediction from the local model
         dataset = preprocessing.load_dataset(img_urls, sender_phone_number, IMAGE_SIZE)
         predictions = model_predictions(dataset)
-        msg = evaluate_preds(predictions)
-
-        # Send an SMS with the prediction
-        # Respond to the text message.
-        response.message(msg)
+        for prediction in predictions:
+            msg = evaluate_preds(prediction)
+            # Send an SMS with the prediction
+            # Respond to the text message.
+            response.message(msg)
 
     except Exception as error:
         print(f"Error: {error}")
