@@ -1,8 +1,7 @@
+import math
+
 import tensorflow as tf
 import tensorflow.keras.backend as K
-import math
-from prefect import task
-
 
 AUTO = tf.data.experimental.AUTOTUNE
 
