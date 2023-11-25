@@ -1,22 +1,17 @@
-import sys
 from pickle import load
 
 import numpy as np
-import requests
+import src.preprocessing as preprocessing
 import tensorflow as tf
 from flask import Flask, request
-from PIL import Image
 from twilio.twiml.messaging_response import MessagingResponse
-
-sys.path.append("../training")
-from training.train_config import GCFG
 
 app = Flask(__name__)
 
 # Load the model, class dictionary and config module
 class_d = load(open("class_dict.pkl", "rb"))
 model = tf.keras.models.load_model("model")
-CFG = GCFG()
+IMAGE_SIZE = [224, 224]
 
 
 def topk(array, k, axis=-1, sorted=True):
@@ -45,9 +40,6 @@ def topk(array, k, axis=-1, sorted=True):
         # Since our top-k indices are not correctly ordered, we can sort them with argsort
         # only if sorted=True (otherwise we keep it in an arbitrary order)
         sorted_trunc_ind = np.flip(np.argsort(partitioned_scores, axis=axis), axis=axis)
-
-        # We again use np.take_along_axis as we have an array of indices that we use to
-        # decide which values to select
         ind = np.take_along_axis(partitioned_ind, sorted_trunc_ind, axis=axis)
         scores = np.take_along_axis(partitioned_scores, sorted_trunc_ind, axis=axis)
     else:
@@ -57,31 +49,15 @@ def topk(array, k, axis=-1, sorted=True):
     return {"scores": scores, "indices": ind}
 
 
-def model_predictions(image_url_list):
+def model_predictions(dataset):
     """Predicts the top 3 most likely mushroom species from an image URL using a pre-trained model.
 
-    Args:
-        image_url_list (list): The URL of the image to be classified.
 
     Returns:
         list: A list of tuples, where each tuple contains a mushroom species name and its corresponding probability score.
     """
-    # Download and preprocess the images
-    imgs = list(
-        map(
-            lambda x: Image.open(requests.get(x, stream=True).raw).resize(
-                CFG.IMAGE_SIZE
-            ),
-            image_url_list,
-        )
-    )
-    imgs = np.array([np.array(img) for img in imgs])
-    imgs = tf.data.Dataset.from_tensor_slices(imgs)
-    imgs = imgs.map(lambda x: tf.cast(x, tf.float32))
-    imgs = imgs.map(lambda x: tf.expand_dims(x, axis=0))
-
     # Predict
-    preds = model.predict(imgs)
+    preds = model.predict(dataset)
     predictions = topk(preds, 3)
     return predictions
 
@@ -107,16 +83,17 @@ def evaluate_preds(preds, upper_lim=0.90, middle_lim=0.60, lower_lim=0.30):
             (scores[1], indx[1]),
             (scores[2], indx[2]),
         )
-        if first[0] >= upper_lim:
-            message = f"Your fun guy is {class_d[first[1]]} with {int(first[0]*100)}% confidence!"
-        elif first[0] >= middle_lim:
+        top_confidence = first[0]
+        if top_confidence >= upper_lim:
+            message = f"Your fun guy is {class_d[first[1]]} with {int(top_confidence*100)}% confidence!"
+        elif top_confidence >= middle_lim:
             message = (
-                f"Your fun guy is probably {class_d[first[1]]} with {int(first[0]*100)}% confidence!\n"
+                f"Your fun guy is probably {class_d[first[1]]} with {int(top_confidence*100)}% confidence!\n"
                 + f"2nd choice: {class_d[second[1]]} with {second[0]*100:.2f}% confidence."
             )
-        elif first[0] >= lower_lim:
+        elif top_confidence >= lower_lim:
             message = (
-                f"Im not too sure about this one, it might be {class_d[first[1]]} with {int(first[0]*100)}% confidence, \n"
+                f"Im not too sure about this one, it might be {class_d[first[1]]} with {int(top_confidence*100)}% confidence, \n"
                 + f"or it could be {class_d[second[1]]} with {second[0]*100:.2f}% confidence."
             )
         else:
@@ -141,6 +118,10 @@ def sms_response():
         str: A string representation of the response message to be sent back to the user.
     """
     response = MessagingResponse()
+
+    # Extract the sender's phone number
+    sender_phone_number = request.form.get("From")
+
     response.message(
         "Please wait while we ID your fun guy... "
         + "For best results, a side profile of the whole mushroom close up usually works, if not try a top or gill view."
@@ -156,13 +137,13 @@ def sms_response():
 
     try:
         # Get prediction from the local model
-        predictions = model_predictions(img_urls)
+        dataset = preprocessing.load_dataset(img_urls, sender_phone_number, IMAGE_SIZE)
+        predictions = model_predictions(dataset)
         msg = evaluate_preds(predictions)
 
         # Send an SMS with the prediction
         # Respond to the text message.
         response.message(msg)
-        # response.message("Please wait while we ID your fun guy...")
 
     except Exception as error:
         print(f"Error: {error}")
