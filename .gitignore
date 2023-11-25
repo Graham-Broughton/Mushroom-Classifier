@@ -137,3 +137,4 @@ dmypy.json
 infrastructure/terraform-account.json
 *.json
 training/data/train.csv
+**.db
