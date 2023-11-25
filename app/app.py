@@ -2,15 +2,18 @@ from pickle import load
 
 import numpy as np
 import src.preprocessing as preprocessing
-from flask import Flask, request
+from fastapi import FastAPI, Request, Response
+from os import environ
+import json
 from twilio.twiml.messaging_response import MessagingResponse
 
-app = Flask(__name__)
+app = FastAPI()
 
 # Load the model, class dictionary and config module
 class_d = load(open("class_dict.pkl", "rb"))
 model = preprocessing.get_model("./model/")
-IMAGE_SIZE = [224, 224]
+IMAGE_SIZE = environ.get("IMAGE_SIZE","[224, 224]")
+IMAGE_SIZE = json.loads(IMAGE_SIZE)
 
 
 def topk(array, k, axis=-1, sorted=True):
@@ -113,47 +116,30 @@ def evaluate_preds(preds, upper_lim=0.90, middle_lim=0.60, lower_lim=0.30):
     return message
 
 
-@app.route("/sms", methods=["POST"])
-def sms_response():
-    """Responds to incoming MMS(s) with the models best ID of the mushroom.
-
-    Returns:
-        str: A string representation of the response message to be sent back to the user.
-    """
+@app.post("/sms")
+async def sms_response(request: Request):
+    form_data = await request.form()
+    sender_phone_number = form_data.get("From")
+    num_media = int(form_data.get("NumMedia", 0))
+    
     response = MessagingResponse()
+    response.message("Please wait while we ID your fun guy...")
 
-    # Extract the sender's phone number
-    sender_phone_number = request.form.get("From")
-
-    response.message(
-        "Please wait while we ID your fun guy... "
-        + "For best results, a side profile of the whole mushroom close up usually works, if not try a top or gill view."
-    )
-
-    # Extract the image URL from the incoming MMS
-    num_photos = request.form["NumMedia"]
-    img_urls = []
-    if num_photos != "0":
-        for idx in range(int(num_photos)):
-            image_url = request.form.get(f"MediaUrl{idx}")
-            img_urls.append(image_url)
+    if num_media == '0':
+        response.message("Sorry, I can't identify your fun guy without a picture.")
+        return Response(content=str(response), media_type="text/xml")
+    
+    img_urls = [form_data.get(f"MediaUrl{idx}") for idx in range(num_media)]
 
     try:
-        # Get prediction from the local model
         dataset = preprocessing.load_dataset(img_urls, sender_phone_number, IMAGE_SIZE)
         predictions = model_predictions(dataset)
         for prediction in predictions:
             msg = evaluate_preds(prediction)
-            # Send an SMS with the prediction
-            # Respond to the text message.
             response.message(msg)
 
     except Exception as error:
         print(f"Error: {error}")
         response.message("Sorry, something went wrong. Please try again.")
 
-    return str(response)
-
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    return Response(content=str(response), media_type="text/xml")
