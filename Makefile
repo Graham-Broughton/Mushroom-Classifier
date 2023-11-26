@@ -2,13 +2,13 @@ TARGET_DATA_DIR="./training/data/raw"
 S3_BASE="s3://ml-inat-competition-datasets"
 SHELL = bash 
 .SHELLFLAGS = -ec -o pipefail
-MODEL_DIR=./app/model
+MODEL_DIR=./mush_app/model
 MODEL_MARKER=$(MODEL_DIR)/.downloaded
 PROJECT_ID := $(shell gcloud config get-value project)
 HOSTNAME := us-central1-docker.pkg.dev
 ARTIFACT_REPO := mushroom-classifier-deploy
 IMAGE_NAME := model-image
-GCR_TAG := ${HOSTNAME}/${PROJECT_ID}/${ARTIFACT_REPO}/${IMAGE_NAME}:
+GCR_TAG := ${HOSTNAME}/${PROJECT_ID}/${ARTIFACT_REPO}/${IMAGE_NAME}
 
 include .env
 export
@@ -115,7 +115,7 @@ get_deploy_model: $(MODEL_MARKER)
 # Deploy the model to a local server using ngrok
 deploy: get_deploy_model
 	@echo "Deploying model..."
-	@cd app && pipenv run python app.py & 
+	@cd mush_app && pipenv run python app.py & 
 	@ngrok http 5000
 	@echo "Finished deploying model..."
 
@@ -126,14 +126,17 @@ $(MODEL_MARKER):
 	@pipenv run wandb artifact get model-registry/$(WANDB_REGISTERED_MODEL):latest --root $(MODEL_DIR)
 	@touch $(MODEL_MARKER)
 
-run_grc_build: get_deploy_model
+cloud_run_build: get_deploy_model
 	@: $(eval VERSION := $(shell bash -c 'read -p "What version should it be tagged? " version; echo $$version'))
 	@echo "${GCR_TAG}${VERSION}"
-	@cd app && gcloud builds submit --tag "${GCR_TAG}${VERSION}"
+	@gcloud builds submit --tag "${GCR_TAG}:${VERSION}"
 
 cloud_run_deploy:
-	@cd app && gcloud run deploy mushroom-classifier --image=${GCR_TAG}${VERSION} --max-instances=1 --min-instances=0 --port=5000 \
---allow-unauthenticated --region=europe-west1 --memory=16Gi --cpu=4 -q
+	@gcloud run deploy mushroom-classifier --image=${GCR_TAG}:latest --max-instances=1 --min-instances=0 --port=8080 \
+--allow-unauthenticated --region=us-central1 --memory=16Gi --cpu=4 -q
+
+cloud_run_delete:
+	@gcloud run services delete mushroom-classifier --region=us-central1 -q
 
 #################################################
 ### Terraform

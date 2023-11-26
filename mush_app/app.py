@@ -10,8 +10,8 @@ from twilio.twiml.messaging_response import MessagingResponse
 app = FastAPI()
 
 # Load the model, class dictionary and config module
-class_d = load(open("class_dict.pkl", "rb"))
-model = preprocessing.get_model("./model/")
+class_d = load(open("./mush_app/class_dict.pkl", "rb"))
+model = preprocessing.get_model("./mush_app/model/")
 IMAGE_SIZE = environ.get("IMAGE_SIZE","[224, 224]")
 IMAGE_SIZE = json.loads(IMAGE_SIZE)
 
@@ -116,8 +116,8 @@ def evaluate_preds(preds, upper_lim=0.90, middle_lim=0.60, lower_lim=0.30):
     return message
 
 
-@app.post("/sms")
-async def sms_response(request: Request):
+@app.post("/sms/")
+async def sms_response(request: Request, response_model=Response):
     form_data = await request.form()
     sender_phone_number = form_data.get("From")
     num_media = int(form_data.get("NumMedia", 0))
