@@ -5,7 +5,7 @@ from pathlib import Path
 load_dotenv()
 
 root = Path(__file__).parent.parent
-deploy_model_path = root / "deploy" / "model"
+deploy_model_path = root / "mush_app" / "model"
 deploy_model_path.mkdir(parents=True, exist_ok=False)
 
 wandb.init(
