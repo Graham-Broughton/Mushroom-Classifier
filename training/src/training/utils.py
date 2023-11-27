@@ -1,60 +1,58 @@
 import numpy as np
-from loguru import logger
 import tensorflow as tf
-# from dotenv import load_dotenv, set_key, find_dotenv
 import os
-import regex as re
+import re
+import random
 
 
-def tpu_test(CFG):
+def tpu_test():
     # Detect hardware
     try:
-        tpu = tf.distribute.cluster_resolver.TPUClusterResolver()
-    except ValueError:  # If TPU not found
+        tpu = tf.distribute.cluster_resolver.TPUClusterResolver(tpu='local')
+    except ValueError: 
         tpu = None
 
     if tpu:
-        tf.config.experimental_connect_to_cluster(tpu)
         tf.tpu.experimental.initialize_tpu_system(tpu)
         strategy = tf.distribute.TPUStrategy(tpu)
     else:
-        strategy = tf.distribute.get_strategy()
-    CFG.REPLICAS = strategy.num_replicas_in_sync
-    logger.info("Number of accelerators: ", strategy.num_replicas_in_sync)
+        strategy = tf.distribute.get_strategy() # Default strategy that works on CPU and single GPU
+        print('Running on CPU instead')
+    replicas = strategy.num_replicas_in_sync
+    return strategy, replicas
 
+def get_new_cfg(replicas, CFG, train_filenames, val_filenames):
+    CFG = CFG(
+        REPLICAS=replicas,
+        NUM_TRAINING_IMAGES=count_data_items.fn(train_filenames),
+        NUM_VALIDATION_IMAGES=count_data_items.fn(val_filenames),
+    )
+    return CFG
 
 def count_data_items(filenames):
-    n = [int(re.compile(r"-([0-9]*)\.").search(filename).group(1)) for filename in filenames]
+    n = [int(re.compile(r"-([0-9]*)\.").search(filename).group(1)) 
+         for filename in filenames]
     return np.sum(n)
 
+def seed_all(s):
+    random.seed(s)
+    np.random.seed(s)
+    tf.random.set_seed(s)
+    os.environ['TF_CUDNN_DETERMINISTIC'] = '1'
+    os.environ['PYTHONHASHSEED'] = str(s) 
 
-def check_for_colab():
-    from sys import exit as xt
-    from subprocess import run
+def select_dataset(CFG2):
+    GCS_PATH_SELECT = {
+        192: f"gs://{CFG2.GCS_REPO}/tfrecords-jpeg-192x192",
+        224: f"gs://{CFG2.GCS_REPO}/tfrecords-jpeg-224x224v2",
+        256: f"gs://{CFG2.GCS_REPO}/tfrecords-jpeg-256x256",
+        384: f"gs://{CFG2.GCS_REPO}/tfrecords-jpeg-384x384",
+        512: f"gs://{CFG2.GCS_REPO}/tfrecords-jpeg-512x512",
+        None: f"gs://{CFG2.GCS_REPO}/tfrecords-jpeg-raw",
+    }
+    GCS_PATH = GCS_PATH_SELECT[CFG2.IMAGE_SIZE[0]]
 
-    print("Checking for colab environment Dependencies")
-    try:
-        from google.colab import drive
-        drive.mount('/content/drive')
-        from google.colab import auth
-        auth.authenticate_user()
-        print("Found Colab Environment")
-        run('pip install -q tensorflow==2.10.0 wandb python-dotenv tensorboard_plugin_profile tensorflow_io==0.27.0', shell=True)
-        try:
-            os.remove("./tmp")
-            os.chdir("/content/drive/MyDrive/Mushroom-Classifier")
-        except FileNotFoundError:
-            os.mkdir("./tmp")
-            print("Restarting Runtime")
-            xt("Restart Runtime")
-    except ImportError:
-        if os.path.isdir('../Mushroom-Classifier') is True:
-            print("Found Desktop/VM Environment")
-        else:
-            print("Must run from root directory of project")
+    training_filenames = tf.io.gfile.glob(f"{GCS_PATH}/train*.tfrec")
+    validation_filenames = tf.io.gfile.glob(f"{GCS_PATH}/val*.tfrec")
 
-
-def set_seed(seed=42):
-    os.environ['PYTHONHASHSEED'] = str(seed)
-    np.random.seed(seed)
-    tf.random.set_seed(seed)
+    return training_filenames, validation_filenames

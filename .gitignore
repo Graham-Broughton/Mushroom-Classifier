@@ -129,7 +129,12 @@ dmypy.json
 .pyre/
 
 *.gz
-training/data/**
-!training/data/train.csv
-/wandb
-*.h5
+**/data/**
+!**/train.csv
+**/wandb
+*.pb
+**/variables.*
+infrastructure/terraform-account.json
+*.json
+training/data/train.csv
+**.db

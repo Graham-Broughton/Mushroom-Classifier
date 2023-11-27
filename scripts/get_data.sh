@@ -1,7 +1,17 @@
 #!/usr/bin/env bash
+
+BASE="s3://ml-inat-competition-datasets"
+TARGET_DIR="./training/data/raw"
+
+TRAIN_IMGS_2021_MD5="e0526d53c7f7b2e3167b2b43bb2690ed"
+TRAIN_IMGS_MINI_2021_MD5="db6ed8330e634445efc8fec83ae81442"
+TRAIN_IMGS_2018_MD5="b1c6952ce38f31868cc50ea72d066cc3"
+
+
 ############################################################
 # Help                                                     #
 ############################################################
+
 help() {
     # Display Help
     echo "Download images for mushroom classification from your choice of datasets."
@@ -13,23 +23,23 @@ help() {
     echo "h     Print this Help."
 }
 
-BASE="s3://ml-inat-competition-datasets"
+############################################################
+# Functions                                               #
+############################################################
 
-dl_fgvcx_2018() {
-    echo "Downloading the FGVCX 2018 data"
-    s5cmd --no-sign-request cp --concurrency 20 $BASE/2018/* ./data/raw/2018/
+dl_fgvcx_year() {
+    s5cmd --no-sign-request cp --exclude "*test*" $BASE/$YEAR/* $TARGET_DIR/$YEAR/
+    echo "Checking MD5 sums for $YEAR"
+    if [ "$YEAR" == "2021" ]; then
+        echo "$TRAIN_IMGS_2021_MD5 $TARGET_DIR/$YEAR/train.tar.gz" | md5sum -c
+        echo "$TRAIN_IMGS_MINI_2021_MD5 $TARGET_DIR/$YEAR/train_mini.tar.gz" | md5sum -c
+    elif [ "$YEAR" == "2018" ]; then
+        echo "$TRAIN_IMGS_2018_MD5 $TARGET_DIR/$YEAR/train_val2018.tar.gz" | md5sum -c
+    fi
 }
 
-dl_fgvcx_2019() {
-    echo "Downloading the FGVCX 2019 data"
-    s5cmd --no-sign-request cp --sp --concurrency 20 $BASE/2019/* ./data/raw/2019/
-}
-
-dl_fgvcx_2021() {
-    echo "Downloading the FGVCX 2021 data"
-    s5cmd --no-sign-request cp --sp --concurrency 20 $BASE/2021/* ./data/raw/2021/
-}
-
+############################################################
+# Input Options                                           #
 ############################################################
 
 while getopts ':y:ah' opt; do
@@ -65,16 +75,11 @@ while getopts ':y:ah' opt; do
 done
 
 ############################################################
+# Implementation                                          #
+############################################################
 
-echo "Downloading images from FGVCX.."
 for i in "${array[@]}"; do
-    if [ "${i}" = "2018" ]; then
-        dl_fgvcx_2018
-    elif [ "${i}" = "2019" ]; then
-        dl_fgvcx_2019
-    elif [ "${i}" = "2021" ]; then
-        dl_fgvcx_2021
-    fi
+    YEAR=$i dl_fgvcx_year
 done
 
 ############################################################

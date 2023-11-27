@@ -2,11 +2,10 @@ import json
 import numpy as np
 import pandas as pd
 from loguru import logger
-from prefect import flow, task
 from tqdm import tqdm
+from training.train_config import CFG
 
 
-@task
 def class_priors(df: pd.DataFrame) -> np.ndarray:
     """Calculates the class priors for a given DataFrame.
 
@@ -16,15 +15,14 @@ def class_priors(df: pd.DataFrame) -> np.ndarray:
     Returns:
         class_priors (np.ndarray): An array containing the class priors.
     """
+    logger.info("Calculating class priors")
     class_priors = np.zeros(len(df["class_id"].unique()))
     for species in df["class_id"].unique():
         class_priors[species] = len(df[df["class_id"] == species])
 
-    class_priors = class_priors / sum(class_priors)
-    return class_priors
+    return class_priors / sum(class_priors)
 
 
-@task
 def month_distributions(df):
     """Calculates the distribution of mushroom classes for each month in the dataset.
 
@@ -34,6 +32,7 @@ def month_distributions(df):
     Returns:
         dict: A dictionary containing the distribution of mushroom classes for each month.
     """
+    logger.info("Calculating month distributions")
     month_distributions = {}
 
     for _, observation in tqdm(df.iterrows(), total=len(df)):
@@ -49,7 +48,6 @@ def month_distributions(df):
     return month_distributions
 
 
-@task
 def parse_json(filepath, is_test=False, categories=None):
     """Parses a JSON file and returns relevant dataframes.
 
@@ -78,8 +76,7 @@ def parse_json(filepath, is_test=False, categories=None):
     return info, images
 
 
-@task
-def join_dataframes(images, annotations, categories, set=None, locations=None):
+def join_dataframes(images, annotations, categories, dset=None, locations=None):
     """Join dataframes containing information about images, annotations, categories, and locations (optional).
     Only categories with the supercategory 'Fungi' are included.
 
@@ -100,21 +97,20 @@ def join_dataframes(images, annotations, categories, set=None, locations=None):
             categories, annotations, right_on="category_id", left_index=True
         ).merge(images, left_on="image_id", right_index=True)
     else:
-        df = (
-            pd.merge(categories, annotations, on="category_id")
-            .merge(images, on="image_id")
-            .merge(locations, on="image_id")
-        )
+        df = pd.merge(annotations, categories, on="category_id").set_index("image_id")
+        df = df.merge(images, left_index=True, right_index=True)
+        df = df.merge(locations, right_index=True, left_index=True)
+        
     df = df.drop(
         ["supercategory", "kingdom", "image_id", "valid", "license", "rights_holder"],
         errors="ignore",
     )
-    if set is not None:
-        df["set"] = set
+    if dset is not None:
+        df["dset"] = dset
     return df
 
 
-@flow(name='Parse2018Data')
+# @flow(name='Parse2018Data')
 def parse_2018_data(data_root):
     """Parses the 2018 mushroom dataset from the given data root directory.
 
@@ -126,8 +122,12 @@ def parse_2018_data(data_root):
     """
     logger.info(f"Parsing 2018 data from {data_root}")
 
+    # Parse categories
+    with open(data_root / "categories.json", "r") as f:
+        cats = pd.DataFrame(json.load(f))
+
     # Parse train and validation data
-    timages2018, tanno2018, vimages2018, vanno2018 = [
+    (timages2018, tanno2018), (vimages2018, vanno2018) = [
         parse_json(data_root / f"{s}2018.json")[1:]
         for s in ["train", "val"]
     ]
@@ -138,22 +138,16 @@ def parse_2018_data(data_root):
         for s in ["train", "val"]
     ]
 
-    # Parse categories
-    with open(data_root / "categories.json", "r") as f:
-        cats = pd.DataFrame(json.load(f))
-
-    # Join dataframes and save which set they are from
-    val = join_dataframes(vimages2018, vanno2018, cats, locations=vloc, set="val")
-    train = join_dataframes(timages2018, tanno2018, cats, locations=tloc, set="train")
+    # Join dataframes and save which dset they are from
+    val = join_dataframes(vimages2018, vanno2018, cats, locations=vloc, dset="val")
+    train = join_dataframes(timages2018, tanno2018, cats, locations=tloc, dset="train")
     df = pd.concat([train, val]).reset_index(drop=True)
     df["dataset"] = "2018"
 
     # Create new directories and paths
+    df['file_path'] = str(data_root) + "/" + df["file_name"]
     df["file_name"] = df["file_name"].str.split("/").str[-1]
     df["specific_epithet"] = df["name"].str.split().str[-1]
-    df["image_dir_name"] = df[
-        ["phylum", "class", "order", "family", "genus", "specific_epithet"]
-    ].apply(lambda x: f"Fungi_{'_'.join(x)}", axis=1)
 
     # Drop unneeded columns and rename others
     df = df.drop(["category_id", "date_c"], axis=1).rename(
@@ -163,11 +157,11 @@ def parse_2018_data(data_root):
             "loc_uncert": "location_uncertainty",
         }
     )
-    logger.debug(f"df shape {df.shape}")
+    logger.debug(f"2018 dataframe shape {df.shape}")
     return df
 
 
-@flow(name='Parse2021Data')
+# @flow(name='Parse2021Data')
 def parse_2021_data(data_root):
     """Parses 2021 mushroom data from the given data root directory.
 
@@ -178,28 +172,27 @@ def parse_2021_data(data_root):
         DataFrame: A concatenated dataframe of the parsed mushroom data.
     """
     logger.info(f"Parsing 2021 data from {data_root}")
-    sets = ["train", "val", "train_mini"]
+    sets = ["train", "val"]
 
     dfs = [
         join_dataframes(
-            *parse_json(data_root / f"{s}.json", categories=True)[:3], set=s
+            *parse_json(data_root / f"{s}.json", categories=True)[1:], dset=s
         )
         for s in sets
     ]
     df = pd.concat(dfs, ignore_index=True)
 
     df["dataset"] = "2021"
+    df['file_path'] = str(data_root) + "/" + df["file_name"]
     df["file_name"] = df["file_name"].str.split("/").str[-1]
-    df["image_dir_name"] = df["image_dir_name"].apply(
-        lambda x: "_".join(x.split("_")[1:])
-    )
+    
     df = df.drop(["category_id", "common_name"], axis=1)
-    logger.debug(f"df shape {df.shape}")
-    return 
+    logger.debug(f"2021 dataframe shape {df.shape}")
+    return df
 
 
-@flow(name='JoinDatasets')
-def join_datasets(gcs_bucket: str, root: str) -> tuple:
+# @flow(name='JoinDatasets')
+def join_datasets(CFG, root) -> tuple:
     """Join two mushroom datasets, parse date column, create file path and GCS path columns,
     create class ID column, calculate month distribution and class prior, and return the
     concatenated dataframe and month distribution as a tuple.
@@ -211,36 +204,35 @@ def join_datasets(gcs_bucket: str, root: str) -> tuple:
     Returns:
         tuple: A tuple containing the concatenated dataframe and month distribution.
     """
-    df1 = parse_2018_data(root)
-    df2 = parse_2021_data(root)
-    logger.info(f"Joining all datasets from {root}")
+    df1 = parse_2018_data(root / "2018")
+    df2 = parse_2021_data(root / "2021")
+    logger.info("Joining all datasets")
     df = pd.concat([df1, df2], ignore_index=True)
 
     df["date"] = pd.to_datetime(df["date"], format="mixed", utc=True)
-    df["file_path"] = (
-        "Mushroom-Classifier/data/" + df["image_dir_name"] + "/" + df["file_name"]
-    )
-    df["gcs_path"] = (
-        f"gs://{gcs_bucket}/train/" + df["image_dir_name"] + "/" + df["file_name"]
-    )
     df["class_id"] = df["name"].astype("category").cat.codes
+    df['gcs_path'] = df.apply(
+        lambda x: 
+            f"gs://{CFG.GCS_REPO}/data/raw/{x['dataset']}/{x['phylum']}_{x['class']}_{x['order']}_{x['family']}_{x['name']}/{x['file_name']}",
+            axis=1
+        )
 
     month_distribution = month_distributions(df)
     class_prior = class_priors(df)
 
     df["class_priors"] = df["class_id"].map(dict(enumerate(class_prior)))
 
-    logger.debug(f"df shape {df.shape}")
+    df.drop(['image_dir_name', 'image_id', 'rights_holder', 'license', 'user_id', 'valid', 'height', 'width'])
     return df, month_distribution
 
 
 if __name__ == "__main__":
-    import os
-    from dotenv import load_dotenv
+    from os import environ
+    from pathlib import Path
+    root = Path(environ['PYTHONPATH'].split(":")[0])
+    raw_data_root = root / 'training' / 'data' / "raw"
 
-    load_dotenv()
-
-    root = os.environ["ROOT"]
-    data = root / "data"
-    df, month_distribution, class_prior = join_datasets(os.environ["GCS_BUCKET"], data)
-    df.to_csv(data / "train.csv", index=False)
+    df, month_distribution = join_datasets(CFG, raw_data_root)
+    
+    logger.debug(f"Final dataframe shape {df.shape}")
+    df.to_csv(CFG.DATA / "train.csv", index=False)
