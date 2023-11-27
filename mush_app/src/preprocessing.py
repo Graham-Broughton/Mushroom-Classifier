@@ -59,15 +59,13 @@ def initialize_database(database_name="image_data.db"):
     """
     conn = sqlite3.connect(database_name)
     cursor = conn.cursor()
-    cursor.execute(
-        """
-    CREATE TABLE IF NOT EXISTS image_data (
-        id INTEGER PRIMARY KEY,
-        hash_id TEXT,
-        image BLOB
-    )
-    """
-    )
+    cursor.execute("""
+CREATE TABLE IF NOT EXISTS image_data (
+    id INTEGER PRIMARY KEY,
+    hash_id TEXT,
+    image BLOB)
+"""
+)
     conn.commit()
     conn.close()
 

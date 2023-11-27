@@ -63,6 +63,7 @@
   "python.defaultInterpreterPath": "",
   "python.terminal.activateEnvInCurrentTerminal": true,
   "python.terminal.focusAfterLaunch": true,
+  "peacock.color": "#270955",
   "workbench.colorCustomizations": {
     "activityBar.activeBackground": "#3c0e83",
     "activityBar.background": "#3c0e83",
@@ -77,11 +78,10 @@
     "statusBarItem.hoverBackground": "#3c0e83",
     "statusBarItem.remoteBackground": "#270955",
     "statusBarItem.remoteForeground": "#e7e7e7",
+    "tab.activeBorder": "#3c0e83",
     "titleBar.activeBackground": "#270955",
     "titleBar.activeForeground": "#e7e7e7",
     "titleBar.inactiveBackground": "#27095599",
-    "titleBar.inactiveForeground": "#e7e7e799",
-    "tab.activeBorder": "#3c0e83"
+    "titleBar.inactiveForeground": "#e7e7e799"
   },
-  "peacock.color": "#270955",
 }

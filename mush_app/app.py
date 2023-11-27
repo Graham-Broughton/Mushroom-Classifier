@@ -1,18 +1,20 @@
+import json
+from os import environ
 from pickle import load
 
 import numpy as np
 import src.preprocessing as preprocessing
+import uvicorn
 from fastapi import FastAPI, Request, Response
-from os import environ
-import json
 from twilio.twiml.messaging_response import MessagingResponse
 
 app = FastAPI()
 
-# Load the model, class dictionary and config module
-class_d = load(open("./mush_app/class_dict.pkl", "rb"))
-model = preprocessing.get_model("./mush_app/model/")
-IMAGE_SIZE = environ.get("IMAGE_SIZE","[224, 224]")
+root = environ.get("PYTHONPATH", ".").split(":")[0]
+class_d = load(open(f"{root}/class_dict.pkl", "rb"))
+model = preprocessing.get_model(f"{root}/model/")
+
+IMAGE_SIZE = environ.get("IMAGE_SIZE", "[224, 224]")
 IMAGE_SIZE = json.loads(IMAGE_SIZE)
 
 
@@ -40,7 +42,6 @@ def topk(array, k, axis=-1, sorted=True):
 
     if sorted:
         # Since our top-k indices are not correctly ordered, we can sort them with argsort
-        # only if sorted=True (otherwise we keep it in an arbitrary order)
         sorted_trunc_ind = np.flip(np.argsort(partitioned_scores, axis=axis), axis=axis)
         ind = np.take_along_axis(partitioned_ind, sorted_trunc_ind, axis=axis)
         scores = np.take_along_axis(partitioned_scores, sorted_trunc_ind, axis=axis)
@@ -116,30 +117,40 @@ def evaluate_preds(preds, upper_lim=0.90, middle_lim=0.60, lower_lim=0.30):
     return message
 
 
-@app.post("/sms/")
-async def sms_response(request: Request, response_model=Response):
-    form_data = await request.form()
-    sender_phone_number = form_data.get("From")
-    num_media = int(form_data.get("NumMedia", 0))
-    
-    response = MessagingResponse()
-    response.message("Please wait while we ID your fun guy...")
+@app.post("/sms")
+async def sms(request: Request):
+    """This function receives an incoming SMS message via Twilio and sends an automated response.
 
-    if num_media == '0':
-        response.message("Sorry, I can't identify your fun guy without a picture.")
-        return Response(content=str(response), media_type="text/xml")
-    
-    img_urls = [form_data.get(f"MediaUrl{idx}") for idx in range(num_media)]
+    Args:
+        request (Request): The incoming request object
 
+    Returns:
+        Response: The TwiML response to send back to Twilio
+    """
     try:
-        dataset = preprocessing.load_dataset(img_urls, sender_phone_number, IMAGE_SIZE)
+        # Get the incoming message body and sender's phone number, needs await to work
+        data = await request.form()
+        sender = data["From"]
+        url = data["MediaUrl0"]
+
+        dataset = preprocessing.load_dataset([url], sender, IMAGE_SIZE)
         predictions = model_predictions(dataset)
-        for prediction in predictions:
-            msg = evaluate_preds(prediction)
-            response.message(msg)
+        msg = evaluate_preds(predictions[0])
 
-    except Exception as error:
-        print(f"Error: {error}")
-        response.message("Sorry, something went wrong. Please try again.")
+        # Create a TwiML response object
+        twiml = MessagingResponse()
 
-    return Response(content=str(response), media_type="text/xml")
+        # Add a message to the response
+        twiml.message(msg)
+        # Return the TwiML response as a string
+        return Response(content=str(twiml), media_type="text/xml")
+
+    except Exception as e:
+        # Log the error
+        print(f"Error: {e}")
+        # Return an empty response
+        return ""
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, port=environ.get("PORT", 8080))

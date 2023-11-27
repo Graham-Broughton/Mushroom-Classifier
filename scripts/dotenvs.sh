@@ -3,4 +3,4 @@ echo "PYTHONPATH=$(pwd):$PYTHONPATH" >> .env
 
 cp .env monitoring/.env
 cp .env training/.env
-cp .env deploy/.env
+cp .env mush_app/.env
