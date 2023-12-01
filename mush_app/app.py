@@ -131,9 +131,9 @@ async def sms(request: Request):
         # Get the incoming message body and sender's phone number, needs await to work
         data = await request.form()
         sender = data["From"]
-        url = data["MediaUrl0"]
+        urls = [data[f"MediaUrl{i}"] for i in range(data['NumMedia'])]
 
-        dataset = preprocessing.load_dataset([url], sender, IMAGE_SIZE)
+        dataset = preprocessing.load_dataset(urls, sender, IMAGE_SIZE)
         predictions = model_predictions(dataset)
         msg = evaluate_preds(predictions[0])
 

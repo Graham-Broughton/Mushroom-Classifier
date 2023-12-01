@@ -73,7 +73,7 @@ preprocess_data:
 	@echo "Removing unused images..."
 	@poetry run python scripts/delete_unused_images.py $(TARGET_DATA_DIR)
 	@echo "Preprocessing data..."
-	@poetry run python training/src/data_processing/preprocessing.py
+	@poetry run python training/src/data_processing/train_preprocessing.py
 	@echo "Finished preprocessing data..."
 
 tfrecords: preprocess_data
@@ -126,14 +126,21 @@ $(MODEL_MARKER):
 	@pipenv run wandb artifact get model-registry/$(WANDB_REGISTERED_MODEL):latest --root $(MODEL_DIR)
 	@touch $(MODEL_MARKER)
 
+#################################################
+### Cloud Run
+#################################################
+
 cloud_run_build: get_deploy_model
 	@: $(eval VERSION := $(shell bash -c 'read -p "What version should it be tagged? " version; echo $$version'))
 	@echo "${GCR_TAG}${VERSION}"
-	@gcloud builds submit --tag "${GCR_TAG}:${VERSION}"
+	@cd mush_app && gcloud builds submit --tag "${GCR_TAG}:${VERSION}"
 
-cloud_run_deploy:
-	@gcloud run deploy mushroom-classifier --image=${GCR_TAG}:latest --max-instances=1 --min-instances=0 --port=8080 \
+cloud_run_deploy: cloud_run_build
+	@cd mush_app && gcloud run deploy mushroom-classifier --image=${GCR_TAG}:latest --max-instances=1 --min-instances=0 --port=8080 \
 --allow-unauthenticated --region=us-central1 --memory=16Gi --cpu=4 -q
+
+cloud_run_make_public:
+	@gcloud run services add-iam-policy-binding mushroom-classifier --member="allUsers" --role="roles/run.invoker"
 
 cloud_run_delete:
 	@gcloud run services delete mushroom-classifier --region=us-central1 -q
@@ -166,8 +173,10 @@ help:
 	@echo "download_model_weights: 				- Download Tensorflow model weights from a GitHub repo"
 	@echo "get_deploy_model:  					- Download the latest registered model from wandb"
 	@echo "deploy:            					- Deploy the model to a local server using ngrok"
-	@echo "run_grc_build:     					- Build the model on GCP using Cloud Build"
+	@echo "cloud_run_build:     					- Build the model on GCP using Cloud Build"
 	@echo "cloud_run_deploy:  					- Deploy the model to Cloud Run"
+	@echo "cloud_run_make_public: 				- Make the Cloud Run model public"
+	@echo "cloud_run_delete:  					- Delete the Cloud Run model"
 	@echo "terraform:         					- Deploy the model to GCP using Terraform"
 	@echo "========================================="
 
