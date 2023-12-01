@@ -11,15 +11,15 @@
   - [Important Make Commands](#important-make-commands)
 
 ## About the Project
-Hunting for mushrooms and foraging in general has become much more popular over the last few years. Unfortunately, people still make deadly misidentifications. This classifier does not aim to replace diligent identification yourself, but as a tool to put you in the right direction. Contained in this repo is all the code required to replicate the app yourself, including downloading the data and training. The app is deployed using Twilio webhooks to reply to MMS messages with an SMS containing the top 1-3 predictions based on how confident the model is. The training protocol results in top1 and top3 validation accuracies of 80%  and 95%, respectively, for images of resolution (224, 224) over 467 species.
+Hunting for mushrooms and foraging in general has become much more popular over the last few years. Unfortunately, people still make deadly misidentifications. This classifier does not aim to replace diligent identification, but to be used as a tool to put you in the right direction. Contained in this repo is all the code required to replicate the app yourself, including downloading the data, training and deployment. The app is deployed using Twilio webhooks to reply to MMS messages with an SMS containing the top 1-3 predictions based on how confident the model is. The training protocol results in top1 and top3 validation accuracies of 93% and 98%, respectively, for 467 species over 100 000 images of resolution (224, 224).
 
 ## TODO List
 
-- [x] train model to acceptable accuracy
+- [x] train model to an acceptable accuracy
 - [ ] create tests
-- [ ] implement terraform?
-- [ ] make a database for user images and ID
+- [ ] make a database and logic for user images and ID
 - [ ] web scraper for MO images
+- [ ] implement terraform?
 
 ## Getting Started
 
@@ -27,11 +27,12 @@ Hunting for mushrooms and foraging in general has become much more popular over 
 
 - Ensure you have a working python 3.11 installation
 - Create a Twilio account and buy a phone number
-- Make a Google Cloud account & save the main service account credentials
-- Create two other service accounts and save the credentials: 
+- Make a Google Cloud account & save the main service account credentials to the root of the repo
+<!-- - Create two other service accounts and save the credentials: 
   - the first one will need admin privileges (Terraform)
-  - the second will be for managing permissions around the files so leave it blank for
-- Install Poetry & set up a Weights and Biases account for MLOPs
+  - the second will be for managing permissions around the files so leave it blank for now -->
+- Install Poetry
+- Set up a Weights and Biases account for MLOPs
 
 ### Installation
 

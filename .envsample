@@ -9,4 +9,4 @@ GOOGLE_ACCOUNT_NAME: <email address of the host account>
 REMOTE_IP: (Optional) <Remote IP of the server on which you're running MLFlow (Note: Prefect will need to be configured accordingly if the agent is running on a different host). If blank, will default to localhost>
 SENDGRID_API_KEY: (Optional) <API key for SendGrid for automated email>
 SENDGRID_INTEGRATION: (Optional) <Set as any value to skip the SendGrid automated email>
-PERSONAL_EMAIL: (Optional) <In case SendGrid is configured, put your personal email here>
+PERSONAL_EMAIL: (Optional) "In case SendGrid is configured, put your personal email here"

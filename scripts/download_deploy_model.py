@@ -1,10 +1,11 @@
 import wandb
 from dotenv import load_dotenv
 from pathlib import Path
+from os import environ
 
 load_dotenv()
 
-root = Path(__file__).parent.parent
+root = Path(environ.get("PYTHONPATH"))
 deploy_model_path = root / "mush_app" / "model"
 deploy_model_path.mkdir(parents=True, exist_ok=False)
 

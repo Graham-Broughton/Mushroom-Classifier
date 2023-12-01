@@ -1,18 +1,22 @@
 import hashlib
 import io
-import sqlite3
+from os import environ
+from pathlib import Path
 
 import numpy as np
 import requests
 import tensorflow as tf
+from google.cloud import bigquery
 from PIL import Image
 
+PROJECT = environ.get("GCP_PROJECT_ID")
 
-def get_model(path):
+
+def get_model(path: Path):
     return tf.keras.models.load_model(path)
 
 
-def get_image(url):
+def get_image(url: str):
     """Retrieves an image from the specified URL and returns it as a PIL Image object.
 
     Args:
@@ -51,33 +55,57 @@ def hash_phone_number(phone_number):
     return hasher.hexdigest()
 
 
-def initialize_database(database_name="image_data.db"):
-    """Initializes the database by creating the 'image_data' table if it doesn't exist.
+def initialize_database(
+    dataset_name="image_database",
+    table_name="image_data",
+    location: str = "us-central1",
+):
+    """Initializes the database by creating the dataset and table in Google BigQuery if they don't exist.
 
     Args:
-        database_name (str): The name of the database file. Default is 'image_data.db'.
+        dataset_name (str): The name of the dataset. Default is 'image_database'.
+        table_name (str): The name of the table. Default is 'image_data'.
     """
-    conn = sqlite3.connect(database_name)
-    cursor = conn.cursor()
-    cursor.execute("""
-CREATE TABLE IF NOT EXISTS image_data (
-    id INTEGER PRIMARY KEY,
-    hash_id TEXT,
-    image BLOB)
-"""
-)
-    conn.commit()
-    conn.close()
+    # Create the dataset if it doesn't exist
+    client = bigquery.Client(project=str(PROJECT))
+    dataset_ref = bigquery.DatasetReference(str(PROJECT), str(dataset_name))
+    dataset = bigquery.Dataset(dataset_ref)
+    dataset.location = location
+    dataset = client.create_dataset(dataset, exists_ok=True)
+
+    # Create the table if it doesn't exist
+    table_ref = dataset.table(table_name)
+    schema = [
+        bigquery.SchemaField("id", "INTEGER", mode="REQUIRED"),
+        bigquery.SchemaField("hash_id", "STRING", mode="REQUIRED"),
+        bigquery.SchemaField("image", "BYTES", mode="REQUIRED"),
+    ]
+    table = bigquery.Table(table_ref, schema=schema)
+    table = client.create_table(table, exists_ok=True)
 
 
-def insert_image_data(hash_id: str, img: Image):
+def insert_image_data(
+    hash_id: str,
+    img: Image,
+    dataset_name="image_database",
+    table_name="image_data",
+    client=None,
+):
     """Inserts image data into the database.
 
     Args:
         hash_id (str): The unique identifier for the image.
         img (PIL.Image): The image to be inserted into the database.
     """
-    initialize_database()
+    # Initialize the BigQuery client
+    if not client:
+        client = bigquery.Client(project=str(PROJECT))
+    initialize_database(dataset_name, table_name)
+
+    # Get the dataset and table references
+    dataset_ref = bigquery.DatasetReference(str(PROJECT), str(dataset_name))
+    table_ref = dataset_ref.table("image_data")
+
     # Convert PIL image to binary format
     img_byte_arr = io.BytesIO()
     img.save(
@@ -85,17 +113,14 @@ def insert_image_data(hash_id: str, img: Image):
     )  # Assuming format is JPEG, adjust if necessary
     img_blob = img_byte_arr.getvalue()
 
-    # Connect to the database
-    conn = sqlite3.connect("image_data.db")
-    cursor = conn.cursor()
+    # Create the row to be inserted
+    row_to_insert = {
+        "hash_id": hash_id,
+        "image": img_blob,
+    }
 
-    # Insert the data using parameter substitution
-    cursor.execute(
-        "INSERT INTO image_data (hash_id, image) VALUES (?, ?)", (hash_id, img_blob)
-    )
-
-    conn.commit()
-    conn.close()
+    # Insert the row into the table
+    client.insert_rows_json(table_ref, [row_to_insert])
 
 
 def process_image(url, hash_id, image_size):
@@ -108,7 +133,7 @@ def process_image(url, hash_id, image_size):
         image_size (tuple): The desired size of the image after resizing.
 
     Returns:
-        tf.Tensor: The processed image as a TensorFlow tensor.
+        img (tf.Tensor): The processed image as a TensorFlow tensor.
     """
     img = get_image(url)
     insert_image_data(
@@ -128,7 +153,7 @@ def load_dataset(url_list, phone_number, image_size):
         image_size (tuple): The desired size of the images.
 
     Returns:
-        tf.data.Dataset: A TensorFlow dataset containing the preprocessed images.
+        ds (tf.data.Dataset): A TensorFlow dataset containing the preprocessed images.
     """
     hash_id = hash_phone_number(phone_number)
     imgs_list = list(
@@ -140,3 +165,7 @@ def load_dataset(url_list, phone_number, image_size):
     ds = tf.data.Dataset.from_tensor_slices(imgs_list)
     ds = ds.batch(1)
     return ds
+
+
+if __name__ == "__main__":
+    initialize_database()
