@@ -17,7 +17,7 @@ print(f"Tensorflow version {tf.__version__}")
 
 
 def batch_to_numpy_images_and_labels(data):
-    (images, metas), labels = data
+    images, labels = data
     numpy_images = images.numpy()
     numpy_labels = labels.numpy()
     if (

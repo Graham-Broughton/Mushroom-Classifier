@@ -10,7 +10,7 @@ from twilio.twiml.messaging_response import MessagingResponse
 
 app = FastAPI()
 
-root = environ.get("PYTHONPATH", ".").split(":")[0]
+root = environ.get("PYTHONPATH", ".")
 class_d = load(open(f"{root}/class_dict.pkl", "rb"))
 model = preprocessing.get_model(f"{root}/model/")
 
