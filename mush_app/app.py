@@ -10,7 +10,7 @@ from twilio.twiml.messaging_response import MessagingResponse
 
 app = FastAPI()
 
-root = environ.get("PYTHONPATH", ".")
+root = environ.get("ROOT", "./")
 class_d = load(open(f"{root}/class_dict.pkl", "rb"))
 model = preprocessing.get_model(f"{root}/model/")
 
@@ -131,7 +131,7 @@ async def sms(request: Request):
         # Get the incoming message body and sender's phone number, needs await to work
         data = await request.form()
         sender = data["From"]
-        urls = [data[f"MediaUrl{i}"] for i in range(data['NumMedia'])]
+        urls = [data[f"MediaUrl{str(i)}"] for i in range(int(data["NumMedia"]))]
 
         dataset = preprocessing.load_dataset(urls, sender, IMAGE_SIZE)
         predictions = model_predictions(dataset)
