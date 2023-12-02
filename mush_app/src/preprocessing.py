@@ -76,7 +76,6 @@ def initialize_database(
     # Create the table if it doesn't exist
     table_ref = dataset.table(table_name)
     schema = [
-        bigquery.SchemaField("id", "INTEGER", mode="REQUIRED"),
         bigquery.SchemaField("hash_id", "STRING", mode="REQUIRED"),
         bigquery.SchemaField("image", "BYTES", mode="REQUIRED"),
     ]
@@ -120,7 +119,7 @@ def insert_image_data(
     }
 
     # Insert the row into the table
-    client.insert_rows_json(table_ref, [row_to_insert])
+    client.insert_rows(client.get_table(table_ref), [row_to_insert])
 
 
 def process_image(url, hash_id, image_size):
