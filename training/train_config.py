@@ -27,7 +27,7 @@ class CFG:
     FIRST_FOLD_ONLY: bool = False
 
     # MODEL SETTINGS
-    MODEL: str = "swinv2_large_256"
+    MODEL: str = "swin_large_224"
     OPT: str = "AdamW"
     LR_SCHED: str = "CosineWarmup"
     WGTS: float = 1 / FOLDS
@@ -54,17 +54,17 @@ class CFG:
     EPOCHS: int = 40
     BASE_BATCH_SIZE: int = 32
     BATCH_SIZE: int = 0
-    RAW_SIZE: List = field(default_factory=lambda: [384, 384])
-    CROP_SIZE: List = field(default_factory=lambda: [256, 256])
+    RAW_SIZE: List = field(default_factory=lambda: [256, 256])
+    CROP_SIZE: List = field(default_factory=lambda: [224, 224])
 
     ## LEARNING RATE SETTINGS
     ### Cosine
     # LR_START: float = 0.0001
 
     ### CosineWarmup
-    LR_START: float = 0.00001
+    LR_START: float = 0.0000001
     ALPHA: float = 0.00005
-    WARMUP_TARGET: float = 0.001
+    WARMUP_TARGET: float = 0.0001
 
     # ### CosineRestarts
     # LR_START: float = 0.00001

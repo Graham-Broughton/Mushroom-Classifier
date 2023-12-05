@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "mush-app"
+version = "0.1.0"
+description = ""
+authors = ["Graham-Broughton <broughton.graham@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.12"
+tensorflow = "^2.15.0"
+numpy = "^1.26.2"
+fastapi = "^0.104.1"
+uvicorn = "^0.24.0.post1"
+pillow = "^10.1.0"
+google-cloud-bigquery = "^3.13.0"
+twilio = "^8.10.3"
+python-multipart = "^0.0.6"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -64,6 +64,15 @@
   "python.terminal.activateEnvInCurrentTerminal": true,
   "python.terminal.focusAfterLaunch": true,
   "peacock.color": "#270955",
+  "python.testing.unittestArgs": [
+    "-v",
+    "-s",
+    "./tests",
+    "-p",
+    "test_*.py"
+  ],
+  "python.testing.pytestEnabled": false,
+  "python.testing.unittestEnabled": true,
   "workbench.colorCustomizations": {
     "activityBar.activeBackground": "#3c0e83",
     "activityBar.background": "#3c0e83",
@@ -84,13 +93,4 @@
     "titleBar.inactiveBackground": "#27095599",
     "titleBar.inactiveForeground": "#e7e7e799"
   },
-  "python.testing.unittestArgs": [
-    "-v",
-    "-s",
-    "./tests",
-    "-p",
-    "test_*.py"
-  ],
-  "python.testing.pytestEnabled": false,
-  "python.testing.unittestEnabled": true,
 }
