@@ -19,6 +19,7 @@ Hunting for mushrooms and foraging in general has become much more popular over 
 - [x] create working docker image
 - [x] implement fastapi in docker image and deploy on Google Run
 - [x] logic to save hash of phone number and received image in BigQuery
+- [ ] setup monitoring
 - [ ] make a CI/CD pipeline with parameterized env vars
 - [ ] create tests
 - [ ] web scraper for MO images
