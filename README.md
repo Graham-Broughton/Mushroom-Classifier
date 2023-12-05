@@ -16,8 +16,11 @@ Hunting for mushrooms and foraging in general has become much more popular over 
 ## TODO List
 
 - [x] train model to an acceptable accuracy
+- [x] create working docker image
+- [x] implement fastapi in docker image and deploy on Google Run
+- [x] logic to save hash of phone number and received image in BigQuery
+- [ ] make a CI/CD pipeline with parameterized env vars
 - [ ] create tests
-- [ ] make a database and logic for user images and ID
 - [ ] web scraper for MO images
 - [ ] implement terraform?
 
@@ -25,23 +28,24 @@ Hunting for mushrooms and foraging in general has become much more popular over 
 
 ### Prerequisites
 
-- Ensure you have a working python 3.11 installation
-- Create a Twilio account and buy a phone number
-- Make a Google Cloud account & save the main service account credentials to the root of the repo
+1. Ensure you have a working python 3.11 installation
+2. Create a Twilio account and buy a phone number
+3. Make a Google Cloud account & save the main service account credentials to the root of the repo
 <!-- - Create two other service accounts and save the credentials: 
   - the first one will need admin privileges (Terraform)
   - the second will be for managing permissions around the files so leave it blank for now -->
-- Install Poetry
-- Set up a Weights and Biases account for MLOPs
+4. Install Poetry
+5. Set up a Weights and Biases account for MLOPs
+6. Create an account with ngrok for local testing
 
 ### Installation
 
 1. Clone this repository:
 
-    `git clone https://github.com/Graham-Broughton/Mushroom-Classifier`
+    `git clone https://github.com/Graham-Broughton/Mushroom-Classifier.git`
 
 2. Create an .env file in the root directory using the .envsample file as a template
-3. Move the Terraform JSON credentials into the 'infrastructure' folder, rename it to terraform-account.json (the other ones can just stay in the root dir)
+<!-- 3. Move the Terraform JSON credentials into the 'infrastructure' folder, rename it to terraform-account.json (the other ones can just stay in the root dir) -->
 
 ## Usage
 
@@ -49,9 +53,11 @@ As stated previously, this project was designed to be very easy to use while sti
 
 ### Important Make Commands
 
-1. `make init` Installs the requirements in a virtual environment managed by Poetry & copies the .env file to needed locations.
-2. `make dotenv` Adds to, and copies the .env file you created to all the places it needs to be.
-3. `make -j2 datasets_of_interest` Download & extracts the required datasets (FGVCX 2018 & 2021). You will need around 700Gb of disk space for this step. The data strain is much lower when preprocessing is complete, you can create a new VM with much less disk space afterwords.
-4. `make tfrecords` Removes non-fungal images and processes and combines the associated json data from the datasets into a useable dataframe. This dataframe is then used for processing the images and important metadata into TFRecords.
-5. `make deploy` Download the latest model version from Weights and Biases and deploy it.
+1. `make init` Runs make dotenv and build: copies the .env to needed directories and installs the required packages
+2. `make -j2 datasets_of_interest` Download & extracts the required datasets (FGVCX 2018 & 2021). You will need around 700Gb of disk space for this step. The data strain is much lower when preprocessing is complete, so you can create a new VM with much less disk space afterwords.
+3. `make tfrecords` Removes non-fungal images and processes and combines the associated json data from the datasets into a useable dataframe. This dataframe is then used for processing the images and important metadata into TFRecords using default resolution or your choice.
+4. `make local_deploy` Download the latest model version from Weights and Biases and deploy it locally using ngrok.
+5. `make cloud_run_build` Runs make get_deploy_model to download the latest model from wandb then builds a docker image with your chosen tag
+6. `make cloud_run_deploy` Runs make cloud_run_build to package the app then deploys it on Google Cloud Run
+7. `make cloud_run_delete` Deletes the deployed service
 
