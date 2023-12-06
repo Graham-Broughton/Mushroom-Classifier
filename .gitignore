@@ -129,7 +129,8 @@ dmypy.json
 .pyre/
 
 *.gz
-**/data/**
+**/data/MO/*.csv
+**/data/*.JPG
 !**/train.csv
 **/wandb
 *.pb
@@ -139,3 +140,4 @@ infrastructure/terraform-account.json
 training/data/train.csv
 **.db
 *.downloaded
+!**/MO_images.csv
