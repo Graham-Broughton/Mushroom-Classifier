@@ -6,7 +6,7 @@ import tensorflow as tf
 import wandb
 from tensorflow.keras import Model, Sequential, layers
 
-from src.models.SwinTransformer import SwinTransformer
+from training.src.models.swintransformer import SwinTransformer
 
 
 def make_callbacks(CFG):
