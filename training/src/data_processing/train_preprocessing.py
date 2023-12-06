@@ -263,7 +263,7 @@ def join_datasets(root) -> tuple:
         tuple: A tuple containing the concatenated dataframe and month distribution.
     """
     df1 = parse_2018_data(root / "2018")
-    df2 = parse_2018_data(root / "2019")
+    df2 = parse_2019_data(root / "2019")
     df3 = parse_2021_data(root / "2021")
     logger.info("Joining all datasets")
 
