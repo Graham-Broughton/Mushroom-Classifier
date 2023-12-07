@@ -132,6 +132,8 @@ dmypy.json
 **/data/MO/*.csv
 **/data/*.JPG
 !**/train.csv
+**/*.jpg
+**/*.tfrec
 **/wandb
 *.pb
 **/variables.*
@@ -141,3 +143,4 @@ training/data/train.csv
 **.db
 *.downloaded
 !**/MO_images.csv
+**/images/*.jpg

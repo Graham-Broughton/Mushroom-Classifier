@@ -5,7 +5,6 @@ from pathlib import Path
 import cv2
 import pandas as pd
 from loguru import logger
-from sklearn.model_selection import StratifiedKFold
 from tqdm import trange
 from tqdm.contrib.concurrent import process_map
 
@@ -21,17 +20,21 @@ warnings.filterwarnings("ignore")
 AUTO = tf.data.experimental.AUTOTUNE
 
 
-def load_dataframe(root_path: Path):
+def load_dataframe(path: Path):
     """This function loads a dataframe from the given root path.
 
     Parameters:
-        root_path (pathlib.Path): The root path where the dataframe is located.
+        path (pathlib.Path): The root path where the dataframe is located.
 
     Returns:
         DataFrame: The loaded dataframe.
     """
-    df = pd.read_csv(root_path.parent / "train.csv")
-    df = df.sample(frac=1.0, random_state=CFG.SEED).reset_index(drop=True)
+    df = pd.read_csv(path)
+    df = (df
+          .sample(frac=1.0, random_state=CFG.SEED)
+          .sample(frac=1.0, random_state=CFG.SEED)
+          .reset_index(drop=True)
+    )
 
     logger.info("Loaded and shuffled dataframe")
     logger.debug(f"Dataframe shape: {df.shape}")
@@ -96,11 +99,9 @@ def get_data(df: pd.DataFrame, num_records: int = 107):
 
 
 def write_sp_tfrecords(
+    dataframe_path: Path,
     tfrec_path: Path,
-    img_path: Path,
-    num_train_records: int,
-    # num_val_records: int,
-    reshape_size: int,
+    num_records: int,
 ):
     """This function writes single process TFRecords.
 
@@ -115,41 +116,37 @@ def write_sp_tfrecords(
     # tqdm_logger = logger.add(lambda msg: tqdm.write(msg, end=""))
 
     # load dataframes and iterate over them
-    df = load_dataframe(root_path=img_path)
-    num_records = num_train_records
+    df = load_dataframe(path=dataframe_path)
     IMGS, SIZE, CT = get_data(df, num_records)
 
     # iterate over the number of tfrecords
     for j in trange(CT):
-        logger.info(f"Writing {j:02d} of {CT} tfrecords")
+        # logger.info(f"Writing {j:02d} of {CT} tfrecords")
         CT2 = min(
             SIZE, len(IMGS) - j * SIZE
         )  # get the number of images in a tfrecord
 
         # create the path to write the tfrecord to
-        path = tfrec_path / f"tfrecords-jpeg-{reshape_size}x{reshape_size}"
+        path = tfrec_path / "tfrecords-jpeg-raw"
         path.mkdir(parents=True, exist_ok=True)
 
         with tf.io.TFRecordWriter(
             str(path / f"train{j:02d}-{CT2}.tfrec")
         ) as writer:
-            for k in trange(CT2, leave=False):  # for each image in the tfrecord
-                if k % 100 == 0:
-                    logger.info(f"Writing {k:02d} of {CT2} train tfrecord images")
 
+            # Iterate through the rows of the dataframe
+            for k in trange(CT2, leave=False):
+                # if k % 100 == 0:
+                    # logger.info(f"Writing {k:02d} of {CT2} train tfrecord images")
+                row = df.iloc[SIZE * j + k]
                 # load image from disk, change RGB to cv2 default BGR format, resize to reshape_sizes and encode as jpeg
-                img = cv2.imread(str(img_path / f"{IMGS[SIZE * j + k]}"))
+                img = cv2.imread(row.file_path)
                 img = cv2.imencode(".jpg", img)[1].tobytes()
 
-                # read specific row from dataframe to get data and serialize it
-                row = df.loc[df.file_path == IMGS[SIZE * j + k]].iloc[0]
+                # Serialize data
                 example = serialize_example(
                     img,
-                    row.file_name.split(".")[0],
-                    row.longitude,
-                    row.latitude,
-                    row.date,
-                    row.class_priors,
+                    row.file_name.split(".")[0].encode('utf8'),
                     row.width,
                     row.height,
                     row.class_id,
@@ -255,7 +252,6 @@ def write_mp_tfrecords(**kwargs):
             img_directory (pathlib.Path): Path to the directory containing the images.
             tfrecords_directory (pathlib.Path): Path to the directory where the TFRecord files will be saved.
             num_train_records (int): Number of training records to write.
-            num_validation_records (int): Number of validation records to write.
             img_size (tuple): Tuple containing the size of the images.
     """
     df = load_dataframe(root_path=kwargs["img_directory"])
@@ -289,12 +285,9 @@ if __name__ == "__main__":
     argparser = argparse.ArgumentParser()
     argparser.add_argument(
         "-d",
-        "--img-directory",
-        default=CFG.RAW_DATA,
-        const=CFG.RAW_DATA,
-        nargs="?",
-        required=False,
-        help="Image base location",
+        "--df-path",
+        required=True,
+        help="Path of dataframe",
     )
     argparser.add_argument(
         "-p",
@@ -307,28 +300,13 @@ if __name__ == "__main__":
     )
     argparser.add_argument(
         "-t",
-        "--num-train-records",
+        "--num-records",
         type=int,
         nargs="?",
         default=CFG.NUM_TRAINING_RECORDS,
         help="number of train records",
     )
-    # argparser.add_argument(
-    #     "-v",
-    #     "--num-validation-records",
-    #     type=int,
-    #     nargs="?",
-    #     default=CFG.NUM_VALIDATION_RECORDS,
-    #     help="number of validation records",
-    # )
-    argparser.add_argument(
-        "-s",
-        "--img-size",
-        type=int,
-        nargs="?",
-        default=256,  # CFG.IMAGE_SIZE,
-        help="image size",
-    )
+    
     argparser.add_argument(
         "-m",
         "--multiprocessing",
