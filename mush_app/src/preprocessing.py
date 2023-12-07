@@ -9,7 +9,7 @@ import tensorflow as tf
 from google.cloud import bigquery
 from PIL import Image
 
-PROJECT = environ.get("GCP_PROJECT_ID")
+PROJECT = environ.get("GCP_PROJECT")
 
 
 def get_model(path: Path):
