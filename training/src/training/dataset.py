@@ -17,11 +17,6 @@ def read_labeled_tfrecord(example, CFG):
     feature_description = {
         "image/encoded": tf.io.FixedLenFeature([], tf.string),
         "image/id": tf.io.FixedLenFeature([], tf.string),
-        "image/meta/longitude": tf.io.FixedLenFeature([], tf.float32),
-        "image/meta/latitude": tf.io.FixedLenFeature([], tf.float32),
-        "image/meta/month": tf.io.FixedLenFeature([], tf.int64),
-        "image/meta/day": tf.io.FixedLenFeature([], tf.int64),
-        "image/meta/class_priors": tf.io.FixedLenFeature([], tf.float32),
         "image/meta/width": tf.io.FixedLenFeature([], tf.int64),
         "image/meta/height": tf.io.FixedLenFeature([], tf.int64),
         "image/class/label": tf.io.FixedLenFeature([], tf.int64),
@@ -35,17 +30,10 @@ def read_labeled_tfrecord(example, CFG):
     image = decode_image(example["image/encoded"], smallest_side, CFG)
     label = tf.cast(example["image/class/label"], tf.int32)
 
-    month = tf.cast(example["image/meta/month"], tf.float32)
-    day = tf.cast(example["image/meta/day"], tf.float32)
-
-    lon = tf.cast(example["image/meta/longitude"], tf.float32)
-    lat = tf.cast(example["image/meta/latitude"], tf.float32)
-    latlong = tf.stack([lat, lon], axis=-1)  # Convert to a tensor
-
     id = tf.cast(example["image/id"], tf.string)
 
-    meta = dict(latlong=latlong, month=month, day=day)  # , id=id
-    return image, meta, label
+    # meta = dict(latlong=latlong, month=month, day=day)  # , id=id
+    return image, label
 
 
 def get_date_feats(meta):
