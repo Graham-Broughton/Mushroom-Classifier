@@ -11,6 +11,7 @@
   - [Important Make Commands](#important-make-commands)
 
 ## About the Project
+
 Hunting for mushrooms and foraging in general has become much more popular over the last few years. Unfortunately, people still make deadly misidentifications. This classifier does not aim to replace diligent identification, but to be used as a tool to put you in the right direction. Contained in this repo is all the code required to replicate the app yourself, including downloading the data, training and deployment. The app is deployed using Twilio webhooks to reply to MMS messages with an SMS containing the top 1-3 predictions based on how confident the model is. The training protocol results in top1 and top3 validation accuracies of 93% and 98%, respectively, for 467 species over 100 000 images of resolution (224, 224).
 
 ## TODO List
@@ -19,10 +20,10 @@ Hunting for mushrooms and foraging in general has become much more popular over 
 - [x] create working docker image
 - [x] implement fastapi in docker image and deploy on Google Run
 - [x] logic to save hash of phone number and received image in BigQuery
+- [x] add more images with more classes from Mushroom Observer
 - [ ] setup monitoring
 - [ ] make a CI/CD pipeline with parameterized env vars
 - [ ] create tests
-- [ ] web scraper for MO images
 - [ ] implement terraform?
 
 ## Getting Started

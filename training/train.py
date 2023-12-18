@@ -1,7 +1,6 @@
 import math
 import os
 import pickle
-import re
 
 import numpy as np
 import tensorflow as tf

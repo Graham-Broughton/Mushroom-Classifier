@@ -16,7 +16,6 @@ google-cloud-bigquery = "^3.13.0"
 twilio = "^8.10.3"
 python-multipart = "^0.0.6"
 
-
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

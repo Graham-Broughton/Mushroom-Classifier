@@ -1,13 +1,12 @@
 import warnings
+from multiprocessing import cpu_count
 from os import environ
 from pathlib import Path
 
-import cv2
 import pandas as pd
 from loguru import logger
 from tqdm import trange
 from tqdm.contrib.concurrent import process_map
-from multiprocessing import cpu_count
 
 environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
@@ -133,8 +132,7 @@ def write_sp_tfrecords(
             for k in trange(CT2, leave=False):
                 row = df[df["file_path"] == IMGS[SIZE * j + k]].iloc[0]
                 # load image from disk, resize to reshape_sizes and encode as jpeg
-                img = cv2.imread(row.file_path)
-                img = cv2.imencode(".jpg", img)[1].tobytes()
+                img = tf.io.read_file(row.file_path)
 
                 # Serialize data
                 example = serialize_example(
@@ -189,8 +187,7 @@ def write_single_mp_tfrecord(params: tuple):
         for _, row in df.iterrows():
             image_path = row["file_path"]  # for each image in the tfrecord..
             # load image from disk, change RGB to cv2 default BGR format, resize to reshape_sizes and encode as jpeg
-            img = cv2.imread(image_path)
-            img = cv2.imencode(".jpg", img)[1].tobytes()
+            img = tf.io.read_file(str(image_path))
 
             # read specific row from dataframe to get data and serialize it
             example = serialize_example(
@@ -203,7 +200,9 @@ def write_single_mp_tfrecord(params: tuple):
             writer.write(example)
 
 
-def write_mp_tfrecords(dataframe_path, tfrecords_directory, num_records, num_processes=cpu_count()):
+def write_mp_tfrecords(
+    dataframe_path, tfrecords_directory, num_records, num_processes=cpu_count()
+):
     """Writes multiple TFRecord files for the mushroom classifier dataset.
 
     Args:
