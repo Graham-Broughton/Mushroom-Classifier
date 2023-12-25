@@ -11,7 +11,7 @@ from twilio.twiml.messaging_response import MessagingResponse
 app = FastAPI()
 
 root = environ.get("ROOT", "./")
-class_d = load(open(f"{root}/class_dict.pkl", "rb"))
+class_d = load(open(f"{root}/class_dict_NEW.pkl", "rb"))
 model = preprocessing.get_model(f"{root}/model/")
 
 IMAGE_SIZE = environ.get("IMAGE_SIZE", "[224, 224]")
@@ -143,7 +143,7 @@ async def sms(request: Request):
         # Add a message to the response
         twiml.message(msg)
         # Return the TwiML response as a string
-        return Response(content=str(twiml), media_type="text/xml")
+        return Response(content=str(twiml), media_type="application/xml")
 
     except Exception as e:
         # Log the error
@@ -153,4 +153,4 @@ async def sms(request: Request):
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, port=environ.get("PORT", 8080))
+    uvicorn.run(app, port=environ.get("PORT", 5000))

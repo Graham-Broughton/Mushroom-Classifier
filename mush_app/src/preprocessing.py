@@ -7,9 +7,10 @@ import numpy as np
 import requests
 import tensorflow as tf
 from google.cloud import bigquery
+import google.auth
 from PIL import Image
 
-PROJECT = environ.get("GCP_PROJECT")
+credentials, project = google.auth.default()
 
 
 def get_model(path: Path):
@@ -55,34 +56,6 @@ def hash_phone_number(phone_number):
     return hasher.hexdigest()
 
 
-def initialize_database(
-    dataset_name="image_database",
-    table_name="image_data",
-    location: str = "us-central1",
-):
-    """Initializes the database by creating the dataset and table in Google BigQuery if they don't exist.
-
-    Args:
-        dataset_name (str): The name of the dataset. Default is 'image_database'.
-        table_name (str): The name of the table. Default is 'image_data'.
-    """
-    # Create the dataset if it doesn't exist
-    client = bigquery.Client(project=str(PROJECT))
-    dataset_ref = bigquery.DatasetReference(str(PROJECT), str(dataset_name))
-    dataset = bigquery.Dataset(dataset_ref)
-    dataset.location = location
-    dataset = client.create_dataset(dataset, exists_ok=True)
-
-    # Create the table if it doesn't exist
-    table_ref = dataset.table(table_name)
-    schema = [
-        bigquery.SchemaField("hash_id", "STRING", mode="REQUIRED"),
-        bigquery.SchemaField("image", "BYTES", mode="REQUIRED"),
-    ]
-    table = bigquery.Table(table_ref, schema=schema)
-    table = client.create_table(table, exists_ok=True)
-
-
 def insert_image_data(
     hash_id: str,
     img: Image,
@@ -98,13 +71,37 @@ def insert_image_data(
     """
     # Initialize the BigQuery client
     if not client:
-        client = bigquery.Client(project=str(PROJECT))
-    initialize_database(dataset_name, table_name)
-
+        client = bigquery.Client(project=project, credentials=credentials)
+    
     # Get the dataset and table references
-    dataset_ref = bigquery.DatasetReference(str(PROJECT), str(dataset_name))
-    table_ref = dataset_ref.table("image_data")
+    dataset_ref = bigquery.DatasetReference(project, str(dataset_name))
 
+    def initialize_database(
+        location: str = "us-central1",
+    ):
+        """Initializes the database by creating the dataset and table in Google BigQuery if they don't exist.
+
+        Args:
+            dataset_name (str): The name of the dataset. Default is 'image_database'.
+            table_name (str): The name of the table. Default is 'image_data'.
+        """
+        # Create the dataset if it doesn't exist
+        dataset = bigquery.Dataset(dataset_ref)
+        dataset.location = location
+        dataset = client.create_dataset(dataset, exists_ok=True)
+
+        # Create the table if it doesn't exist
+        table_ref = dataset.table(table_name)
+        schema = [
+            bigquery.SchemaField("hash_id", "STRING", mode="REQUIRED"),
+            bigquery.SchemaField("image", "BYTES", mode="REQUIRED"),
+        ]
+        table = bigquery.Table(table_ref, schema=schema)
+        table = client.create_table(table, exists_ok=True)
+     
+    initialize_database()
+
+    table_ref = dataset_ref.table("image_data")
     # Convert PIL image to binary format
     img_byte_arr = io.BytesIO()
     img.save(
