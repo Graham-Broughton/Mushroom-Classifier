@@ -153,4 +153,4 @@ async def sms(request: Request):
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, port=environ.get("PORT", 5000))
+    uvicorn.run(app, port=environ.get("PORT", 8080))
