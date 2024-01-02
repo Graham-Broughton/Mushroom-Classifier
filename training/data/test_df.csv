@@ -1,0 +1,1855 @@
+Prediction,Actual Label,Score,ids,Species,Species Pred
+118,118,0.9991402626037598,b'447235',Armillaria tabescens,Armillaria tabescens
+751,486,0.9905363917350769,b'1246375',Gymnopus dryophilus,Marasmius strictipes
+1159,1159,0.5910300612449646,b'928689',Suillus luteus,Suillus luteus
+851,851,0.46069827675819397,b'1074323',Paragyrodon sphaerosporus,Paragyrodon sphaerosporus
+1104,147,0.4533325731754303,b'631181',Battarrea phalloides,Sarcosphaera coronaria
+196,196,0.9973359107971191,b'6acabb9a-ee75-4679-a1ab-7c7bb19c247c',Calocera cornea,Calocera cornea
+1128,1128,0.9593943357467651,b'918562',Stereum complicatum,Stereum complicatum
+103,86,0.1565057784318924,b'1052718',Amanita pseudovolvata,Amanita velosa
+814,814,0.7440933585166931,b'8a59ace2-e4c3-455e-8a1d-c24d1282aabd',Naematelia aurantia,Naematelia aurantia
+229,229,0.6886578798294067,b'1318886',Cerrena unicolor,Cerrena unicolor
+503,503,0.586898922920227,b'311967',Hebeloma mesophaeum,Hebeloma mesophaeum
+656,656,0.9976074695587158,b'349430',Lactifluus corrugis,Lactifluus corrugis
+1278,1278,0.9807325005531311,b'47c40970-62db-4cce-9aa3-7a179bf84753',Xerocomus subtomentosus,Xerocomus subtomentosus
+330,330,0.8198565244674683,b'1133600',Cortinarius smithii,Cortinarius smithii
+326,326,0.9999914169311523,b'501be0f7-c75c-49e5-9580-ae4a1606260a',Cortinarius iodes,Cortinarius iodes
+128,128,0.9996005892753601,b'44715136-46cb-4bf1-8f6d-0288aa10fe8b',Astraeus hygrometricus,Astraeus hygrometricus
+89,55,0.6968463063240051,b'549885',Amanita daucipes,Amanita rhopalopus
+731,731,0.935360312461853,b'1412789',Lycoperdon molle,Lycoperdon molle
+215,215,0.9878733158111572,b'293596',Cantharellus formosus,Cantharellus formosus
+749,749,0.9736107587814331,b'1336141',Marasmius rotula,Marasmius rotula
+1137,1135,0.5036702752113342,b'892643',Strobilomyces confusus,Strobilomyces strobilaceus
+77,39,0.8917417526245117,b'609776',Amanita ameripanthera,Amanita pantherina
+1132,1131,0.5379652380943298,b'b065bdc5-f527-4eac-85f5-ba9925c600cb',Stereum ostrea,Stereum versicolor
+64,64,0.2234104424715042,b'332057',Amanita gemmata,Amanita gemmata
+1002,1003,0.5366635918617249,b'680957',Psilocybe semilanceata,Psilocybe pelliculosa
+326,326,0.8287885189056396,b'83863',Cortinarius iodes,Cortinarius iodes
+911,911,0.9764804244041443,b'128947',Phyllotopsis nidulans,Phyllotopsis nidulans
+1265,828,0.9994778037071228,b'591246',Non-Diagnostic,Volvopluteus gloiocephalus
+655,655,0.7222102284431458,b'481863',Lactarius xanthogalactus,Lactarius xanthogalactus
+598,598,0.533050000667572,b'19890',Infundibulicybe gibba,Infundibulicybe gibba
+80,80,0.9117953777313232,b'835048',Amanita phalloides,Amanita phalloides
+64,64,0.4631463885307312,b'38d397f0-edf9-4fad-8c79-4d863d209c1b',Amanita gemmata,Amanita gemmata
+942,942,0.5586024522781372,b'324702',Pluteus romellii,Pluteus romellii
+261,261,0.9875051975250244,b'1441034',Clathrus columnatus,Clathrus columnatus
+1137,1137,0.8240612745285034,b'1424875',Strobilomyces strobilaceus,Strobilomyces strobilaceus
+668,668,0.9982151985168457,b'533197',Laricifomes officinalis,Laricifomes officinalis
+205,205,0.989094078540802,b'056fe31c-5a60-4479-a400-906c9646e815',Calycina citrina,Calycina citrina
+173,173,0.8040354251861572,b'636550',Boletus separans,Boletus separans
+657,1061,0.8125420808792114,b'673475',Russula brevipes,Lactifluus deceptivus
+152,152,0.9994010925292969,b'2b397dcf-9270-41ae-b42d-a3060358dbfd',Bolbitius titubans,Bolbitius titubans
+326,326,0.9881477952003479,b'599328',Cortinarius iodes,Cortinarius iodes
+775,775,0.5352482795715332,b'5643',Morchella rufobrunnea,Morchella rufobrunnea
+615,615,0.9460801482200623,b'824781',Irpex lacteus,Irpex lacteus
+642,642,0.7227763533592224,b'1243105',Lactarius indigo,Lactarius indigo
+66,66,0.9919375777244568,b'307347',Amanita jacksonii,Amanita jacksonii
+663,663,0.6266129612922668,b'da071f41-fab9-4a67-9127-53aac1ba76d6',Laetiporus conifericola,Laetiporus conifericola
+224,224,0.4915606677532196,b'738662',Cerioporus leptocephalus,Cerioporus leptocephalus
+150,150,0.979607880115509,b'ebe03545-b839-4bfd-a509-251bf39ff0f4',Bjerkandera adusta,Bjerkandera adusta
+526,526,0.8002268075942993,b'838852',Hericium coralloides,Hericium coralloides
+1130,848,0.45195433497428894,b'680359',Panellus stipticus,Stereum ochraceoflavum
+848,848,0.9795461893081665,b'852229',Panellus stipticus,Panellus stipticus
+332,332,0.977290153503418,b'1213586',Cortinarius violaceus,Cortinarius violaceus
+753,753,0.9995347261428833,b'1341395',Megacollybia rodmanii,Megacollybia rodmanii
+748,748,0.9999991655349731,b'efc0752a-6223-46f4-8fbb-9b43ca23c042',Marasmius plicatulus,Marasmius plicatulus
+1171,1171,0.8798702955245972,b'756748',Tapinella panuoides,Tapinella panuoides
+926,828,0.7746204733848572,b'1395449',Non-Diagnostic,Pleurotus dryinus
+828,294,0.7463759183883667,b'643514',Collybiopsis luxurians,Non-Diagnostic
+44,44,0.8892434239387512,b'248870',Amanita banningiana,Amanita banningiana
+1113,1113,0.7956545948982239,b'450498',Sebacina schweinitzii,Sebacina schweinitzii
+1163,1163,0.9523804187774658,b'1147768',Suillus pungens,Suillus pungens
+1100,1100,0.9990423321723938,b'1127216',Sarcomyxa serotina,Sarcomyxa serotina
+1165,1165,0.9962731599807739,b'976559',Suillus spraguei,Suillus spraguei
+781,781,0.9871805310249329,b'521947',Mycena acicula,Mycena acicula
+1222,1222,0.9906330704689026,b'1420032',Tricholoma subresplendens,Tricholoma subresplendens
+656,656,0.9999755620956421,b'1219053',Lactifluus corrugis,Lactifluus corrugis
+1275,597,0.25681886076927185,b'924522',Imleria pallida,Xerocomellus chrysenteron
+747,747,0.9573235511779785,b'ec6fde65-e05a-40d5-9d11-619dd02f3b48',Marasmius oreades,Marasmius oreades
+809,809,0.9945414066314697,b'238432',Mycetinis scorodonius,Mycetinis scorodonius
+913,859,0.4835466146469116,b'698775',Parmelia sulcata,Physcia aipolia
+930,930,0.494003027677536,b'1373358',Pleurotus pulmonarius,Pleurotus pulmonarius
+688,688,0.9983459711074829,b'41307',Leocarpus fragilis,Leocarpus fragilis
+220,573,0.5501990914344788,b'1216991',Hygrophorus subalpinus,Cantharellus subalbidus
+1024,409,0.9914567470550537,b'843b0595-529d-4059-9988-82657d7346a6',Evernia prunastri,Ramalina farinacea
+669,669,0.999543309211731,b'7fd610df-2ea6-47d2-a249-301f32fcec36',Lasallia papulosa,Lasallia papulosa
+1082,1082,0.47797340154647827,b'1365740',Russula parvovirescens,Russula parvovirescens
+224,755,0.4015408158302307,b'1474871',Melanoleuca alboflavida,Cerioporus leptocephalus
+716,716,0.9995055198669434,b'946107',Leucocoprinus fragilissimus,Leucocoprinus fragilissimus
+996,1008,0.16074103116989136,b'278381',Psilocybe zapotecorum,Psilocybe heimii
+1179,1179,0.9125597476959229,b'1318644',Thelephora terrestris,Thelephora terrestris
+185,185,0.42201218008995056,b'744860',Butyriboletus brunneus,Butyriboletus brunneus
+370,370,0.8223355412483215,b'9c518dea-bfab-4b27-aa15-dd63b3299e82',Daedaleopsis confragosa,Daedaleopsis confragosa
+621,621,0.9794992804527283,b'872841',Kuehneromyces marginellus,Kuehneromyces marginellus
+712,712,0.9341747760772705,b'764367',Leucoagaricus rubrotinctus,Leucoagaricus rubrotinctus
+828,828,0.9998165965080261,b'103170',Non-Diagnostic,Non-Diagnostic
+828,1100,0.43072110414505005,b'400166',Sarcomyxa serotina,Non-Diagnostic
+122,268,0.8137174844741821,b'e0136a29-30ac-4f05-b3a2-66df54fb2970',Clavulina coralloides,Artomyces pyxidatus
+676,674,0.49171745777130127,b'467001',Leccinum insigne,Leccinum manzanitae
+1065,1065,0.8438904881477356,b'80620',Russula compacta,Russula compacta
+461,461,0.9623541831970215,b'46224',Gliophorus perplexus,Gliophorus perplexus
+218,215,0.3054916262626648,b'1254334',Cantharellus formosus,Cantharellus phasmatis
+1008,1008,0.9435949325561523,b'296979',Psilocybe zapotecorum,Psilocybe zapotecorum
+840,840,0.9625997543334961,b'1124392',Panaeolus cinctulus,Panaeolus cinctulus
+945,945,0.99998939037323,b'3ef31e59-1ab7-4642-b895-4bbdf64b64e9',Podaxis pistillaris,Podaxis pistillaris
+714,714,0.9527878165245056,b'237890',Leucocoprinus cepistipes,Leucocoprinus cepistipes
+828,828,0.6485884189605713,b'334730',Non-Diagnostic,Non-Diagnostic
+813,813,0.9019012451171875,b'50d633f5-2172-4fe1-aca5-d2ef088d9e5c',Myxarium nucleatum,Myxarium nucleatum
+703,703,0.9777389764785767,b'1237781f-3254-425a-92e0-3f1242efe4e0',Leratiomyces erythrocephalus,Leratiomyces erythrocephalus
+725,725,0.9791721701622009,b'3722e729-da74-40ff-812a-34362644eef0',Lobaria pulmonaria,Lobaria pulmonaria
+708,708,0.7395099997520447,b'653360',Leucoagaricus americanus,Leucoagaricus americanus
+202,202,0.9976803660392761,b'1249692',Calvatia gigantea,Calvatia gigantea
+739,739,0.9079207181930542,b'5e5aabed-ff8d-4fb4-b8f7-230d01513586',Macrolepiota clelandii,Macrolepiota clelandii
+525,525,0.9971970319747925,b'1104737',Hericium americanum,Hericium americanum
+290,290,0.6148418188095093,b'434352',Clitopilus prunulus,Clitopilus prunulus
+713,713,0.9999469518661499,b'a942ff37-51de-4424-80c6-918c772a8d2e',Leucocoprinus birnbaumii,Leucocoprinus birnbaumii
+500,500,0.9999016523361206,b'1210165',Hapalopilus rutilans,Hapalopilus rutilans
+753,1221,0.9649027585983276,b'57575',Tricholoma sejunctum,Megacollybia rodmanii
+132,132,0.9983866214752197,b'540909',Aureoboletus betula,Aureoboletus betula
+352,352,0.4475833773612976,b'490225',Cuphophyllus virgineus,Cuphophyllus virgineus
+1000,576,0.3164691925048828,b'466027',Hypholoma capnoides,Psilocybe ovoideocystidiata
+1285,1285,0.9864246249198914,b'0f8b4350-28da-4fd4-a69e-94570ed96227',Xylaria polymorpha,Xylaria polymorpha
+648,648,0.9989229440689087,b'b2c738ab-d86f-4810-a9a5-6d6b41b9ed9d',Lactarius rubidus,Lactarius rubidus
+748,748,0.9998478889465332,b'c5a23869-a674-433d-9a6c-ecdf9876627f',Marasmius plicatulus,Marasmius plicatulus
+976,976,0.39880475401878357,b'582316',Pseudoclitocybe cyathiformis,Pseudoclitocybe cyathiformis
+354,828,0.757900595664978,b'1534346',Non-Diagnostic,Cyathus olla
+191,191,0.983644425868988,b'1166989',Callistosporium luteo-olivaceum,Callistosporium luteo-olivaceum
+1105,1105,0.9948503375053406,b'126870',Schizophyllum commune,Schizophyllum commune
+128,128,0.998151421546936,b'4737757b-e675-40d5-94eb-6e3ab48870b5',Astraeus hygrometricus,Astraeus hygrometricus
+1110,1110,0.8986902832984924,b'947236',Scleroderma polyrhizum,Scleroderma polyrhizum
+1250,1250,0.49176496267318726,b'48720',Tyromyces chioneus,Tyromyces chioneus
+387,387,0.9022942185401917,b'866436',Ductifera pululahuana,Ductifera pululahuana
+1145,1145,0.9997718930244446,b'746763',Stropharia rugosoannulata,Stropharia rugosoannulata
+346,346,0.9995920062065125,b'1a343b6a-564f-4ce1-86b9-7bff9127cc50',Cruentomycena viscidocruenta,Cruentomycena viscidocruenta
+1045,1045,0.9933074116706848,b'd2196568-f046-410a-b1dc-95bc876df0ab',Rhodofomes cajanderi,Rhodofomes cajanderi
+1171,1171,0.9974358677864075,b'533829',Tapinella panuoides,Tapinella panuoides
+276,276,0.8083551526069641,b'126014',Clitocybe brunneocephala,Clitocybe brunneocephala
+753,753,0.987122118473053,b'1495228',Megacollybia rodmanii,Megacollybia rodmanii
+310,310,0.8466995358467102,b'940606',Coprinopsis atramentaria,Coprinopsis atramentaria
+221,221,0.8750289082527161,b'356167',Catathelasma ventricosum,Catathelasma ventricosum
+358,358,0.9056869149208069,b'1412896',Cyclocybe erebia,Cyclocybe erebia
+828,828,0.9991957545280457,b'88367',Non-Diagnostic,Non-Diagnostic
+282,282,0.998872697353363,b'908963',Clitocybe odora,Clitocybe odora
+749,749,0.9939053654670715,b'766566',Marasmius rotula,Marasmius rotula
+828,828,0.9954081177711487,b'722936',Non-Diagnostic,Non-Diagnostic
+1277,1277,0.8085962533950806,b'283030',Xerocomellus zelleri,Xerocomellus zelleri
+788,788,0.5640724301338196,b'289061',Mycena epipterygia,Mycena epipterygia
+92,92,0.9915876388549805,b'520515',Amanita rubescens,Amanita rubescens
+842,842,0.47658807039260864,b'522697',Panaeolus foenisecii,Panaeolus foenisecii
+316,316,0.983819305896759,b'25cd6994-d6c3-42e1-9f1f-f2fc743b1003',Coprinus comatus,Coprinus comatus
+442,447,0.3564947843551636,b'1065811',Ganoderma martinicense,Ganoderma applanatum
+1029,87,0.3528282046318054,b'346130',Amanita ravenelii,Ramaria botrytis
+653,653,0.999146580696106,b'541343',Lactarius subpurpureus,Lactarius subpurpureus
+862,862,0.9834635853767395,b'1934f620-72bf-4d24-871e-f46b0ce272da',Paxillus involutus,Paxillus involutus
+484,484,0.9811267256736755,b'9390',Gymnopilus ventricosus,Gymnopilus ventricosus
+1170,663,0.4297659397125244,b'114a2bb6-2ea5-4e28-a41d-754bbc86e2e3',Laetiporus conifericola,Tapinella atrotomentosa
+422,422,0.5709011554718018,b'1127204',Flammulina velutipes,Flammulina velutipes
+20,10,0.8692004084587097,b'de7280a5-7343-4a8e-8f75-d01bc1164dce',Agaricus campestris,Agaricus xanthodermus
+560,560,0.6605737209320068,b'1266716',Hygrophorus agathosmus,Hygrophorus agathosmus
+273,273,0.9674784541130066,b'6cd9a6208e5f45d5237f3afd516b5d87',Clavulinopsis laeticolor,Clavulinopsis laeticolor
+1274,1274,0.9643812775611877,b'3efb13ba-d3a7-4c31-8ddb-f90f9c03ddfe',Xanthoria parietina,Xanthoria parietina
+208,208,0.3912815451622009,b'1011280',Candolleomyces candolleanus,Candolleomyces candolleanus
+926,926,0.8829734921455383,b'fd8bf0cc-66d1-416e-889b-001679166eb6',Pleurotus dryinus,Pleurotus dryinus
+418,418,0.9990423321723938,b'257923',Fistulina hepatica,Fistulina hepatica
+800,800,0.7128153443336487,b'902057',Mycena niveipes,Mycena niveipes
+828,455,0.5610594153404236,b'491318',Geastrum saccatum,Non-Diagnostic
+1109,1109,0.9924317598342896,b'17248',Scleroderma citrinum,Scleroderma citrinum
+335,335,0.9996923208236694,b'619c9a7b-1942-4d61-aa1f-12a6d54b603b',Craterellus fallax,Craterellus fallax
+828,828,0.9976759552955627,b'370463',Non-Diagnostic,Non-Diagnostic
+614,614,0.9995989203453064,b'693111',Ionomidotis irregularis,Ionomidotis irregularis
+893,893,0.8550410270690918,b'0e1c5828-826c-457d-a422-8d3e181f8f9c',Pholiota aurivella,Pholiota aurivella
+286,603,0.28153398633003235,b'137924',Inocybe insinuata,Clitocybe subconnexa
+0,0,0.3006677031517029,b'76aa6d6a-37b2-43cd-bbbd-8664562c465f',Abortiporus biennis,Abortiporus biennis
+138,138,0.7892042398452759,b'872640',Auricularia angiospermarum,Auricularia angiospermarum
+1074,1075,0.6397066116333008,b'771489',Russula grata,Russula fragrantissima
+4,4,0.7857410311698914,b'512586',Agaricus augustus,Agaricus augustus
+583,583,0.5449042916297913,b'3c42d8ff-e4f3-4123-95fa-0ebe5e972cc1',Hypogymnia tubulosa,Hypogymnia tubulosa
+624,624,0.9992608428001404,b'19dbf95b-900e-4fea-b609-4944efa05c4c',Laccaria amethystina,Laccaria amethystina
+1138,1138,0.8387274146080017,b'466043',Strobilurus trullisatus,Strobilurus trullisatus
+784,784,0.15539933741092682,b'204814',Mycena californiensis,Mycena californiensis
+733,117,0.1713331788778305,b'1214012',Armillaria solidipes,Lycoperdon pyriforme
+1002,1002,0.9999041557312012,b'486208',Psilocybe pelliculosa,Psilocybe pelliculosa
+173,173,0.9809037446975708,b'903349',Boletus separans,Boletus separans
+842,842,0.9962677359580994,b'8a99c9d9-b340-4585-8ef5-599889ea4527',Panaeolus foenisecii,Panaeolus foenisecii
+373,373,0.9789218306541443,b'215961',Deconica inquilina,Deconica inquilina
+733,733,0.9766979813575745,b'205860',Lycoperdon pyriforme,Lycoperdon pyriforme
+1253,1253,0.9990195035934448,b'ba152ae8-4b39-4690-993e-a2efc3293b38',Urnula craterium,Urnula craterium
+449,449,0.9347891807556152,b'd7955c05-4e84-4c08-986a-a45dd2f284f4',Ganoderma oregonense,Ganoderma oregonense
+47,47,0.8580653071403503,b'848538',Amanita caesarea,Amanita caesarea
+828,984,0.4248780310153961,b'486382',Pseudosperma sororium,Non-Diagnostic
+1131,464,0.2880380153656006,b'1027601',Gloeophyllum sepiarium,Stereum ostrea
+550,550,0.9946995973587036,b'1471696',Hygrocybe cantharellus,Hygrocybe cantharellus
+993,985,0.523357093334198,b'1312039',Psilocybe allenii,Psilocybe cyanescens
+448,442,0.6932257413864136,b'44855',Ganoderma applanatum,Ganoderma megaloma
+476,476,0.9848520159721375,b'07c52db2-d3a5-49a8-9160-969f7b75243e',Gymnopilus junonius,Gymnopilus junonius
+889,889,0.7535215616226196,b'959078',Phlebia tremellosa,Phlebia tremellosa
+828,428,0.3016871213912964,b'127596',Fomes fomentarius,Non-Diagnostic
+1010,1010,0.9995300769805908,b'41cd5373-2417-44be-a762-b6829938b977',Puccinia malvacearum,Puccinia malvacearum
+1060,1063,0.4990197718143463,b'1161439',Russula cerolens,Russula amoenolens
+1004,986,0.6489447355270386,b'106713',Psilocybe aztecorum,Psilocybe stuntzii
+390,390,0.9275429844856262,b'845381',Entoloma abortivum,Entoloma abortivum
+1048,1048,0.9999667406082153,b'405f6c23-2ea7-48a4-a3ed-b8395cf7337a',Rhytisma acerinum,Rhytisma acerinum
+828,1185,0.515921413898468,b'703881',Trametes betulina,Non-Diagnostic
+118,118,0.8661300539970398,b'103386',Armillaria tabescens,Armillaria tabescens
+828,828,0.9455448389053345,b'1221441',Non-Diagnostic,Non-Diagnostic
+770,770,0.9998019337654114,b'1034195',Morchella americana,Morchella americana
+990,990,0.9750834107398987,b'55846',Psilocybe caerulescens,Psilocybe caerulescens
+915,915,0.9340843558311462,b'3115f3985eef63b0190aac122c105041',Physcia stellaris,Physcia stellaris
+889,889,0.9907797574996948,b'272657',Phlebia tremellosa,Phlebia tremellosa
+316,316,0.9854423403739929,b'569358',Coprinus comatus,Coprinus comatus
+452,452,0.9424930214881897,b'380510',Ganoderma tsugae,Ganoderma tsugae
+776,776,0.9994623064994812,b'613273',Morchella snyderi,Morchella snyderi
+559,559,0.9469665884971619,b'1263891',Hygrophoropsis aurantiaca,Hygrophoropsis aurantiaca
+725,725,0.9996182918548584,b'113287',Lobaria pulmonaria,Lobaria pulmonaria
+706,706,0.9606672525405884,b'4ee1569c-406a-4fea-bc40-a3ef8c8880b6',Letharia columbiana,Letharia columbiana
+486,486,0.8939735889434814,b'1182',Gymnopus dryophilus,Gymnopus dryophilus
+238,238,0.7891294360160828,b'cfce69c3-4ef5-4ca4-a7a5-f3250bf73ecd',Chlorophyllum rhacodes,Chlorophyllum rhacodes
+661,656,0.6732281446456909,b'1087106',Lactifluus corrugis,Lactifluus volemus
+704,704,0.6634256839752197,b'289413',Leratiomyces percevalii,Leratiomyces percevalii
+73,81,0.4275026023387909,b'178763',Amanita polypyramis,Amanita novinupta
+656,661,0.9369946718215942,b'453399',Lactifluus volemus,Lactifluus corrugis
+827,827,0.6831639409065247,b'718fdd09-635c-44d9-ad00-be27ff69a358',Niveoporofomes spraguei,Niveoporofomes spraguei
+874,874,0.9905160665512085,b'364224',Phaeolus schweinitzii,Phaeolus schweinitzii
+828,170,0.12137116491794586,b'90177',Boletus rex-veris,Non-Diagnostic
+734,734,0.9799025654792786,b'74641',Lycoperdon umbrinum,Lycoperdon umbrinum
+1158,1158,0.6120509505271912,b'695426',Suillus lakei,Suillus lakei
+1008,1008,0.9974894523620605,b'114605',Psilocybe zapotecorum,Psilocybe zapotecorum
+665,665,0.9274937510490417,b'262804',Laetiporus sulphureus,Laetiporus sulphureus
+173,173,0.65089350938797,b'1052979',Boletus separans,Boletus separans
+184,184,0.48199209570884705,b'605862',Bulgaria inquinans,Bulgaria inquinans
+432,432,0.5231621265411377,b'1123763',Fomitopsis ochracea,Fomitopsis ochracea
+848,848,0.9975088238716125,b'245112',Panellus stipticus,Panellus stipticus
+867,867,0.9667479395866394,b'1033322',Peltigera praetextata,Peltigera praetextata
+1015,1015,0.9734252691268921,b'968939',Punctelia rudecta,Punctelia rudecta
+1106,1106,0.490261048078537,b'808493',Scleroderma areolatum,Scleroderma areolatum
+901,901,0.9967323541641235,b'1096922',Pholiota squarrosoides,Pholiota squarrosoides
+749,828,0.9094942212104797,b'894734',Non-Diagnostic,Marasmius rotula
+972,735,0.27673184871673584,b'565460',Lyophyllum decastes,Psathyrella piluliformis
+449,449,0.6421467661857605,b'1030470',Ganoderma oregonense,Ganoderma oregonense
+1179,541,0.6445009708404541,b'1114482',Hydnellum concrescens,Thelephora terrestris
+238,238,0.7437053918838501,b'685082',Chlorophyllum rhacodes,Chlorophyllum rhacodes
+468,468,0.6848225593566895,b'287271',Gomphidius subroseus,Gomphidius subroseus
+130,130,0.9677684307098389,b'957818',Atractosporocybe inornata,Atractosporocybe inornata
+562,352,0.2806693911552429,b'607386',Cuphophyllus virgineus,Hygrophorus eburneus
+559,578,0.37683120369911194,b'695996',Hypholoma fasciculare,Hygrophoropsis aurantiaca
+759,759,0.989402711391449,b'45d484b1-5f32-4822-906f-9f3d25a0579b',Meripilus giganteus,Meripilus giganteus
+490,490,0.5039645433425903,b'1416901',Gymnopus spongiosus,Gymnopus spongiosus
+113,113,0.981751024723053,b'450544',Armillaria mellea,Armillaria mellea
+531,531,0.9870719313621521,b'541d740d-0814-445f-a183-074010dbd39e',Hexagonia hydnoides,Hexagonia hydnoides
+1168,1168,0.9640966653823853,b'761780',Sutorius eximius,Sutorius eximius
+74,74,0.624392569065094,b'78999',Amanita ocreata,Amanita ocreata
+517,517,0.9632879495620728,b'87dbd4a5-78a7-4644-b6b5-c342cd430c11',Helvella vespertina,Helvella vespertina
+896,896,0.9895552396774292,b'1266697',Pholiota lenta,Pholiota lenta
+1231,1228,0.5531211495399475,b'1119922',Tricholomopsis decora,Tricholomopsis sulphureoides
+494,494,0.9935407638549805,b'af4435b1-f7bb-4489-9d3c-14efe1b6a503',Gyromitra esculenta,Gyromitra esculenta
+548,546,0.7806374430656433,b'841385',Hydnum oregonense,Hydnum umbilicatum
+97,97,0.3237212896347046,b'644595',Amanita spreta,Amanita spreta
+933,1218,0.1963748335838318,b'396912',Tricholoma portentosum,Pluteus atromarginatus
+45,45,0.6735982894897461,b'337035',Amanita bisporigera,Amanita bisporigera
+1171,1171,0.7119407057762146,b'841517',Tapinella panuoides,Tapinella panuoides
+828,828,0.9925053715705872,b'1160763',Non-Diagnostic,Non-Diagnostic
+424,424,0.9577322006225586,b'212793',Flavoparmelia caperata,Flavoparmelia caperata
+587,49,0.8945455551147461,b'342258',Amanita canescens,Hypomyces hyalinus
+828,429,0.09719043970108032,b'721227',Fomitopsis betulina,Non-Diagnostic
+828,828,0.9881866574287415,b'233155',Non-Diagnostic,Non-Diagnostic
+323,323,0.9902909994125366,b'643399',Cortinarius corrugatus,Cortinarius corrugatus
+1187,422,0.37752461433410645,b'79c43920-41f2-4fc4-8aca-76ff235248d7',Flammulina velutipes,Trametes coccinea
+828,828,0.783672034740448,b'990768',Non-Diagnostic,Non-Diagnostic
+814,814,0.9327950477600098,b'3e78b920-bfd6-4c43-b03d-183d6a10c42b',Naematelia aurantia,Naematelia aurantia
+711,711,0.31367066502571106,b'586028',Leucoagaricus leucothites,Leucoagaricus leucothites
+1190,827,0.7038978934288025,b'1448616',Niveoporofomes spraguei,Trametes hirsuta
+80,80,0.9984870553016663,b'a245e319-9ed1-4ee3-9575-a5deea6a12ea',Amanita phalloides,Amanita phalloides
+683,1250,0.6553035378456116,b'429438',Tyromyces chioneus,Lentinellus ursinus
+422,422,0.9633471369743347,b'675071',Flammulina velutipes,Flammulina velutipes
+828,828,0.4377956986427307,b'1022821',Non-Diagnostic,Non-Diagnostic
+656,656,0.9999758005142212,b'1219434',Lactifluus corrugis,Lactifluus corrugis
+1151,1151,0.9314830303192139,b'820882',Suillus caerulescens,Suillus caerulescens
+1,1,0.9762633442878723,b'a11c05e2-e802-4dd8-ac75-e32cc8850f16',Acarospora socialis,Acarospora socialis
+597,597,0.8472058176994324,b'925180',Imleria pallida,Imleria pallida
+306,306,0.9989903569221497,b'671263',Coprinellus disseminatus,Coprinellus disseminatus
+231,231,0.6138688921928406,b'803066',Chalciporus piperatus,Chalciporus piperatus
+680,680,0.8335062861442566,b'1234124',Leccinum snellii,Leccinum snellii
+1195,1195,0.9436813592910767,b'1543791',Trametes versicolor,Trametes versicolor
+238,238,0.7622498273849487,b'671763',Chlorophyllum rhacodes,Chlorophyllum rhacodes
+755,755,0.891547441482544,b'965405',Melanoleuca alboflavida,Melanoleuca alboflavida
+1204,1204,0.9964327812194824,b'709139',Trichoglossum hirsutum,Trichoglossum hirsutum
+1165,1165,0.8922981023788452,b'258907',Suillus spraguei,Suillus spraguei
+1152,1152,0.9629160761833191,b'459420',Suillus clintonianus,Suillus clintonianus
+20,20,0.9393966794013977,b'128271',Agaricus xanthodermus,Agaricus xanthodermus
+657,4,0.3330192565917969,b'221490',Agaricus augustus,Lactifluus deceptivus
+842,842,0.9511186480522156,b'1198285',Panaeolus foenisecii,Panaeolus foenisecii
+72,72,0.919392466545105,b'1428331',Amanita muscaria,Amanita muscaria
+459,459,0.9931618571281433,b'1360754',Gliophorus irrigatus,Gliophorus irrigatus
+665,665,0.9749258160591125,b'1216079',Laetiporus sulphureus,Laetiporus sulphureus
+59,59,0.9191902875900269,b'1025394',Amanita flavoconia,Amanita flavoconia
+993,993,0.777480959892273,b'1155671',Psilocybe cyanescens,Psilocybe cyanescens
+66,66,0.9995772242546082,b'1081302',Amanita jacksonii,Amanita jacksonii
+828,828,0.9955547451972961,b'490625',Non-Diagnostic,Non-Diagnostic
+935,836,0.4736071825027466,b'934293',Oudemansiella furfuracea,Pluteus cervinus
+238,238,0.5218093395233154,b'263044',Chlorophyllum rhacodes,Chlorophyllum rhacodes
+828,479,0.7164701819419861,b'1510646',Gymnopilus luteus,Non-Diagnostic
+465,465,0.6482422947883606,b'663693',Gloeoporus dichrous,Gloeoporus dichrous
+828,828,0.9998776912689209,b'1517983',Non-Diagnostic,Non-Diagnostic
+545,545,0.9973365664482117,b'1211910',Hydnellum spongiosipes,Hydnellum spongiosipes
+1202,1202,0.8324143290519714,b'1318196',Trichaptum abietinum,Trichaptum abietinum
+1002,1002,0.9998615980148315,b'287190',Psilocybe pelliculosa,Psilocybe pelliculosa
+1,1,0.8942118883132935,b'14639bff-a4c8-4b8d-bfeb-f0a24d7b65d8',Acarospora socialis,Acarospora socialis
+1284,1285,0.9813403487205505,b'6a811df6-2fc5-45b3-bce1-07e8c971bf52',Xylaria polymorpha,Xylaria hypoxylon
+501,501,0.9946460723876953,b'1206299',Harrya chromapes,Harrya chromapes
+342,342,0.9825665950775146,b'122979',Crepidotus mollis,Crepidotus mollis
+529,529,0.7984023094177246,b'521424',Heterobasidion occidentale,Heterobasidion occidentale
+26,627,0.3966338634490967,b'e1fbfc96-5548-4cf5-aed7-d7182d1103d6',Laccaria ochropurpurea,Agrocybe putaminum
+434,452,0.30520209670066833,b'522336',Ganoderma tsugae,Fomitopsis pinicola
+632,632,0.987210750579834,b'736744',Lacrymaria lacrymabunda,Lacrymaria lacrymabunda
+216,216,0.9597041606903076,b'1072145',Cantharellus lateritius,Cantharellus lateritius
+425,425,0.734093964099884,b'a611db19-7f35-482a-9857-c0e24324b6e7',Flavopunctelia flaventior,Flavopunctelia flaventior
+196,196,0.99869304895401,b'382510',Calocera cornea,Calocera cornea
+101,101,0.9885355830192566,b'8778c311-d52a-40e6-aa7c-c2fd1e3148f1',Amanita vaginata,Amanita vaginata
+976,976,0.9042670130729675,b'671840',Pseudoclitocybe cyathiformis,Pseudoclitocybe cyathiformis
+848,848,0.9999381303787231,b'1289029',Panellus stipticus,Panellus stipticus
+48,48,0.9805752635002136,b'acfc9079fdaadaf92e171dcda6471274',Amanita calyptroderma,Amanita calyptroderma
+578,578,0.9957636594772339,b'013d1e52-123d-4d9f-8507-a4ce6f0716f2',Hypholoma fasciculare,Hypholoma fasciculare
+1243,92,0.4046986997127533,b'358867',Amanita rubescens,Tylopilus felleus
+486,486,0.8216904997825623,b'331448',Gymnopus dryophilus,Gymnopus dryophilus
+428,428,0.6142393946647644,b'1102843',Fomes fomentarius,Fomes fomentarius
+828,828,0.925549328327179,b'68123',Non-Diagnostic,Non-Diagnostic
+828,478,0.4071497917175293,b'1419617',Gymnopilus luteofolius,Non-Diagnostic
+1129,1128,0.6497775912284851,b'24241',Stereum complicatum,Stereum hirsutum
+802,802,0.9627046585083008,b'1101639',Mycena pura,Mycena pura
+303,303,0.4801333546638489,b'1466884',Conocybe apala,Conocybe apala
+234,238,0.5118909478187561,b'4a1528d8-1cd5-42e0-a3b4-198b9cb32022',Chlorophyllum rhacodes,Chlorophyllum brunneum
+1003,1003,0.9988909363746643,b'1531926',Psilocybe semilanceata,Psilocybe semilanceata
+281,281,0.9954159259796143,b'678117',Clitocybe nuda,Clitocybe nuda
+1119,1119,0.9535046815872192,b'1230436',Sparassis spathulata,Sparassis spathulata
+29,828,0.44044604897499084,b'704400',Non-Diagnostic,Alessioporus rubriflavus
+442,442,0.6608595252037048,b'691102',Ganoderma applanatum,Ganoderma applanatum
+112,828,0.9703967571258545,b'66012',Non-Diagnostic,Armillaria gallica
+617,617,0.9968358874320984,b'677393',Ischnoderma resinosum,Ischnoderma resinosum
+236,236,0.6667639017105103,b'1387309',Chlorophyllum molybdites,Chlorophyllum molybdites
+559,559,0.48860639333724976,b'295424',Hygrophoropsis aurantiaca,Hygrophoropsis aurantiaca
+828,828,0.9925662875175476,b'461794',Non-Diagnostic,Non-Diagnostic
+234,234,0.7773697972297668,b'114948',Chlorophyllum brunneum,Chlorophyllum brunneum
+683,683,0.9875795841217041,b'696770',Lentinellus ursinus,Lentinellus ursinus
+90,90,0.5928552150726318,b'1058825',Amanita rooseveltensis,Amanita rooseveltensis
+578,578,0.7638341784477234,b'1518020',Hypholoma fasciculare,Hypholoma fasciculare
+449,449,0.9959927201271057,b'250305',Ganoderma oregonense,Ganoderma oregonense
+702,702,0.7846454977989197,b'ca8a2325-474e-4ca8-b1f9-67b61634c244',Leratiomyces ceres,Leratiomyces ceres
+1045,430,0.4766172170639038,b'e3804f51519a594ed28ee2cd2f3edd72',Fomitopsis cajanderi,Rhodofomes cajanderi
+828,844,0.9811193943023682,b'1088568',Panaeolus papilionaceus,Non-Diagnostic
+428,428,0.6670944690704346,b'202142',Fomes fomentarius,Fomes fomentarius
+540,540,0.9999077320098877,b'855676',Hydnellum caeruleum,Hydnellum caeruleum
+886,886,0.9955393671989441,b'0046fe9d-2f72-4afb-b02b-c1c45d9dcda7',Phellinus tremulae,Phellinus tremulae
+366,366,0.9774473309516907,b'1114102',Dacrymyces chrysospermus,Dacrymyces chrysospermus
+848,848,0.9988704919815063,b'813911',Panellus stipticus,Panellus stipticus
+510,510,0.9883912205696106,b'1373145',Helvella crispa,Helvella crispa
+489,805,0.18550340831279755,b'648531',Mycena sanguinolenta,Gymnopus semihirtipes
+987,987,0.6915946006774902,b'1270960',Psilocybe azurescens,Psilocybe azurescens
+911,828,0.6663861274719238,b'1125189',Non-Diagnostic,Phyllotopsis nidulans
+722,722,0.9777917861938477,b'1488927',Limacella glischra,Limacella glischra
+661,661,0.9974080920219421,b'1369669',Lactifluus volemus,Lactifluus volemus
+479,479,0.9586060047149658,b'257040',Gymnopilus luteus,Gymnopilus luteus
+1278,1278,0.8335821032524109,b'78925',Xerocomus subtomentosus,Xerocomus subtomentosus
+828,828,0.9988617897033691,b'346467',Non-Diagnostic,Non-Diagnostic
+556,556,0.9126477241516113,b'711894',Hygrocybe miniata,Hygrocybe miniata
+239,239,0.9856680631637573,b'15ab83e4-25cf-4c10-9bb4-6620c90f2ee9',Chondrostereum purpureum,Chondrostereum purpureum
+1099,1137,0.2864197790622711,b'1370244',Strobilomyces strobilaceus,Sarcodon imbricatus
+828,828,0.5731201767921448,b'681874',Non-Diagnostic,Non-Diagnostic
+1129,1129,0.6376401782035828,b'674702',Stereum hirsutum,Stereum hirsutum
+963,963,0.7635976672172546,b'72050a3a-d122-4763-a77b-df3762d03149',Protoparmeliopsis muralis,Protoparmeliopsis muralis
+1002,1002,0.9986492991447449,b'1276991',Psilocybe pelliculosa,Psilocybe pelliculosa
+216,216,0.9992597699165344,b'525084',Cantharellus lateritius,Cantharellus lateritius
+411,411,0.8834514617919922,b'204445',Exidia glandulosa,Exidia glandulosa
+1195,1195,0.7911346554756165,b'1021495',Trametes versicolor,Trametes versicolor
+1092,1092,0.9838796854019165,b'757501',Russula variata,Russula variata
+828,828,0.978325366973877,b'1242035',Non-Diagnostic,Non-Diagnostic
+828,236,0.5364006757736206,b'1177167',Chlorophyllum molybdites,Non-Diagnostic
+223,223,0.9946475028991699,b'1137201',Ceratiomyxa fruticulosa,Ceratiomyxa fruticulosa
+912,912,0.9435274004936218,b'2be768de-8779-47b7-83da-6b774657b0ea',Physcia adscendens,Physcia adscendens
+732,732,0.9851528406143188,b'848769',Lycoperdon perlatum,Lycoperdon perlatum
+1237,794,0.5105921626091003,b'1247099',Mycena inclinata,Tulosesus impatiens
+199,199,0.9998298287391663,b'359790',Calostoma cinnabarinum,Calostoma cinnabarinum
+1173,1173,0.9244560599327087,b'39096802-c11e-4abb-a36c-e769545ec92f',Teloschistes exilis,Teloschistes exilis
+802,802,0.9172380566596985,b'102286',Mycena pura,Mycena pura
+1264,1264,0.9784291982650757,b'1492729',Volvariella bombycina,Volvariella bombycina
+828,828,0.9968474507331848,b'406939',Non-Diagnostic,Non-Diagnostic
+711,711,0.9763604402542114,b'583008',Leucoagaricus leucothites,Leucoagaricus leucothites
+554,554,0.9665461778640747,b'c23c1f52-2826-4e44-9365-88d7120ac4e7',Hygrocybe flavescens,Hygrocybe flavescens
+1083,1074,0.6241975426673889,b'1260804',Russula fragrantissima,Russula pectinatoides
+112,112,0.5568285584449768,b'822511',Armillaria gallica,Armillaria gallica
+733,456,0.4842977225780487,b'1388762',Geastrum triplex,Lycoperdon pyriforme
+335,335,0.9826144576072693,b'1496918',Craterellus fallax,Craterellus fallax
+700,700,0.9772268533706665,b'1423374',Leptogium cyanescens,Leptogium cyanescens
+828,828,0.8273211717605591,b'576165',Non-Diagnostic,Non-Diagnostic
+993,993,0.960461437702179,b'699529',Psilocybe cyanescens,Psilocybe cyanescens
+962,962,0.9574828147888184,b'1406400',Postia ptychogaster,Postia ptychogaster
+828,828,0.977797269821167,b'1383145',Non-Diagnostic,Non-Diagnostic
+418,418,0.526528000831604,b'1528262',Fistulina hepatica,Fistulina hepatica
+887,887,0.9999649524688721,b'676d3e9c2eb479be5f108cf6d78bc7d2',Phlebia incarnata,Phlebia incarnata
+72,72,0.9255897402763367,b'40476',Amanita muscaria,Amanita muscaria
+912,912,0.9999116659164429,b'23055',Physcia adscendens,Physcia adscendens
+347,347,0.7766321897506714,b'581422',Cryptoporus volvatus,Cryptoporus volvatus
+648,648,0.8676221966743469,b'718253',Lactarius rubidus,Lactarius rubidus
+617,617,0.9984048008918762,b'396420',Ischnoderma resinosum,Ischnoderma resinosum
+73,73,0.9966386556625366,b'607815',Amanita novinupta,Amanita novinupta
+1286,1286,0.9925887584686279,b'866713',Xylobolus frustulatus,Xylobolus frustulatus
+1109,1109,0.9054844379425049,b'366240',Scleroderma citrinum,Scleroderma citrinum
+1123,615,0.5197267532348633,b'73d9ee73-91e8-4197-a538-bdba5320832b',Irpex lacteus,Spongipellis pachyodon
+642,642,0.9984884858131409,b'375070',Lactarius indigo,Lactarius indigo
+732,730,0.526285707950592,b'346539',Lycoperdon marginatum,Lycoperdon perlatum
+578,578,0.561760663986206,b'102263',Hypholoma fasciculare,Hypholoma fasciculare
+928,928,0.8005838394165039,b'519882',Pleurotus ostreatus,Pleurotus ostreatus
+409,409,0.8759852647781372,b'2b1194ae-6e39-4be6-a9ce-c8155b305f79',Evernia prunastri,Evernia prunastri
+1189,1190,0.4802683889865875,b'fdd9e99688a8607cc38c25b2d0bcbaa8',Trametes hirsuta,Trametes gibbosa
+806,806,0.9942147135734558,b'1389708',Mycena subcaerulea,Mycena subcaerulea
+662,179,0.6026930809020996,b'1191859',Bondarzewia berkeleyi,Laetiporus cincinnatus
+281,281,0.8907513618469238,b'1104783',Clitocybe nuda,Clitocybe nuda
+689,689,0.9999301433563232,b'596514',Leotia lubrica,Leotia lubrica
+749,749,0.9492687582969666,b'f73ad05aa96f7830099c34db1d173a26',Marasmius rotula,Marasmius rotula
+1170,828,0.8004875183105469,b'22533',Non-Diagnostic,Tapinella atrotomentosa
+828,828,0.9411070346832275,b'1408161',Non-Diagnostic,Non-Diagnostic
+148,148,0.9881169199943542,b'943866',Berkcurtia persicina,Berkcurtia persicina
+303,303,0.803128719329834,b'27706909-649e-42ec-bac9-8ae1e680d2af',Conocybe apala,Conocybe apala
+436,436,0.9999891519546509,b'864838',Fuligo septica,Fuligo septica
+973,973,0.9903678894042969,b'2e4382aaf0c636311788a6161e118005',Pseudevernia consocians,Pseudevernia consocians
+413,138,0.5787110924720764,b'1175197',Auricularia angiospermarum,Exidia recisa
+828,828,0.9975325465202332,b'682641',Non-Diagnostic,Non-Diagnostic
+371,371,0.9738320112228394,b'1409512',Deconica coprophila,Deconica coprophila
+131,131,0.9994106292724609,b'785210',Aureoboletus auriporus,Aureoboletus auriporus
+445,446,0.7887652516365051,b'761495',Ganoderma lobatum,Ganoderma curtisii
+859,1049,0.9919402003288269,b'37d67834-8169-47e2-9404-58b29dd09230',Ricasolia quercizans,Parmelia sulcata
+418,418,0.9997878670692444,b'1121766',Fistulina hepatica,Fistulina hepatica
+1061,828,0.5322801470756531,b'504761',Non-Diagnostic,Russula brevipes
+827,827,0.8924919962882996,b'1351332',Niveoporofomes spraguei,Niveoporofomes spraguei
+1185,369,0.2677079737186432,b'827051',Daedalea quercina,Trametes betulina
+1105,1105,0.7864709496498108,b'1119402',Schizophyllum commune,Schizophyllum commune
+760,760,0.9526143074035645,b'630768',Meripilus sumstinei,Meripilus sumstinei
+401,401,0.9842362999916077,b'408071',Entoloma sericeum,Entoloma sericeum
+689,689,0.9533364772796631,b'931684',Leotia lubrica,Leotia lubrica
+429,429,0.955712616443634,b'0326d112-e4a5-4eaf-94f3-526e1a6f0bea',Fomitopsis betulina,Fomitopsis betulina
+347,347,0.9992305040359497,b'4408',Cryptoporus volvatus,Cryptoporus volvatus
+620,620,0.647925615310669,b'889163',Kuehneromyces lignicola,Kuehneromyces lignicola
+254,251,0.6413717269897461,b'cbfb7cda-065e-4935-8735-ad26204827ef',Cladonia cristatella,Cladonia macilenta
+828,828,0.4304943382740021,b'127215',Non-Diagnostic,Non-Diagnostic
+126,687,0.8542883992195129,b'841708',Lentinus tigrinus,Asterophora lycoperdoides
+663,663,0.7316668629646301,b'84aee2fc-f69f-42fa-b6a7-835de359baf4',Laetiporus conifericola,Laetiporus conifericola
+146,146,0.9926294684410095,b'525751',Baorangia bicolor,Baorangia bicolor
+1045,1045,0.3948954641819,b'1392969',Rhodofomes cajanderi,Rhodofomes cajanderi
+687,687,0.7350188493728638,b'790457',Lentinus tigrinus,Lentinus tigrinus
+916,916,0.94391268491745,b'422250',Physconia enteroxantha,Physconia enteroxantha
+224,224,0.40727394819259644,b'833497',Cerioporus leptocephalus,Cerioporus leptocephalus
+558,558,0.9944220185279846,b'61f4f9fa-5761-47e7-b1bf-6d0da6cc3718',Hygrocybe singeri,Hygrocybe singeri
+122,1032,0.5630475878715515,b'286042',Ramaria stricta,Artomyces pyxidatus
+828,624,0.22193634510040283,b'1052206',Laccaria amethystina,Non-Diagnostic
+1131,1131,0.4522499740123749,b'789212',Stereum ostrea,Stereum ostrea
+103,103,0.9987576007843018,b'505871',Amanita velosa,Amanita velosa
+828,828,0.9999701976776123,b'1424290',Non-Diagnostic,Non-Diagnostic
+92,92,0.9229336977005005,b'bfc45d015089c191663c42dd724f75e6',Amanita rubescens,Amanita rubescens
+689,689,0.995069146156311,b'ac5b016c-b91a-434f-86f5-e06a75071f80',Leotia lubrica,Leotia lubrica
+214,214,0.9997642636299133,b'1449171',Cantharellus cinnabarinus,Cantharellus cinnabarinus
+1100,1100,0.9964751601219177,b'071d80a7-71c1-4345-a284-3afcac6e3d67',Sarcomyxa serotina,Sarcomyxa serotina
+281,281,0.9972097277641296,b'29807',Clitocybe nuda,Clitocybe nuda
+1138,1138,0.7630766034126282,b'aeb0be49-be8c-48a3-878f-37e046dec306',Strobilurus trullisatus,Strobilurus trullisatus
+395,395,0.9846875667572021,b'459893',Entoloma incanum,Entoloma incanum
+99,75,0.19106508791446686,b'225619',Amanita onusta,Amanita submaculata
+429,429,0.9940950274467468,b'ce0ac006-79b7-4999-9cc7-fed28e2a77dc',Fomitopsis betulina,Fomitopsis betulina
+156,156,0.6562476754188538,b'258763',Boletopsis grisea,Boletopsis grisea
+579,579,0.5660001635551453,b'975785cd-64b3-4f4e-bca4-0eb1e72e18b8',Hypholoma lateritium,Hypholoma lateritium
+1113,1113,0.9967263340950012,b'1350527',Sebacina schweinitzii,Sebacina schweinitzii
+27,27,0.8984881639480591,b'401175',Albatrellopsis flettii,Albatrellopsis flettii
+631,631,0.9818059206008911,b'1251793',Lacrymaria echiniceps,Lacrymaria echiniceps
+828,828,0.9972521662712097,b'223612',Non-Diagnostic,Non-Diagnostic
+877,877,0.6935545206069946,b'398504',Phaeotremella frondosa,Phaeotremella frondosa
+753,935,0.4554923474788666,b'db05b9aa-11d8-42b6-a17b-8cbd97c964e5',Pluteus cervinus,Megacollybia rodmanii
+306,306,0.9998328685760498,b'545275',Coprinellus disseminatus,Coprinellus disseminatus
+565,565,0.9012961387634277,b'328540',Hygrophorus hypothejus,Hygrophorus hypothejus
+861,861,0.4849570393562317,b'38886',Parmotrema reticulatum,Parmotrema reticulatum
+527,527,0.9996379613876343,b'5ba4c5e8-ff5d-46ea-a6a0-1d74b3811db2',Hericium erinaceus,Hericium erinaceus
+149,149,0.9882691502571106,b'996482',Biscogniauxia atropunctata,Biscogniauxia atropunctata
+815,815,0.9988199472427368,b'ff9f932d-4195-4672-89bf-a0586985f70e',Nectria cinnabarina,Nectria cinnabarina
+498,498,0.998993456363678,b'1048879',Gyroporus castaneus,Gyroporus castaneus
+942,942,0.9928261637687683,b'120330',Pluteus romellii,Pluteus romellii
+702,702,0.9999046325683594,b'1276781',Leratiomyces ceres,Leratiomyces ceres
+154,154,0.7321083545684814,b'645628',Boletellus chrysenteroides,Boletellus chrysenteroides
+632,632,0.988365113735199,b'732960',Lacrymaria lacrymabunda,Lacrymaria lacrymabunda
+623,623,0.9743698239326477,b'1119273',Laccaria amethysteo-occidentalis,Laccaria amethysteo-occidentalis
+839,841,0.5843037962913513,b'1118882',Panaeolus cyanescens,Panaeolus antillarum
+1074,1081,0.18874423205852509,b'1439440',Russula paludosa,Russula fragrantissima
+626,626,0.9277427196502686,b'957985',Laccaria laccata,Laccaria laccata
+1195,1195,0.9862075448036194,b'709190',Trametes versicolor,Trametes versicolor
+160,160,0.9916911721229553,b'558195',Boletus chippewaensis,Boletus chippewaensis
+643,643,0.9985266327857971,b'1522647',Lactarius lignyotus,Lactarius lignyotus
+828,828,0.998676061630249,b'1037821',Non-Diagnostic,Non-Diagnostic
+59,59,0.961755633354187,b'96777',Amanita flavoconia,Amanita flavoconia
+1189,1189,0.8450750112533569,b'1268825',Trametes gibbosa,Trametes gibbosa
+790,790,0.9608481526374817,b'63381',Mycena galericulata,Mycena galericulata
+531,531,0.9054465293884277,b'7de25452-29b9-4a48-94bf-ebecbf7b8d49',Hexagonia hydnoides,Hexagonia hydnoides
+619,619,0.9907522201538086,b'1462059',Kretzschmaria deusta,Kretzschmaria deusta
+624,624,0.8814822435379028,b'496620',Laccaria amethystina,Laccaria amethystina
+668,828,0.5510352253913879,b'922355',Non-Diagnostic,Laricifomes officinalis
+87,89,0.6219319105148315,b'689329',Amanita rhopalopus,Amanita ravenelii
+828,828,0.8845120072364807,b'966660',Non-Diagnostic,Non-Diagnostic
+303,303,0.9469295740127563,b'158737',Conocybe apala,Conocybe apala
+455,455,0.5990712642669678,b'176195',Geastrum saccatum,Geastrum saccatum
+546,547,0.9546301364898682,b'24530',Hydnum repandum,Hydnum oregonense
+804,804,0.9984113574028015,b'1388837',Mycena rutilantiformis,Mycena rutilantiformis
+685,685,0.9099833965301514,b'102783',Lentinus arcularius,Lentinus arcularius
+601,601,0.48418790102005005,b'1027765',Inocybe fuscidula,Inocybe fuscidula
+982,982,0.9904582500457764,b'1323251',Pseudoplectania nigrella,Pseudoplectania nigrella
+828,105,0.6598498225212097,b'223019',Amanita whetstoneae,Non-Diagnostic
+281,281,0.7416865825653076,b'29376',Clitocybe nuda,Clitocybe nuda
+1184,1184,0.33483195304870605,b'179138',Trametes aesculi,Trametes aesculi
+844,844,0.9942399859428406,b'359374',Panaeolus papilionaceus,Panaeolus papilionaceus
+540,540,0.9996600151062012,b'49608',Hydnellum caeruleum,Hydnellum caeruleum
+72,50,0.9975965619087219,b'1391593',Amanita chrysoblema,Amanita muscaria
+970,970,0.9242553114891052,b'1427292',Psathyrella longipes,Psathyrella longipes
+842,842,0.6444978713989258,b'1324416',Panaeolus foenisecii,Panaeolus foenisecii
+576,576,0.6182271242141724,b'373169',Hypholoma capnoides,Hypholoma capnoides
+1214,1214,0.8069165945053101,b'312249',Tricholoma imbricatum,Tricholoma imbricatum
+828,828,0.9986416697502136,b'182741',Non-Diagnostic,Non-Diagnostic
+125,125,0.9999960660934448,b'8b31f8bd-b682-4238-9ba1-914bcdaf7809',Aseroe rubra,Aseroe rubra
+236,236,0.8966070413589478,b'1053475',Chlorophyllum molybdites,Chlorophyllum molybdites
+72,72,0.9995965361595154,b'631658161094034942f2603df21fb917',Amanita muscaria,Amanita muscaria
+1267,1267,0.5003912448883057,b'639588',Xanthoconium affine,Xanthoconium affine
+806,806,0.9654028415679932,b'154404',Mycena subcaerulea,Mycena subcaerulea
+90,90,0.8954700827598572,b'746939',Amanita rooseveltensis,Amanita rooseveltensis
+77,77,0.43816691637039185,b'73baaff9669e10f1753d5bf7cadf98a5',Amanita pantherina,Amanita pantherina
+1105,1105,0.9986666440963745,b'1321121',Schizophyllum commune,Schizophyllum commune
+761,761,0.9822747111320496,b'764d94bd-db85-4149-ab08-d5b74bb6d48f',Merulius tremellosus,Merulius tremellosus
+582,582,0.9909976124763489,b'898acf84-77f6-4e59-af56-8985f53a6dcb',Hypogymnia physodes,Hypogymnia physodes
+1130,1129,0.486222505569458,b'827693',Stereum hirsutum,Stereum ochraceoflavum
+579,579,0.9678431153297424,b'271536',Hypholoma lateritium,Hypholoma lateritium
+828,828,0.8189769983291626,b'313737',Non-Diagnostic,Non-Diagnostic
+1142,1142,0.2655532658100128,b'171140',Stropharia coronilla,Stropharia coronilla
+336,336,0.9945105910301208,b'1358739',Craterellus ignicolor,Craterellus ignicolor
+828,1207,0.7256438732147217,b'190471',Tricholoma caligatum,Non-Diagnostic
+1061,1061,0.999528169631958,b'081d7400-44af-4ea9-a2c5-5fec921aa316',Russula brevipes,Russula brevipes
+774,774,0.8640667796134949,b'520845',Morchella punctipes,Morchella punctipes
+800,800,0.4571390151977539,b'783545',Mycena niveipes,Mycena niveipes
+1131,1131,0.9499385356903076,b'940565',Stereum ostrea,Stereum ostrea
+223,223,0.9744499325752258,b'990943',Ceratiomyxa fruticulosa,Ceratiomyxa fruticulosa
+602,602,0.7155308127403259,b'57971',Inocybe geophylla,Inocybe geophylla
+753,753,0.8903907537460327,b'760640',Megacollybia rodmanii,Megacollybia rodmanii
+1083,1083,0.9596380591392517,b'1349126',Russula pectinatoides,Russula pectinatoides
+397,397,0.9907395243644714,b'191916',Entoloma medianox,Entoloma medianox
+711,711,0.9765456914901733,b'4be39079-130e-4261-9289-17e2485cf75a',Leucoagaricus leucothites,Leucoagaricus leucothites
+281,281,0.9703519344329834,b'129519',Clitocybe nuda,Clitocybe nuda
+774,774,0.755447268486023,b'304105',Morchella punctipes,Morchella punctipes
+442,442,0.7046791315078735,b'1520484',Ganoderma applanatum,Ganoderma applanatum
+281,281,0.5318920016288757,b'689441',Clitocybe nuda,Clitocybe nuda
+502,502,0.7709540724754333,b'2fc8bdc2000c360bbcb2cf4e460adde0',Hebeloma crustuliniforme,Hebeloma crustuliniforme
+211,211,0.9984012246131897,b'4604edbf-5739-4b01-a0cc-0a75314c90c1',Cantharellus californicus,Cantharellus californicus
+828,828,0.9998210072517395,b'554377',Non-Diagnostic,Non-Diagnostic
+1189,1189,0.9115474820137024,b'1315590',Trametes gibbosa,Trametes gibbosa
+335,335,0.6171526908874512,b'2160a8c0d7775d21b6f256a16e75692c',Craterellus fallax,Craterellus fallax
+339,339,0.9710920453071594,b'560649',Craterellus tubaeformis,Craterellus tubaeformis
+220,215,0.8275240659713745,b'165380',Cantharellus formosus,Cantharellus subalbidus
+721,304,0.6365897059440613,b'246a757e67fbac40900520a6b6081b31',Contumyces rosellus,Lichenomphalia umbellifera
+466,466,0.9653007984161377,b'1246609',Gomphidius glutinosus,Gomphidius glutinosus
+495,495,0.999176561832428,b'43b2fdfc-db9f-400b-accf-81f55c51027f',Gyromitra infula,Gyromitra infula
+1205,1205,0.6023916602134705,b'1109698',Tricholoma atrosquamosum,Tricholoma atrosquamosum
+1179,1178,0.8089635968208313,b'1466926',Thelephora palmata,Thelephora terrestris
+1076,1092,0.5257397294044495,b'376735',Russula variata,Russula heterophylla
+688,688,0.9983351826667786,b'186902',Leocarpus fragilis,Leocarpus fragilis
+755,755,0.9998276829719543,b'828525',Melanoleuca alboflavida,Melanoleuca alboflavida
+1251,1251,0.9535799026489258,b'f1b7ef14-7f1e-4653-bdbb-1299517c267e',Umbilicaria mammulata,Umbilicaria mammulata
+122,122,0.9994951486587524,b'70fcbbea-9c18-4916-baf0-013bc78800b5',Artomyces pyxidatus,Artomyces pyxidatus
+1132,1131,0.9827157258987427,b'd758892f-3921-41b6-8627-0e652a294c47',Stereum ostrea,Stereum versicolor
+828,828,0.8900031447410583,b'17155',Non-Diagnostic,Non-Diagnostic
+828,828,0.5865099430084229,b'1156229',Non-Diagnostic,Non-Diagnostic
+1005,1005,0.5889710783958435,b'162575',Psilocybe subaeruginosa,Psilocybe subaeruginosa
+802,828,0.34035560488700867,b'1104646',Non-Diagnostic,Mycena pura
+947,947,0.9670205116271973,b'168ab2f6a56588873c0d664e5147312e',Polycauliona candelaria,Polycauliona candelaria
+566,566,0.9692405462265015,b'483187',Hygrophorus occidentalis,Hygrophorus occidentalis
+529,432,0.3026995062828064,b'1125040',Fomitopsis ochracea,Heterobasidion occidentale
+428,428,0.7509952187538147,b'687264',Fomes fomentarius,Fomes fomentarius
+355,355,0.47148337960243225,b'd8c2ac8e-baa8-4ab8-9862-26b89172859c',Cyathus stercoreus,Cyathus stercoreus
+957,957,0.9537135362625122,b'461883',Porphyrellus sordidus,Porphyrellus sordidus
+743,743,0.9993515610694885,b'75b30c8f-2a12-439f-8d9b-673e9cbcd427',Marasmiellus candidus,Marasmiellus candidus
+190,68,0.7719067931175232,b'445089',Amanita magniverrucata,Calbovista subsculpta
+105,105,0.9850662350654602,b'225390',Amanita whetstoneae,Amanita whetstoneae
+815,815,0.9977676868438721,b'2d4a6cab-e63a-44b2-882c-f81d86801493',Nectria cinnabarina,Nectria cinnabarina
+647,647,0.8041301965713501,b'1086605',Lactarius psammicola,Lactarius psammicola
+554,554,0.9424828290939331,b'509708',Hygrocybe flavescens,Hygrocybe flavescens
+1002,1002,0.7169106006622314,b'1121712',Psilocybe pelliculosa,Psilocybe pelliculosa
+936,828,0.5475320816040039,b'450441',Non-Diagnostic,Pluteus chrysophlebius
+463,463,0.9977375268936157,b'201835',Globifomes graveolens,Globifomes graveolens
+686,686,0.3768496513366699,b'171987',Lentinus brumalis,Lentinus brumalis
+441,441,0.9998393058776855,b'30d054d6-2110-4381-b218-0106311a5d6a',Galiella rufa,Galiella rufa
+828,534,0.2082836925983429,b'698478',Hohenbuehelia petaloides,Non-Diagnostic
+725,725,0.9999732971191406,b'daf35fda-e086-442a-b5f4-5512df9cf434',Lobaria pulmonaria,Lobaria pulmonaria
+1100,1100,0.988272488117218,b'384aeb41-da7d-4965-bd00-b443bfab48f6',Sarcomyxa serotina,Sarcomyxa serotina
+833,1163,0.8065407872200012,b'298859',Suillus pungens,Omphalotus olivascens
+390,390,0.9666486382484436,b'1127773',Entoloma abortivum,Entoloma abortivum
+874,874,0.9965465664863586,b'46966',Phaeolus schweinitzii,Phaeolus schweinitzii
+223,223,0.982106626033783,b'552821',Ceratiomyxa fruticulosa,Ceratiomyxa fruticulosa
+828,893,0.3536771237850189,b'1414969',Pholiota aurivella,Non-Diagnostic
+753,753,0.9770175218582153,b'05cbb736-30c7-49e3-91dd-dece6d195cc5',Megacollybia rodmanii,Megacollybia rodmanii
+122,122,0.9941654205322266,b'1491170',Artomyces pyxidatus,Artomyces pyxidatus
+637,637,0.699701189994812,b'357813',Lactarius chrysorrheus,Lactarius chrysorrheus
+680,680,0.8894249796867371,b'559895',Leccinum snellii,Leccinum snellii
+774,774,0.9874913096427917,b'1040451',Morchella punctipes,Morchella punctipes
+1151,1162,0.4849649667739868,b'637775',Suillus ponderosus,Suillus caerulescens
+842,842,0.882366955280304,b'144583',Panaeolus foenisecii,Panaeolus foenisecii
+828,828,0.9999635219573975,b'1390634',Non-Diagnostic,Non-Diagnostic
+43,43,0.9901192784309387,b'630078',Amanita augusta,Amanita augusta
+668,668,0.9179506301879883,b'140825',Laricifomes officinalis,Laricifomes officinalis
+828,828,0.8483977317810059,b'1243066',Non-Diagnostic,Non-Diagnostic
+662,662,0.9890548586845398,b'1434856',Laetiporus cincinnatus,Laetiporus cincinnatus
+1023,1023,0.964401125907898,b'53ad768d-51cf-48de-b2fd-06b7ec92f16c',Ramalina celastri,Ramalina celastri
+336,336,0.9981027245521545,b'437940',Craterellus ignicolor,Craterellus ignicolor
+1170,1100,0.7481878399848938,b'1e67a131-42d0-4cc6-9f09-405341d732a7',Sarcomyxa serotina,Tapinella atrotomentosa
+415,415,0.9679226279258728,b'313052',Exsudoporus frostii,Exsudoporus frostii
+1000,1000,0.9763550758361816,b'869692',Psilocybe ovoideocystidiata,Psilocybe ovoideocystidiata
+1031,1031,0.8844239711761475,b'71427',Ramaria rasilispora,Ramaria rasilispora
+914,914,0.9993270635604858,b'51fcb086-a2d4-4a57-b1cc-3f180c9305db',Physcia millegrana,Physcia millegrana
+1241,1241,0.9214622974395752,b'650620',Tylopilus badiceps,Tylopilus badiceps
+1200,366,0.5620022416114807,b'1f7fe5dbe8e633382659ef330885c2c9',Dacrymyces chrysospermus,Tremella mesenterica
+828,828,0.9968981742858887,b'353677',Non-Diagnostic,Non-Diagnostic
+96,96,0.9230640530586243,b'883718',Amanita solaniolens,Amanita solaniolens
+579,579,0.9705751538276672,b'1502632',Hypholoma lateritium,Hypholoma lateritium
+429,429,0.9917362928390503,b'8bf6e63f-30fb-421a-a84a-6dfb6bc3393c',Fomitopsis betulina,Fomitopsis betulina
+828,1124,0.4101562798023224,b'128963',Steccherinum ochraceum,Non-Diagnostic
+661,661,0.9510494470596313,b'430514',Lactifluus volemus,Lactifluus volemus
+281,281,0.8007426857948303,b'1089429',Clitocybe nuda,Clitocybe nuda
+24,24,0.9936349987983704,b'1468204',Agrocybe pediades,Agrocybe pediades
+1243,1243,0.9961447715759277,b'1504294',Tylopilus felleus,Tylopilus felleus
+486,486,0.6268388032913208,b'706535',Gymnopus dryophilus,Gymnopus dryophilus
+915,915,0.6492495536804199,b'f8cde6d9-7c14-451f-a410-2f8a425c7c1f',Physcia stellaris,Physcia stellaris
+828,1000,0.5387482047080994,b'1178479',Psilocybe ovoideocystidiata,Non-Diagnostic
+828,828,0.9950881600379944,b'189210',Non-Diagnostic,Non-Diagnostic
+208,208,0.9824250936508179,b'496535',Candolleomyces candolleanus,Candolleomyces candolleanus
+259,259,0.9997076392173767,b'd9cc60ca-950d-47ac-8b15-bf8edc642348',Cladonia stellaris,Cladonia stellaris
+813,189,0.172847718000412,b'1519641',Byssomerulius corium,Myxarium nucleatum
+80,80,0.8443375825881958,b'da1576962c01c28b20288001a210bff3',Amanita phalloides,Amanita phalloides
+828,1000,0.8726067543029785,b'415361',Psilocybe ovoideocystidiata,Non-Diagnostic
+484,484,0.7777789831161499,b'123821',Gymnopilus ventricosus,Gymnopilus ventricosus
+525,525,0.9642919301986694,b'7536788fab929f8ee954e12739bc22bb',Hericium americanum,Hericium americanum
+559,559,0.9999756813049316,b'683827',Hygrophoropsis aurantiaca,Hygrophoropsis aurantiaca
+760,760,0.8894955515861511,b'44e08b88-152f-4df7-a049-5e492629352f',Meripilus sumstinei,Meripilus sumstinei
+828,828,0.9998737573623657,b'865372',Non-Diagnostic,Non-Diagnostic
+147,147,0.9996157288551331,b'aca24f60-858d-4444-9095-49946aae1627',Battarrea phalloides,Battarrea phalloides
+764,764,0.9856472015380859,b'496413',Micromphale arbuticola,Micromphale arbuticola
+501,501,0.8138401508331299,b'628188',Harrya chromapes,Harrya chromapes
+828,828,0.8356561064720154,b'1422674',Non-Diagnostic,Non-Diagnostic
+859,582,0.14428779482841492,b'880793',Hypogymnia physodes,Parmelia sulcata
+295,293,0.22912052273750305,b'878479',Collybiopsis dichroa,Collybiopsis peronata
+366,366,0.8984499573707581,b'1203727',Dacrymyces chrysospermus,Dacrymyces chrysospermus
+392,392,0.959888219833374,b'1082953',Entoloma formosum,Entoloma formosum
+20,10,0.9296873807907104,b'1a7d0c12-0658-4d7f-b4c0-f9ab4880b22d',Agaricus campestris,Agaricus xanthodermus
+558,558,0.9854409098625183,b'2ffc2018-7e1d-4bda-a2b1-faade8b301e1',Hygrocybe singeri,Hygrocybe singeri
+666,667,0.43036553263664246,b'534997',Lanmaoa pseudosensibilis,Lanmaoa pallidorosea
+10,10,0.9875257015228271,b'561994',Agaricus campestris,Agaricus campestris
+930,928,0.5785325169563293,b'226812',Pleurotus ostreatus,Pleurotus pulmonarius
+1189,1189,0.4591825008392334,b'845548',Trametes gibbosa,Trametes gibbosa
+1141,1139,0.8373609781265259,b'1111035',Stropharia aeruginosa,Stropharia caerulea
+24,24,0.9890191555023193,b'b47d9f82-a853-44d7-86fb-daa4b520840b',Agrocybe pediades,Agrocybe pediades
+554,554,0.9575955867767334,b'bc25088d-b965-4963-ba13-59842c2ef81f',Hygrocybe flavescens,Hygrocybe flavescens
+615,615,0.9990359544754028,b'a94c0624-0ae5-43ca-87f2-1897140a41b2',Irpex lacteus,Irpex lacteus
+66,66,0.8462837338447571,b'1527341',Amanita jacksonii,Amanita jacksonii
+743,743,0.9995881915092468,b'b6a8f13a-7a9f-4bed-b8bd-b5825dae4e0c',Marasmiellus candidus,Marasmiellus candidus
+1067,1082,0.6614329814910889,b'164962',Russula parvovirescens,Russula crustosa
+901,900,0.54386967420578,b'810402',Pholiota squarrosa,Pholiota squarrosoides
+1186,1186,0.9986513257026672,b'900105',Trametes cinnabarina,Trametes cinnabarina
+434,431,0.45471763610839844,b'560662',Fomitopsis mounceae,Fomitopsis pinicola
+550,550,0.5635500550270081,b'530613',Hygrocybe cantharellus,Hygrocybe cantharellus
+788,788,0.8910204172134399,b'1118015',Mycena epipterygia,Mycena epipterygia
+1225,1213,0.9546126127243042,b'1283305',Tricholoma griseoviolaceum,Tricholoma terreum
+828,828,0.999941349029541,b'1065558',Non-Diagnostic,Non-Diagnostic
+213,213,0.8260799646377563,b'c1a0f9b2-9c61-4574-be19-692b9c57f249',Cantharellus cibarius,Cantharellus cibarius
+1140,1140,0.9986233711242676,b'988907',Stropharia ambigua,Stropharia ambigua
+1140,1140,0.9954463243484497,b'b02c75b7-22e3-4db3-8f82-918a421e9f76',Stropharia ambigua,Stropharia ambigua
+456,456,0.9951019287109375,b'ac8548a7-a3c2-4a5f-99c4-5ee8ac8cfd68',Geastrum triplex,Geastrum triplex
+744,352,0.8605744242668152,b'584333',Cuphophyllus virgineus,Marasmius calhouniae
+578,578,0.8866068124771118,b'20849b43-119a-4910-aee4-405403edccb8',Hypholoma fasciculare,Hypholoma fasciculare
+587,68,0.5763123035430908,b'1428493',Amanita magniverrucata,Hypomyces hyalinus
+495,495,0.9994271993637085,b'361550',Gyromitra infula,Gyromitra infula
+32,32,0.9990249872207642,b'731696',Allodus podophylli,Allodus podophylli
+885,885,0.9158178567886353,b'2111c078-8925-4140-85b3-eb69752a4444',Phellinus robiniae,Phellinus robiniae
+428,428,0.9998136162757874,b'00da147c-a791-4fa9-bba1-666b09dec92b',Fomes fomentarius,Fomes fomentarius
+552,552,0.4275471866130829,b'3f20bee6-227f-48ad-8421-56f959f85f47',Hygrocybe coccinea,Hygrocybe coccinea
+422,422,0.9972509741783142,b'1313172',Flammulina velutipes,Flammulina velutipes
+828,828,0.9974060654640198,b'103529',Non-Diagnostic,Non-Diagnostic
+678,677,0.5186727046966553,b'254081',Leccinum pseudoscabrum,Leccinum rugosiceps
+570,570,0.9991068243980408,b'1006346',Hygrophorus russula,Hygrophorus russula
+491,491,0.9999948740005493,b'5a3d1813-323a-4551-8a16-0687a80c0f80',Gymnosporangium juniperi-virginianae,Gymnosporangium juniperi-virginianae
+662,662,0.9912668466567993,b'dafec49a-89cf-4003-b4a6-29e28413348c',Laetiporus cincinnatus,Laetiporus cincinnatus
+828,828,0.8498813509941101,b'356449',Non-Diagnostic,Non-Diagnostic
+442,442,0.8487961292266846,b'173615',Ganoderma applanatum,Ganoderma applanatum
+1175,1175,0.909923791885376,b'1512385',Terana coerulea,Terana coerulea
+554,554,0.9790636301040649,b'598761',Hygrocybe flavescens,Hygrocybe flavescens
+656,656,0.8372596502304077,b'894447',Lactifluus corrugis,Lactifluus corrugis
+520,520,0.8619500398635864,b'1079616',Hemileccinum subglabripes,Hemileccinum subglabripes
+422,422,0.9994106292724609,b'788273',Flammulina velutipes,Flammulina velutipes
+828,966,0.9624491930007935,b'506352',Psathyrella atrospora,Non-Diagnostic
+80,80,0.9999364614486694,b'239cc8063acc0696263d57ba173f7155',Amanita phalloides,Amanita phalloides
+238,238,0.4471149444580078,b'116961',Chlorophyllum rhacodes,Chlorophyllum rhacodes
+851,851,0.7666782140731812,b'1488829',Paragyrodon sphaerosporus,Paragyrodon sphaerosporus
+534,534,0.8624255061149597,b'115504',Hohenbuehelia petaloides,Hohenbuehelia petaloides
+537,537,0.9992043375968933,b'452363',Humaria hemisphaerica,Humaria hemisphaerica
+376,376,0.9979908466339111,b'1140783',Dendrophora albobadia,Dendrophora albobadia
+77,77,0.9480268955230713,b'55e18c59f295d191a959835558267fab',Amanita pantherina,Amanita pantherina
+844,844,0.981532633304596,b'82577',Panaeolus papilionaceus,Panaeolus papilionaceus
+334,334,0.8451699018478394,b'302967',Craterellus cornucopioides,Craterellus cornucopioides
+122,122,0.9997830986976624,b'1414197',Artomyces pyxidatus,Artomyces pyxidatus
+446,446,0.7707904577255249,b'871058',Ganoderma lobatum,Ganoderma lobatum
+1195,1195,0.9981392621994019,b'115982',Trametes versicolor,Trametes versicolor
+363,363,0.8748420476913452,b'358135',Cystoderma amianthinum,Cystoderma amianthinum
+461,461,0.9865308403968811,b'536614',Gliophorus perplexus,Gliophorus perplexus
+701,665,0.2214231640100479,b'1396079',Laetiporus sulphureus,Leptoporus mollis
+326,326,0.9661271572113037,b'291ec02c-3413-497a-a8e5-b3968efe964e',Cortinarius iodes,Cortinarius iodes
+828,581,0.3657718300819397,b'12796',Hypogymnia imshaugii,Non-Diagnostic
+63,63,0.9201895594596863,b'2c463b83-940e-4c84-98cd-e5eb86667da7',Amanita fulva,Amanita fulva
+309,309,0.9964235424995422,b'165639',Coprinellus micaceus,Coprinellus micaceus
+339,339,0.972798764705658,b'541593',Craterellus tubaeformis,Craterellus tubaeformis
+727,727,0.9568647146224976,b'1003680',Lobaria scrobiculata,Lobaria scrobiculata
+992,992,0.9947400093078613,b'206420',Psilocybe cubensis,Psilocybe cubensis
+828,828,0.9999123811721802,b'450327',Non-Diagnostic,Non-Diagnostic
+963,963,0.9982308745384216,b'795829',Protoparmeliopsis muralis,Protoparmeliopsis muralis
+656,661,0.5033755898475647,b'127521',Lactifluus volemus,Lactifluus corrugis
+246,246,0.8855012059211731,b'52b3dd83-2405-4eca-ab57-8dc35aebe9c4',Chrysothrix candelaris,Chrysothrix candelaris
+367,367,0.9334644675254822,b'1532783',Dacryopinax elegans,Dacryopinax elegans
+136,136,0.9508049488067627,b'1371046',Aureoboletus russellii,Aureoboletus russellii
+271,271,0.9633054137229919,b'845455',Clavulinopsis aurantiocinnabarina,Clavulinopsis aurantiocinnabarina
+804,804,0.999404788017273,b'1389731',Mycena rutilantiformis,Mycena rutilantiformis
+576,576,0.9745836853981018,b'580951',Hypholoma capnoides,Hypholoma capnoides
+361,687,0.6783975958824158,b'681387',Lentinus tigrinus,Cyptotrama asprata
+355,1107,0.5245912671089172,b'481237',Scleroderma bovista,Cyathus stercoreus
+59,59,0.42619696259498596,b'0ef26db6-7817-4b40-9a14-1184d7ae8e5c',Amanita flavoconia,Amanita flavoconia
+316,316,0.9996179342269897,b'219428',Coprinus comatus,Coprinus comatus
+370,370,0.983543336391449,b'f3342048-a68b-4d43-8ec8-a83cdcbe8747',Daedaleopsis confragosa,Daedaleopsis confragosa
+25,25,0.8710444569587708,b'ec0454ad-a6ce-4200-b58e-5badaaa7b61c',Agrocybe praecox,Agrocybe praecox
+35,67,0.30995607376098633,b'1536615',Amanita lavendula,Amanita aestivalis
+45,45,0.9675110578536987,b'5733d171ac41f6c304d7cebc7cf90bf9',Amanita bisporigera,Amanita bisporigera
+527,527,0.9898458123207092,b'568735',Hericium erinaceus,Hericium erinaceus
+606,606,0.9536040425300598,b'1139639',Inocybe lilacina,Inocybe lilacina
+718,718,0.9999713897705078,b'9a217254-8983-4176-815e-c90a3e383300',Leucopaxillus gentianeus,Leucopaxillus gentianeus
+828,828,0.9958720803260803,b'209259',Non-Diagnostic,Non-Diagnostic
+1138,1138,0.996629536151886,b'330972',Strobilurus trullisatus,Strobilurus trullisatus
+1186,1186,0.773756206035614,b'58382',Trametes cinnabarina,Trametes cinnabarina
+828,277,0.3040161728858948,b'401026',Clitocybe fragrans,Non-Diagnostic
+415,415,0.9999271631240845,b'770266',Exsudoporus frostii,Exsudoporus frostii
+500,500,0.9999727010726929,b'1220369',Hapalopilus rutilans,Hapalopilus rutilans
+442,444,0.7034704089164734,b'557053',Ganoderma brownii,Ganoderma applanatum
+811,811,0.4912741184234619,b'332293',Mycorrhaphium adustum,Mycorrhaphium adustum
+627,597,0.598551332950592,b'245933',Imleria pallida,Laccaria ochropurpurea
+711,711,0.4671289324760437,b'62681',Leucoagaricus leucothites,Leucoagaricus leucothites
+928,928,0.857658326625824,b'1165834',Pleurotus ostreatus,Pleurotus ostreatus
+1151,1151,0.46656036376953125,b'206741',Suillus caerulescens,Suillus caerulescens
+881,881,0.987616777420044,b'848721',Phallus ravenelii,Phallus ravenelii
+495,495,0.9996283054351807,b'09ffed18-9ea0-4b7a-a8d9-b23620cc2f44',Gyromitra infula,Gyromitra infula
+828,828,0.9999912977218628,b'1526635',Non-Diagnostic,Non-Diagnostic
+45,71,0.7914254665374756,b'1045937',Amanita murrilliana,Amanita bisporigera
+342,342,0.9998425245285034,b'b1d83687-fc35-42e5-bcd3-35db06f8a110',Crepidotus mollis,Crepidotus mollis
+315,310,0.557878315448761,b'a766403e-b1e6-4335-a169-c48d363a8d31',Coprinopsis atramentaria,Coprinopsis variegata
+979,979,0.999649167060852,b'224038',Pseudohydnum gelatinosum,Pseudohydnum gelatinosum
+1077,1088,0.49399837851524353,b'1249257',Russula sanguinea,Russula mariae
+522,1008,0.3316633701324463,b'155754',Psilocybe zapotecorum,Hemistropharia albocrenulata
+310,310,0.9443418979644775,b'23848',Coprinopsis atramentaria,Coprinopsis atramentaria
+1105,1105,0.9635652899742126,b'147978',Schizophyllum commune,Schizophyllum commune
+828,828,0.6092544794082642,b'932079',Non-Diagnostic,Non-Diagnostic
+848,848,0.8969568610191345,b'1248214',Panellus stipticus,Panellus stipticus
+431,431,0.902015209197998,b'5f537782-a091-491f-9bc8-b4651da21a91',Fomitopsis mounceae,Fomitopsis mounceae
+1057,1057,0.999750554561615,b'606876',Rusavskia elegans,Rusavskia elegans
+82,82,0.99892657995224,b'378363',Amanita porphyria,Amanita porphyria
+1068,1068,0.8861725926399231,b'1349153',Russula cyanoxantha,Russula cyanoxantha
+332,332,0.9740071296691895,b'1125337',Cortinarius violaceus,Cortinarius violaceus
+912,912,0.32045459747314453,b'04d7d42c-e11d-401a-ba7d-4405c5724944',Physcia adscendens,Physcia adscendens
+819,828,0.2967507541179657,b'208859',Non-Diagnostic,Neolentinus lepideus
+828,828,0.9170038104057312,b'1159577',Non-Diagnostic,Non-Diagnostic
+514,514,0.9958553910255432,b'1358443',Helvella macropus,Helvella macropus
+685,685,0.9831627607345581,b'1205306',Lentinus arcularius,Lentinus arcularius
+1114,1114,0.9288459420204163,b'1312273',Sebacina sparassoidea,Sebacina sparassoidea
+125,260,0.9869264364242554,b'347b92a2-c16a-4853-af72-e04f9c21dff3',Clathrus archeri,Aseroe rubra
+120,120,0.9767233729362488,b'1213909',Arrhenia epichysium,Arrhenia epichysium
+612,612,0.7293700575828552,b'692944',Inosperma bongardii,Inosperma bongardii
+1189,1189,0.7692782878875732,b'1438772',Trametes gibbosa,Trametes gibbosa
+1195,1195,0.9842315316200256,b'308032',Trametes versicolor,Trametes versicolor
+1188,1190,0.47772204875946045,b'630090',Trametes hirsuta,Trametes conchifer
+753,753,0.9934743642807007,b'04b3421f-d50f-48ce-931b-f5a6b6cc1712',Megacollybia rodmanii,Megacollybia rodmanii
+935,935,0.8357387185096741,b'442210',Pluteus cervinus,Pluteus cervinus
+471,150,0.8943378329277039,b'340633',Bjerkandera adusta,Grifola frondosa
+724,724,0.9998615980148315,b'f83fe72e-f91b-407b-8dc2-2be2e119ec63',Lobaria anthraspis,Lobaria anthraspis
+238,238,0.5533540844917297,b'255226',Chlorophyllum rhacodes,Chlorophyllum rhacodes
+679,679,0.5851860046386719,b'686282',Leccinum scabrum,Leccinum scabrum
+1223,1223,0.7611814141273499,b'119051',Tricholoma subsejunctum,Tricholoma subsejunctum
+1036,1036,0.5125806927680969,b'773093',Retiboletus ornatipes,Retiboletus ornatipes
+350,350,0.9955583810806274,b'1047542',Cuphophyllus pratensis,Cuphophyllus pratensis
+830,830,0.9735022187232971,b'544990',Omphalotus illudens,Omphalotus illudens
+456,456,0.9288433194160461,b'0391229a-afb5-4e0b-8b9a-3b1f336417d4',Geastrum triplex,Geastrum triplex
+627,627,0.8595390915870667,b'1141691',Laccaria ochropurpurea,Laccaria ochropurpurea
+1033,1033,0.9950202703475952,b'917654',Ramariopsis kunzei,Ramariopsis kunzei
+947,947,0.40610772371292114,b'739da9b67a6f31fc57328ebbf7c1dc04',Polycauliona candelaria,Polycauliona candelaria
+66,66,0.5149261355400085,b'431741',Amanita jacksonii,Amanita jacksonii
+413,413,0.5629867911338806,b'645020',Exidia recisa,Exidia recisa
+828,828,0.5280101299285889,b'276488',Non-Diagnostic,Non-Diagnostic
+592,592,0.8721181154251099,b'1106624',Hypsizygus marmoreus,Hypsizygus marmoreus
+134,134,0.9564089775085449,b'723609',Aureoboletus innixus,Aureoboletus innixus
+828,828,0.9338290691375732,b'953124',Non-Diagnostic,Non-Diagnostic
+1061,573,0.9526411890983582,b'1191636',Hygrophorus subalpinus,Russula brevipes
+900,900,0.9723697900772095,b'572146ac-3900-4e23-9a49-6b8fb681edc0',Pholiota squarrosa,Pholiota squarrosa
+849,849,0.6501368284225464,b'421706',Panus conchatus,Panus conchatus
+1000,1000,0.4337300956249237,b'384818',Psilocybe ovoideocystidiata,Psilocybe ovoideocystidiata
+979,979,0.9997721314430237,b'682053',Pseudohydnum gelatinosum,Pseudohydnum gelatinosum
+828,828,0.4318302273750305,b'1324943',Non-Diagnostic,Non-Diagnostic
+749,749,0.9691226482391357,b'd0bdc896-2bab-47fd-a5c7-b0d1a4dd5005',Marasmius rotula,Marasmius rotula
+997,788,0.4914630353450775,b'26e0fb1a-5524-465d-956d-92aaef61fbfc',Mycena epipterygia,Psilocybe mexicana
+128,128,0.9918743968009949,b'573576',Astraeus hygrometricus,Astraeus hygrometricus
+449,925,0.21044757962226868,b'1521448',Pleurocybella porrigens,Ganoderma oregonense
+98,98,0.735464334487915,b'1227279',Amanita subcokeri,Amanita subcokeri
+45,54,0.37998560070991516,b'268625',Amanita crenulata,Amanita bisporigera
+928,287,0.6897884607315063,b'413102',Clitocybe tarda,Pleurotus ostreatus
+843,828,0.430198609828949,b'1279777',Non-Diagnostic,Panaeolus olivaceus
+1139,1141,0.5298623442649841,b'1398236',Stropharia caerulea,Stropharia aeruginosa
+728,728,0.9993579983711243,b'630751',Lycogala epidendrum,Lycogala epidendrum
+431,432,0.4461861252784729,b'743956',Fomitopsis ochracea,Fomitopsis mounceae
+935,935,0.9733325242996216,b'9fb0483d-5114-421b-a042-250915db5bf2',Pluteus cervinus,Pluteus cervinus
+387,387,0.9814361929893494,b'745297',Ductifera pululahuana,Ductifera pululahuana
+284,284,0.987675666809082,b'1256545',Clitocybe robusta,Clitocybe robusta
+788,788,0.9454083442687988,b'a3b3a87b-f237-4006-a230-826b29dfe67d',Mycena epipterygia,Mycena epipterygia
+753,756,0.948516309261322,b'1329054',Melanoleuca cognata,Megacollybia rodmanii
+15,15,0.6711142063140869,b'157779',Agaricus placomyces,Agaricus placomyces
+366,366,0.9730834364891052,b'583517',Dacrymyces chrysospermus,Dacrymyces chrysospermus
+828,828,0.649599552154541,b'414244',Non-Diagnostic,Non-Diagnostic
+1002,1002,0.9954566955566406,b'819332',Psilocybe pelliculosa,Psilocybe pelliculosa
+92,92,0.9796837568283081,b'264255',Amanita rubescens,Amanita rubescens
+434,434,0.7883970737457275,b'167949',Fomitopsis pinicola,Fomitopsis pinicola
+1131,1131,0.9850711226463318,b'9b0df9d9-d18c-4d5b-8627-a657fe7880dd',Stereum ostrea,Stereum ostrea
+1126,1126,0.4798392951488495,b'218055',Stemonitopsis typhina,Stemonitopsis typhina
+567,567,0.6674262881278992,b'108310',Hygrophorus pudorinus,Hygrophorus pudorinus
+135,135,0.9993756413459778,b'1073813',Aureoboletus roxanae,Aureoboletus roxanae
+325,325,0.9998836517333984,b'702500',Cortinarius glutinosoarmillatus,Cortinarius glutinosoarmillatus
+661,661,0.9733709096908569,b'119881',Lactifluus volemus,Lactifluus volemus
+59,59,0.2580080032348633,b'1358366',Amanita flavoconia,Amanita flavoconia
+828,828,0.9991782307624817,b'584171',Non-Diagnostic,Non-Diagnostic
+796,796,0.9992935657501221,b'1382912',Mycena leaiana,Mycena leaiana
+413,410,0.6437773704528809,b'1324993',Exidia crenata,Exidia recisa
+440,440,0.9995980858802795,b'02885511-865a-4253-ada9-6c11dc916b1b',Galerina marginata,Galerina marginata
+753,753,0.9960284233093262,b'750327',Megacollybia rodmanii,Megacollybia rodmanii
+442,442,0.46843820810317993,b'1271651',Ganoderma applanatum,Ganoderma applanatum
+422,422,0.9547489881515503,b'494953',Flammulina velutipes,Flammulina velutipes
+797,797,0.8285335302352905,b'27519',Mycena leptocephala,Mycena leptocephala
+197,197,0.9974205493927002,b'4f5ac07d-a509-4e99-aa97-7cd62903df7e',Calocera viscosa,Calocera viscosa
+536,536,0.7495585680007935,b'246789',Hortiboletus rubellus,Hortiboletus rubellus
+451,451,0.9615899920463562,b'768026',Ganoderma sessile,Ganoderma sessile
+1213,397,0.4514297842979431,b'8757',Entoloma medianox,Tricholoma griseoviolaceum
+1235,1235,0.6430747509002686,b'1226190',Tubifera ferruginosa,Tubifera ferruginosa
+471,952,0.7741870284080505,b'429752',Polyporus umbellatus,Grifola frondosa
+303,303,0.9059432744979858,b'8e7603be-6a34-4faf-9745-969da89831b4',Conocybe apala,Conocybe apala
+1016,1016,0.9889049530029297,b'840335',Punctularia atropurpurascens,Punctularia atropurpurascens
+107,107,0.9999687671661377,b'6adebb22-3faf-4963-a92c-28b38f0a0514',Annulohypoxylon thouarsianum,Annulohypoxylon thouarsianum
+828,1186,0.5117788314819336,b'1527209',Trametes cinnabarina,Non-Diagnostic
+1219,735,0.17861489951610565,b'736975',Lyophyllum decastes,Tricholoma saponaceum
+707,707,0.8917514085769653,b'a2110a6a-e1b2-46c2-909e-b6b8ffdb0d2d',Letharia vulpina,Letharia vulpina
+828,105,0.5664141774177551,b'895729',Amanita whetstoneae,Non-Diagnostic
+582,582,0.9913881421089172,b'462f0d5e-cf6b-4141-896a-530e281e75f3',Hypogymnia physodes,Hypogymnia physodes
+335,335,0.9984308481216431,b'f847e7b5-ea2e-449d-943e-59290bd623be',Craterellus fallax,Craterellus fallax
+771,771,0.9899135828018188,b'869735',Morchella angusticeps,Morchella angusticeps
+422,422,0.8338804244995117,b'1522982',Flammulina velutipes,Flammulina velutipes
+82,45,0.1996118426322937,b'1398971',Amanita bisporigera,Amanita porphyria
+1100,1100,0.9999845027923584,b'679756',Sarcomyxa serotina,Sarcomyxa serotina
+828,828,0.5454128980636597,b'1097300',Non-Diagnostic,Non-Diagnostic
+602,602,0.9596836566925049,b'1401431',Inocybe geophylla,Inocybe geophylla
+632,632,0.6306411623954773,b'93035',Lacrymaria lacrymabunda,Lacrymaria lacrymabunda
+113,113,0.9997585415840149,b'668521',Armillaria mellea,Armillaria mellea
+1258,1258,0.9996926784515381,b'bfcd9eaa-c782-4e3d-a9fd-436e77bc0332',Usnea strigosa,Usnea strigosa
+182,1261,0.29924970865249634,b'17124',Vascellum pratense,Bovista pila
+1242,1242,0.9916746616363525,b'165365',Tylopilus balloui,Tylopilus balloui
+1002,990,0.5157835483551025,b'413420',Psilocybe caerulescens,Psilocybe pelliculosa
+730,730,0.9696730971336365,b'440955',Lycoperdon marginatum,Lycoperdon marginatum
+554,554,0.9078400135040283,b'848080',Hygrocybe flavescens,Hygrocybe flavescens
+1221,1221,0.45783746242523193,b'188653',Tricholoma sejunctum,Tricholoma sejunctum
+214,214,0.9956875443458557,b'e6f30baf-7d7a-4a73-ba05-efb5850250ec',Cantharellus cinnabarinus,Cantharellus cinnabarinus
+992,828,0.9876887798309326,b'1328158',Non-Diagnostic,Psilocybe cubensis
+316,316,0.9998138546943665,b'7843602b1384133a81deeab4a2e77d6f',Coprinus comatus,Coprinus comatus
+25,357,0.7537509202957153,b'438820',Cyclocybe cylindracea,Agrocybe praecox
+62,62,0.9877462983131409,b'748703',Amanita frostiana,Amanita frostiana
+548,548,0.8112301826477051,b'369463',Hydnum umbilicatum,Hydnum umbilicatum
+581,1273,0.2476072609424591,b'486821',Xanthoparmelia plittii,Hypogymnia imshaugii
+588,588,0.9999042749404907,b'1523457',Hypomyces lactifluorum,Hypomyces lactifluorum
+147,147,0.9989282488822937,b'831453',Battarrea phalloides,Battarrea phalloides
+1003,986,0.35261431336402893,b'357620',Psilocybe aztecorum,Psilocybe semilanceata
+828,1036,0.42067718505859375,b'457210',Retiboletus ornatipes,Non-Diagnostic
+1163,1163,0.5332695841789246,b'1140802',Suillus pungens,Suillus pungens
+1173,1173,0.9585798382759094,b'6391966f-acec-4bfe-9281-dc32b8075554',Teloschistes exilis,Teloschistes exilis
+1036,1036,0.9991827607154846,b'904200',Retiboletus ornatipes,Retiboletus ornatipes
+1105,1105,0.9998427629470825,b'1139403',Schizophyllum commune,Schizophyllum commune
+438,438,0.9843210577964783,b'1025953',Fuscoporia gilva,Fuscoporia gilva
+930,930,0.836094856262207,b'911299',Pleurotus pulmonarius,Pleurotus pulmonarius
+364,364,0.3187885284423828,b'286166',Cystoderma carcharias var. fallax,Cystoderma carcharias var. fallax
+1267,1267,0.8000114560127258,b'538055',Xanthoconium affine,Xanthoconium affine
+4,3,0.3630034923553467,b'475428',Agaricus arvensis,Agaricus augustus
+702,702,0.9999028444290161,b'38418',Leratiomyces ceres,Leratiomyces ceres
+648,648,0.8670365810394287,b'69805',Lactarius rubidus,Lactarius rubidus
+828,828,0.9957525730133057,b'868166',Non-Diagnostic,Non-Diagnostic
+626,626,0.8023161292076111,b'990181',Laccaria laccata,Laccaria laccata
+1066,1066,0.994105875492096,b'264bd3c894d2a27be057efc4dd3ce906',Russula cremoricolor,Russula cremoricolor
+1185,1185,0.6715666651725769,b'681723',Trametes betulina,Trametes betulina
+442,442,0.3846744894981384,b'1495279',Ganoderma applanatum,Ganoderma applanatum
+424,424,0.9520960450172424,b'f7e1e829-1b3f-44c0-9499-12d5fa412bd0',Flavoparmelia caperata,Flavoparmelia caperata
+1024,1024,0.9986573457717896,b'2161c9fe-e58c-4494-9dc5-53fe4ccb3cb9',Ramalina farinacea,Ramalina farinacea
+1006,1006,0.2403530478477478,b'257087',Psilocybe subtropicalis,Psilocybe subtropicalis
+833,833,0.9996645450592041,b'489452',Omphalotus olivascens,Omphalotus olivascens
+797,797,0.8039641380310059,b'1267280',Mycena leptocephala,Mycena leptocephala
+982,982,0.9995631575584412,b'613894',Pseudoplectania nigrella,Pseudoplectania nigrella
+665,665,0.8766539096832275,b'361269',Laetiporus sulphureus,Laetiporus sulphureus
+440,440,0.9683564901351929,b'1269721',Galerina marginata,Galerina marginata
+113,113,0.9481425881385803,b'30723',Armillaria mellea,Armillaria mellea
+193,193,0.7922258973121643,b'536844',Caloboletus inedulis,Caloboletus inedulis
+152,152,0.6587969660758972,b'606428',Bolbitius titubans,Bolbitius titubans
+1103,1103,0.8613630533218384,b'467211',Sarcoscypha occidentalis,Sarcoscypha occidentalis
+1132,1129,0.9338120222091675,b'ab7f80bd-c32a-4a52-9d01-9570522cf4fa',Stereum hirsutum,Stereum versicolor
+583,583,0.9880404472351074,b'bdf791b6-0f55-42d1-a36f-66467df20c86',Hypogymnia tubulosa,Hypogymnia tubulosa
+626,625,0.6052039861679077,b'1097794',Laccaria bicolor,Laccaria laccata
+928,929,0.39510253071784973,b'883957',Pleurotus populinus,Pleurotus ostreatus
+828,828,0.9991150498390198,b'1118743',Non-Diagnostic,Non-Diagnostic
+854,969,0.8541917204856873,b'1286585',Psathyrella corrugis,Parasola conopilea
+844,844,0.8859205842018127,b'329847',Panaeolus papilionaceus,Panaeolus papilionaceus
+1188,1188,0.7872257828712463,b'866423',Trametes conchifer,Trametes conchifer
+578,579,0.8021512031555176,b'942660',Hypholoma lateritium,Hypholoma fasciculare
+170,170,0.4109002351760864,b'159778',Boletus rex-veris,Boletus rex-veris
+828,828,0.9900273084640503,b'216909',Non-Diagnostic,Non-Diagnostic
+150,150,0.8841826915740967,b'603370',Bjerkandera adusta,Bjerkandera adusta
+451,451,0.9692009091377258,b'896940',Ganoderma sessile,Ganoderma sessile
+594,594,0.9992800354957581,b'1203416',Icmadophila ericetorum,Icmadophila ericetorum
+239,239,0.9712961316108704,b'0b93b038b47254e08d7728072d987473',Chondrostereum purpureum,Chondrostereum purpureum
+309,309,0.49110516905784607,b'116319',Coprinellus micaceus,Coprinellus micaceus
+500,500,0.9476518034934998,b'1504878',Hapalopilus rutilans,Hapalopilus rutilans
+1215,220,0.5453996062278748,b'453175',Cantharellus subalbidus,Tricholoma murrillianum
+1000,1000,0.9963254332542419,b'869050',Psilocybe ovoideocystidiata,Psilocybe ovoideocystidiata
+578,580,0.3590599298477173,b'1403548',Hypholoma subviride,Hypholoma fasciculare
+828,828,0.9824727177619934,b'1536489',Non-Diagnostic,Non-Diagnostic
+828,828,0.9993466734886169,b'1469519',Non-Diagnostic,Non-Diagnostic
+711,709,0.35015714168548584,b'1407056',Leucoagaricus barssii,Leucoagaricus leucothites
+914,914,0.9831031560897827,b'22c32808-6af4-44bb-a6e2-4835c0ac92cc',Physcia millegrana,Physcia millegrana
+551,551,0.6461631059646606,b'149972',Hygrocybe chlorophana,Hygrocybe chlorophana
+46,46,0.9979639053344727,b'52170',Amanita brunnescens,Amanita brunnescens
+1159,1159,0.9679182767868042,b'107571',Suillus luteus,Suillus luteus
+917,917,0.9927200078964233,b'340822',Picipes badius,Picipes badius
+496,496,0.4950072467327118,b'141450',Gyromitra korfii,Gyromitra korfii
+794,798,0.8521458506584167,b'396174',Mycena maculata,Mycena inclinata
+662,662,0.9549504518508911,b'e5e4c1eba36faa79ea00937621cc07d1',Laetiporus cincinnatus,Laetiporus cincinnatus
+287,828,0.46486055850982666,b'1243226',Non-Diagnostic,Clitocybe tarda
+979,979,0.9832378029823303,b'132477',Pseudohydnum gelatinosum,Pseudohydnum gelatinosum
+541,541,0.823951005935669,b'971518',Hydnellum concrescens,Hydnellum concrescens
+1191,1191,0.9451439380645752,b'826043',Trametes lactinea,Trametes lactinea
+765,765,0.5217938423156738,b'93c5c15d-57ff-4e45-a3ee-d7d19f215600',Microporus xanthopus,Microporus xanthopus
+1246,1246,0.9947028160095215,b'1210843',Tylopilus rubrobrunneus,Tylopilus rubrobrunneus
+753,753,0.9993800520896912,b'336586',Megacollybia rodmanii,Megacollybia rodmanii
+653,653,0.6426021456718445,b'18155',Lactarius subpurpureus,Lactarius subpurpureus
+1152,1152,0.9989638328552246,b'270436',Suillus clintonianus,Suillus clintonianus
+1100,1100,0.9811093807220459,b'200743',Sarcomyxa serotina,Sarcomyxa serotina
+770,118,0.37198808789253235,b'220379',Armillaria tabescens,Morchella americana
+911,911,0.9826959371566772,b'3e5a51c8-89ca-4c13-bc46-db5b971eafba',Phyllotopsis nidulans,Phyllotopsis nidulans
+120,120,0.9995679259300232,b'1386264',Arrhenia epichysium,Arrhenia epichysium
+502,502,0.7667408585548401,b'580257',Hebeloma crustuliniforme,Hebeloma crustuliniforme
+49,49,0.517488420009613,b'1148562',Amanita canescens,Amanita canescens
+332,332,0.9965664744377136,b'f2a4e72a-fd12-477e-b825-9b806319395d',Cortinarius violaceus,Cortinarius violaceus
+113,833,0.2709530293941498,b'249502c7-9ed8-430c-afe9-f0c19f9d483c',Omphalotus olivascens,Armillaria mellea
+689,689,0.9999960660934448,b'1002820',Leotia lubrica,Leotia lubrica
+396,396,0.20179179310798645,b'297763',Entoloma lividoalbum,Entoloma lividoalbum
+309,309,0.9963704347610474,b'146069',Coprinellus micaceus,Coprinellus micaceus
+626,623,0.8717119097709656,b'c17f0f47-6276-41b4-9917-70192b70135e',Laccaria amethysteo-occidentalis,Laccaria laccata
+374,999,0.5745707750320435,b'540102',Psilocybe neoxalapensis,Deconica montana
+1238,1238,0.9998298287391663,b'671a8092-d90c-457a-a30d-ebbe7225f4e7',Turbinellus floccosus,Turbinellus floccosus
+150,150,0.9927584528923035,b'1f063fb7-2e3f-41bd-b35a-74fc7d8cd79f',Bjerkandera adusta,Bjerkandera adusta
+638,638,0.8469452261924744,b'1256048',Lactarius controversus,Lactarius controversus
+231,230,0.42300137877464294,b'247725',Chalciporus piperatoides,Chalciporus piperatus
+454,590,0.514732837677002,b'56700',Hypomyces luteovirens,Gastroboletus turbinatus
+136,136,0.9985054731369019,b'779005',Aureoboletus russellii,Aureoboletus russellii
+477,895,0.5901992917060852,b'1470730',Pholiota granulosa,Gymnopilus liquiritiae
+667,667,0.5772404074668884,b'198358',Lanmaoa pseudosensibilis,Lanmaoa pseudosensibilis
+422,828,0.9535019397735596,b'1520315',Non-Diagnostic,Flammulina velutipes
+92,92,0.4725382626056671,b'1397729',Amanita rubescens,Amanita rubescens
+1195,828,0.8822749257087708,b'2796',Non-Diagnostic,Trametes versicolor
+216,216,0.6792088150978088,b'551105',Cantharellus lateritius,Cantharellus lateritius
+309,309,0.8275092840194702,b'1275816',Coprinellus micaceus,Coprinellus micaceus
+817,817,0.42980337142944336,b'1038537',Neofavolus alveolaris,Neofavolus alveolaris
+1036,1036,0.7700902819633484,b'1035785',Retiboletus ornatipes,Retiboletus ornatipes
+479,479,0.94292813539505,b'359345',Gymnopilus luteus,Gymnopilus luteus
+1197,1197,0.6822782754898071,b'1003601',Trametopsis cervina,Trametopsis cervina
+732,732,0.9956719875335693,b'94760242-c084-4468-8ccd-a203a57f0377',Lycoperdon perlatum,Lycoperdon perlatum
+874,874,0.9977315068244934,b'1103474',Phaeolus schweinitzii,Phaeolus schweinitzii
+127,127,0.9531909227371216,b'101085',Asterophora parasitica,Asterophora parasitica
+227,1021,0.655342698097229,b'391586',Radulomyces confluens,Ceriporia purpurea
+1275,1275,0.9774960279464722,b'1126626',Xerocomellus chrysenteron,Xerocomellus chrysenteron
+122,122,0.933003842830658,b'776241',Artomyces pyxidatus,Artomyces pyxidatus
+956,956,0.9907318949699402,b'151231',Porphyrellus porphyrosporus,Porphyrellus porphyrosporus
+1065,1069,0.44162440299987793,b'1215748',Russula densifolia,Russula compacta
+1203,1203,0.6057745218276978,b'801939',Trichaptum biforme,Trichaptum biforme
+587,587,0.5258486866950989,b'1347429',Hypomyces hyalinus,Hypomyces hyalinus
+55,55,0.8474622964859009,b'1353368',Amanita daucipes,Amanita daucipes
+1149,1149,0.9956276416778564,b'1246075',Suillus americanus,Suillus americanus
+108,108,0.9974038600921631,b'332011fe-c27b-4271-ab93-99bad5589f30',Apioperdon pyriforme,Apioperdon pyriforme
+365,365,0.9993100166320801,b'454952',Cystodermella cinnabarina,Cystodermella cinnabarina
+440,116,0.3090640902519226,b'582731',Armillaria sinapina,Galerina marginata
+207,828,0.32723894715309143,b'843436',Non-Diagnostic,Candelaria concolor
+936,936,0.8103631138801575,b'621817',Pluteus chrysophlebius,Pluteus chrysophlebius
+732,732,0.991849958896637,b'1372282',Lycoperdon perlatum,Lycoperdon perlatum
+442,442,0.8852204084396362,b'601942',Ganoderma applanatum,Ganoderma applanatum
+828,828,0.9850015640258789,b'116397',Non-Diagnostic,Non-Diagnostic
+828,828,0.773474395275116,b'695937',Non-Diagnostic,Non-Diagnostic
+842,844,0.9285963773727417,b'1090664',Panaeolus papilionaceus,Panaeolus foenisecii
+1190,1190,0.9553226232528687,b'1306138',Trametes hirsuta,Trametes hirsuta
+494,494,0.7818050384521484,b'83fbd04e-475b-41b4-a398-88a7df0b760a',Gyromitra esculenta,Gyromitra esculenta
+848,848,0.9984161853790283,b'9624c89d-4de6-449b-829f-beb8822f8343',Panellus stipticus,Panellus stipticus
+140,140,0.9821633100509644,b'0f86d9ea-044c-48d4-b31d-20a32c0bb7c9',Auricularia cornea,Auricularia cornea
+1084,828,0.8585537075996399,b'743615',Non-Diagnostic,Russula pulverulenta
+626,626,0.6524011492729187,b'996204',Laccaria laccata,Laccaria laccata
+895,895,0.957136869430542,b'110884',Pholiota granulosa,Pholiota granulosa
+820,820,0.7622246742248535,b'148352',Neolentinus ponderosus,Neolentinus ponderosus
+626,625,0.43478572368621826,b'172463',Laccaria bicolor,Laccaria laccata
+750,750,0.9999245405197144,b'650427',Marasmius siccus,Marasmius siccus
+264,264,0.9999020099639893,b'802968',Clavaria zollingeri,Clavaria zollingeri
+960,828,0.668677568435669,b'958751',Non-Diagnostic,Postia fragilis
+32,32,0.6834236979484558,b'5c09ab7f-2628-4f47-bb5c-319219135685',Allodus podophylli,Allodus podophylli
+281,281,0.9144934415817261,b'581034',Clitocybe nuda,Clitocybe nuda
+1002,1002,0.9996036887168884,b'1115424',Psilocybe pelliculosa,Psilocybe pelliculosa
+1100,828,0.6047413349151611,b'1299272',Non-Diagnostic,Sarcomyxa serotina
+1189,1189,0.5621498823165894,b'244157',Trametes gibbosa,Trametes gibbosa
+822,822,0.5053226351737976,b'281561',Nidula candida,Nidula candida
+1275,1275,0.6301236152648926,b'181870',Xerocomellus chrysenteron,Xerocomellus chrysenteron
+986,1008,0.20986567437648773,b'954682',Psilocybe zapotecorum,Psilocybe aztecorum
+24,24,0.9616489410400391,b'95723',Agrocybe pediades,Agrocybe pediades
+619,619,0.9989058971405029,b'868505',Kretzschmaria deusta,Kretzschmaria deusta
+889,889,0.9960950016975403,b'283785',Phlebia tremellosa,Phlebia tremellosa
+626,626,0.8594971299171448,b'297832',Laccaria laccata,Laccaria laccata
+828,828,0.479775995016098,b'1538259',Non-Diagnostic,Non-Diagnostic
+375,375,0.99897301197052,b'1110521',Dendrocollybia racemosa,Dendrocollybia racemosa
+927,927,0.640718936920166,b'1509261',Pleurotus levis,Pleurotus levis
+275,275,0.9203976988792419,b'1120782',Climacodon septentrionalis,Climacodon septentrionalis
+390,390,0.9087027907371521,b'1236225',Entoloma abortivum,Entoloma abortivum
+617,617,0.9999165534973145,b'934565',Ischnoderma resinosum,Ischnoderma resinosum
+841,841,0.9862740635871887,b'942829',Panaeolus cyanescens,Panaeolus cyanescens
+828,828,0.9999665021896362,b'267221',Non-Diagnostic,Non-Diagnostic
+565,565,0.7460213899612427,b'183076',Hygrophorus hypothejus,Hygrophorus hypothejus
+828,828,0.9550526142120361,b'1140717',Non-Diagnostic,Non-Diagnostic
+828,828,0.9865842461585999,b'773789',Non-Diagnostic,Non-Diagnostic
+1128,30,0.27717480063438416,b'1461713',Aleuria aurantia,Stereum complicatum
+940,935,0.6081850528717041,b'1174569',Pluteus cervinus,Pluteus petasatus
+842,844,0.5489292144775391,b'429401',Panaeolus papilionaceus,Panaeolus foenisecii
+130,130,0.4620087444782257,b'569733',Atractosporocybe inornata,Atractosporocybe inornata
+827,827,0.9436568021774292,b'89514',Niveoporofomes spraguei,Niveoporofomes spraguei
+1233,626,0.8149328827857971,b'c5613fe3-447c-42fc-aaec-d0565ac77ac6',Laccaria laccata,Tubaria furfuracea
+118,118,0.9237855672836304,b'1264610',Armillaria tabescens,Armillaria tabescens
+828,828,0.6475450396537781,b'911201',Non-Diagnostic,Non-Diagnostic
+1089,1078,0.7592576146125793,b'1059457',Russula modesta,Russula silvestris
+379,379,0.9996575117111206,b'b8aa0c57-a084-42fb-996b-511fb3a6ed5c',Dibaeis arcuata,Dibaeis arcuata
+715,715,0.9820370078086853,b'1006428',Leucocoprinus cretaceus,Leucocoprinus cretaceus
+174,174,0.9987240433692932,b'675363',Boletus subcaerulescens,Boletus subcaerulescens
+636,1230,0.11204399168491364,b'101584',Tricholomopsis rutilans,Lactarius camphoratus
+828,828,0.999932050704956,b'218907',Non-Diagnostic,Non-Diagnostic
+77,77,0.7455607056617737,b'bed04116-9435-4ec6-a909-02f03c85e500',Amanita pantherina,Amanita pantherina
+1147,1147,0.6699401140213013,b'346260',Suillellus luridus,Suillellus luridus
+1042,1042,0.8328302502632141,b'18640',Rhizopogon occidentalis,Rhizopogon occidentalis
+289,289,0.9872936606407166,b'52371',Clitocybula abundans,Clitocybula abundans
+828,828,0.4332669973373413,b'1362111',Non-Diagnostic,Non-Diagnostic
+482,344,0.28535810112953186,b'607373',Crucibulum crucibuliforme,Gymnopilus sapineus
+1086,1086,0.9861515760421753,b'921250',Russula rosea,Russula rosea
+9,10,0.4797254502773285,b'344145',Agaricus campestris,Agaricus californicus
+145,145,0.9958124160766602,b'199785',Baeospora myosura,Baeospora myosura
+998,998,0.9702299237251282,b'379531',Psilocybe muliercula,Psilocybe muliercula
+780,780,0.3083012104034424,b'223466',Mycena abramsii,Mycena abramsii
+874,874,0.9999233484268188,b'11627d47-90fb-4744-868d-7f043fb9720e',Phaeolus schweinitzii,Phaeolus schweinitzii
+637,637,0.40043070912361145,b'650958',Lactarius chrysorrheus,Lactarius chrysorrheus
+20,20,0.9936252236366272,b'5b61742e-822e-44fb-99da-7121da80bd07',Agaricus xanthodermus,Agaricus xanthodermus
+828,828,0.9998902082443237,b'1101159',Non-Diagnostic,Non-Diagnostic
+1242,231,0.468118816614151,b'553306',Chalciporus piperatus,Tylopilus balloui
+958,958,0.9939790368080139,b'731917',Porpidia albocaerulescens,Porpidia albocaerulescens
+1195,828,0.8367525935173035,b'26608',Non-Diagnostic,Trametes versicolor
+702,702,0.9993314743041992,b'1053697',Leratiomyces ceres,Leratiomyces ceres
+146,828,0.5279178023338318,b'631199',Non-Diagnostic,Baorangia bicolor
+728,732,0.263165682554245,b'983037',Lycoperdon perlatum,Lycogala epidendrum
+689,689,0.9989759922027588,b'448879',Leotia lubrica,Leotia lubrica
+436,436,0.3233523368835449,b'15787',Fuligo septica,Fuligo septica
+802,802,0.9973906874656677,b'b92df50c-f3f2-4f5c-b4a2-36e42f530939',Mycena pura,Mycena pura
+624,624,0.857475996017456,b'1106393',Laccaria amethystina,Laccaria amethystina
+301,301,0.8811073899269104,b'90531',Coltricia perennis,Coltricia perennis
+683,683,0.9999487400054932,b'1107528',Lentinellus ursinus,Lentinellus ursinus
+344,344,0.9979652166366577,b'53786',Crucibulum crucibuliforme,Crucibulum crucibuliforme
+356,356,0.995764970779419,b'1101320',Cyathus striatus,Cyathus striatus
+594,594,0.9996609687805176,b'1204508',Icmadophila ericetorum,Icmadophila ericetorum
+46,46,0.25324201583862305,b'1031688',Amanita brunnescens,Amanita brunnescens
+219,1084,0.45866259932518005,b'923701',Russula pulverulenta,Cantharellus roseocanus
+1003,1003,0.8394724130630493,b'678220',Psilocybe semilanceata,Psilocybe semilanceata
+661,661,0.9990574717521667,b'982085',Lactifluus volemus,Lactifluus volemus
+445,445,0.9165565967559814,b'1197221',Ganoderma curtisii,Ganoderma curtisii
+251,254,0.9081166982650757,b'b8b04e92-ee09-433d-b603-35fd9cc851a1',Cladonia macilenta,Cladonia cristatella
+536,536,0.5087074041366577,b'1352965',Hortiboletus rubellus,Hortiboletus rubellus
+422,422,0.9792802333831787,b'415030',Flammulina velutipes,Flammulina velutipes
+374,371,0.9159964919090271,b'569626',Deconica coprophila,Deconica montana
+661,661,0.9480043649673462,b'785958',Lactifluus volemus,Lactifluus volemus
+708,708,0.9823431968688965,b'40c174ef-3dbe-43ae-8d5d-f3956fe2f959',Leucoagaricus americanus,Leucoagaricus americanus
+828,828,0.9986600875854492,b'179019',Non-Diagnostic,Non-Diagnostic
+199,881,0.18936137855052948,b'112896',Phallus ravenelii,Calostoma cinnabarinum
+356,356,0.9917675852775574,b'bc0722ec-398a-4886-bb02-bb64fcc757f7',Cyathus striatus,Cyathus striatus
+976,120,0.8529030680656433,b'22712',Arrhenia epichysium,Pseudoclitocybe cyathiformis
+828,828,0.9991483688354492,b'1066017',Non-Diagnostic,Non-Diagnostic
+517,517,0.6833983063697815,b'33784',Helvella vespertina,Helvella vespertina
+1114,1114,0.8232502341270447,b'1362395',Sebacina sparassoidea,Sebacina sparassoidea
+315,315,0.9495235681533813,b'120092a1-e41e-4a7a-a4fd-704207b16455',Coprinopsis variegata,Coprinopsis variegata
+673,673,0.9897904396057129,b'1083066',Leccinum holopus,Leccinum holopus
+1284,1284,0.9996999502182007,b'e27ddd45-6d03-4ff2-8ea8-bef92a67f3fd',Xylaria hypoxylon,Xylaria hypoxylon
+496,496,0.9892176389694214,b'1028480',Gyromitra korfii,Gyromitra korfii
+688,688,0.9999854564666748,b'113550',Leocarpus fragilis,Leocarpus fragilis
+24,24,0.6031415462493896,b'224320',Agrocybe pediades,Agrocybe pediades
+161,161,0.9250401854515076,b'2e3d333c-d5c4-46ee-9034-4e4354b3ecc6',Boletus edulis,Boletus edulis
+561,828,0.9929072260856628,b'656122',Non-Diagnostic,Hygrophorus chrysodon
+1166,1166,0.3319615423679352,b'617340',Suillus subaureus,Suillus subaureus
+819,820,0.17628970742225647,b'246656',Neolentinus ponderosus,Neolentinus lepideus
+1203,1203,0.9172477722167969,b'1383881',Trichaptum biforme,Trichaptum biforme
+665,665,0.8419588804244995,b'446377',Laetiporus sulphureus,Laetiporus sulphureus
+828,828,0.47134438157081604,b'398441',Non-Diagnostic,Non-Diagnostic
+715,715,0.580764889717102,b'1306771',Leucocoprinus cretaceus,Leucocoprinus cretaceus
+191,191,0.8500104546546936,b'1367776',Callistosporium luteo-olivaceum,Callistosporium luteo-olivaceum
+1279,1279,0.9990066885948181,b'e16b37a5-1c9d-44f2-b8a0-ecf779b91ab3',Xeromphalina campanella,Xeromphalina campanella
+597,597,0.5890532732009888,b'544834',Imleria pallida,Imleria pallida
+77,77,0.5733729004859924,b'143378',Amanita pantherina,Amanita pantherina
+1018,1018,0.9749619960784912,b'1544010',Pycnoporellus fulgens,Pycnoporellus fulgens
+55,55,0.9284495115280151,b'885403',Amanita daucipes,Amanita daucipes
+13,13,0.9190601706504822,b'301701',Agaricus lilaceps,Agaricus lilaceps
+1002,1002,0.9999758005142212,b'284947',Psilocybe pelliculosa,Psilocybe pelliculosa
+725,725,0.9983187913894653,b'312ee117-cb18-4f16-99df-87c826077019',Lobaria pulmonaria,Lobaria pulmonaria
+876,876,0.9475089907646179,b'99229cb9-4c81-4d67-922c-28756e0c3f0d',Phaeotremella foliacea,Phaeotremella foliacea
+108,108,0.7357947826385498,b'4d4e1097-b84f-4dd3-b90f-3fd18388569c',Apioperdon pyriforme,Apioperdon pyriforme
+1200,366,0.5036541819572449,b'1372638',Dacrymyces chrysospermus,Tremella mesenterica
+489,489,0.5936715602874756,b'836048',Gymnopus semihirtipes,Gymnopus semihirtipes
+146,146,0.9266031980514526,b'1199566',Baorangia bicolor,Baorangia bicolor
+54,103,0.5279903411865234,b'868290',Amanita velosa,Amanita crenulata
+615,615,0.5214143395423889,b'1466411',Irpex lacteus,Irpex lacteus
+340,925,0.8682668805122375,b'760867',Pleurocybella porrigens,Crepidotus applanatus
+122,122,0.9990836381912231,b'1189934',Artomyces pyxidatus,Artomyces pyxidatus
+733,733,0.681930422782898,b'1171181',Lycoperdon pyriforme,Lycoperdon pyriforme
+1082,1096,0.9497528076171875,b'428261',Russula virescens,Russula parvovirescens
+568,568,0.9924522042274475,b'880699',Hygrophorus purpurascens,Hygrophorus purpurascens
+885,885,0.9797914624214172,b'274c739d-5d8a-4805-a9a4-160153581509',Phellinus robiniae,Phellinus robiniae
+1045,1045,0.64364093542099,b'998438',Rhodofomes cajanderi,Rhodofomes cajanderi
+440,440,0.9958822727203369,b'987273',Galerina marginata,Galerina marginata
+92,92,0.9418212175369263,b'1218708',Amanita rubescens,Amanita rubescens
+848,848,0.9849487543106079,b'1235691',Panellus stipticus,Panellus stipticus
+127,127,0.38853687047958374,b'1236597',Asterophora parasitica,Asterophora parasitica
+779,779,0.9910767674446106,b'c52f27c9-ba56-4f52-a1a8-cacadf1a7bf9',Mutinus elegans,Mutinus elegans
+32,32,0.9999411106109619,b'dffd53f0-c1ad-45bf-ab21-2b95506153fe',Allodus podophylli,Allodus podophylli
+828,446,0.47807809710502625,b'846381',Ganoderma lobatum,Non-Diagnostic
+1082,1082,0.4856203496456146,b'1444214',Russula parvovirescens,Russula parvovirescens
+842,842,0.9075784683227539,b'15797',Panaeolus foenisecii,Panaeolus foenisecii
+445,445,0.9945168495178223,b'228143',Ganoderma curtisii,Ganoderma curtisii
+813,813,0.9972214698791504,b'1150821',Myxarium nucleatum,Myxarium nucleatum
+609,609,0.5601943731307983,b'acca2e28033e329ccddbd4d702c84991',Inonotus dryadeus,Inonotus dryadeus
+1165,1165,0.9531254172325134,b'17258',Suillus spraguei,Suillus spraguei
+504,504,0.8879478573799133,b'1186686',Hebeloma velutipes,Hebeloma velutipes
+828,828,0.9089620113372803,b'186215',Non-Diagnostic,Non-Diagnostic
+627,627,0.9997864365577698,b'950275',Laccaria ochropurpurea,Laccaria ochropurpurea
+702,702,0.8819015622138977,b'844610',Leratiomyces ceres,Leratiomyces ceres
+1262,1262,0.9961793422698975,b'671961',Verpa bohemica,Verpa bohemica
+828,828,0.9929330945014954,b'252971',Non-Diagnostic,Non-Diagnostic
+479,479,0.9869091510772705,b'788709',Gymnopilus luteus,Gymnopilus luteus
+828,828,0.958945631980896,b'1080236',Non-Diagnostic,Non-Diagnostic
+1023,1023,0.9774689674377441,b'4d06d101-55ec-45a6-a0df-7a54424d7a52',Ramalina celastri,Ramalina celastri
+688,828,0.9972234964370728,b'605551',Non-Diagnostic,Leocarpus fragilis
+531,531,0.9625298380851746,b'900388',Hexagonia hydnoides,Hexagonia hydnoides
+466,467,0.5652967095375061,b'178730',Gomphidius oregonensis,Gomphidius glutinosus
+817,685,0.4995186924934387,b'227604',Lentinus arcularius,Neofavolus alveolaris
+813,813,0.6830776929855347,b'eccd1671-0abd-4dc7-920c-891b7f0c88c5',Myxarium nucleatum,Myxarium nucleatum
+1229,1007,0.28258058428764343,b'395472',Psilocybe yungensis,Tricholomopsis formosa
+59,59,0.6847257018089294,b'49796',Amanita flavoconia,Amanita flavoconia
+43,43,0.9977284073829651,b'185745',Amanita augusta,Amanita augusta
+1246,1246,0.8283361196517944,b'166777',Tylopilus rubrobrunneus,Tylopilus rubrobrunneus
+617,617,0.9964194297790527,b'963488',Ischnoderma resinosum,Ischnoderma resinosum
+985,985,0.6023390889167786,b'493028',Psilocybe allenii,Psilocybe allenii
+306,306,0.9998496770858765,b'ff809c25-6bcf-4ac0-a11d-f2da58122781',Coprinellus disseminatus,Coprinellus disseminatus
+1044,1044,0.9996569156646729,b'652340',Rhodocollybia maculata,Rhodocollybia maculata
+1284,1284,0.9998111128807068,b'0490e941-172b-4e2e-8a5f-8720b943a252',Xylaria hypoxylon,Xylaria hypoxylon
+370,370,0.6315715312957764,b'28ba0e25-4a3c-433d-9635-25f36c1942a2',Daedaleopsis confragosa,Daedaleopsis confragosa
+262,262,0.9912815093994141,b'2d62c4d0-ece2-487b-8fa8-b6fa25984e34',Clathrus ruber,Clathrus ruber
+1011,1011,0.8458619117736816,b'1219774',Pulchroboletus rubricitrinus,Pulchroboletus rubricitrinus
+514,514,0.9797436594963074,b'156537',Helvella macropus,Helvella macropus
+236,828,0.8180620670318604,b'457680',Non-Diagnostic,Chlorophyllum molybdites
+661,661,0.8534067273139954,b'1346828',Lactifluus volemus,Lactifluus volemus
+260,260,0.9999532699584961,b'145eb1b6-09e1-4bc7-8539-1eab5b0b1288',Clathrus archeri,Clathrus archeri
+316,316,0.9993687272071838,b'377262',Coprinus comatus,Coprinus comatus
+1143,1143,0.9117431640625,b'188139',Stropharia hardii,Stropharia hardii
+690,690,0.959794819355011,b'692117',Lepiota clypeolaria,Lepiota clypeolaria
+1034,1034,0.9968571662902832,b'876686',Resupinatus applicatus,Resupinatus applicatus
+971,971,0.5856893062591553,b'1157499',Psathyrella longistriata,Psathyrella longistriata
+437,828,0.933046817779541,b'687501',Non-Diagnostic,Fulvifomes robiniae
+747,747,0.6287247538566589,b'1027095',Marasmius oreades,Marasmius oreades
+445,686,0.34815868735313416,b'1171614',Lentinus brumalis,Ganoderma curtisii
+859,859,0.715695321559906,b'79754737-6713-4870-8d48-99420299bf6e',Parmelia sulcata,Parmelia sulcata
+1051,1051,0.9857813119888306,b'709206',Rimbachia bryophila,Rimbachia bryophila
+346,346,0.9994299411773682,b'f8008e91-2703-433a-b656-99b599de8019',Cruentomycena viscidocruenta,Cruentomycena viscidocruenta
+1249,1249,0.9975936412811279,b'335215',Typhrasa gossypina,Typhrasa gossypina
+213,213,0.78532475233078,b'60a5373d-6012-43dd-9d85-ab6a685e3b9a',Cantharellus cibarius,Cantharellus cibarius
+103,53,0.566851019859314,b'300878',Amanita constricta,Amanita velosa
+409,409,0.9967646598815918,b'151627',Evernia prunastri,Evernia prunastri
+670,670,0.753911554813385,b'546450',Leccinum albellum,Leccinum albellum
+161,161,0.9956249594688416,b'57721',Boletus edulis,Boletus edulis
+1189,828,0.7923711538314819,b'849503',Non-Diagnostic,Trametes gibbosa
+648,648,0.9018147587776184,b'be901d39-dfd5-4df4-b0dc-78d789bdf321',Lactarius rubidus,Lactarius rubidus
+828,565,0.2555709779262543,b'832839',Hygrophorus hypothejus,Non-Diagnostic
+440,945,0.07192233949899673,b'285626',Podaxis pistillaris,Galerina marginata
+1264,1264,0.9987245202064514,b'227636',Volvariella bombycina,Volvariella bombycina
+1142,1142,0.9875102043151855,b'357978',Stropharia coronilla,Stropharia coronilla
+225,225,0.9947342872619629,b'1120262',Cerioporus squamosus,Cerioporus squamosus
+198,198,0.9999740123748779,b'22d6b1da-d257-49ce-87ce-2df65e178135',Caloscypha fulgens,Caloscypha fulgens
+828,615,0.6020630598068237,b'64663',Irpex lacteus,Non-Diagnostic
+478,478,0.7237739562988281,b'279901',Gymnopilus luteofolius,Gymnopilus luteofolius
+559,559,0.9954404830932617,b'1490173',Hygrophoropsis aurantiaca,Hygrophoropsis aurantiaca
+1077,1077,0.9934118390083313,b'1212782',Russula mariae,Russula mariae
+1208,1208,0.9762483835220337,b'840933',Tricholoma dryophilum,Tricholoma dryophilum
+74,86,0.5786558985710144,b'1148676',Amanita pseudovolvata,Amanita ocreata
+458,458,0.9665229320526123,b'1198980',Gerronema strombodes,Gerronema strombodes
+661,661,0.9954452514648438,b'1101818',Lactifluus volemus,Lactifluus volemus
+939,972,0.7015509605407715,b'894828',Psathyrella piluliformis,Pluteus longistriatus
+930,928,0.8169662356376648,b'26d795bb-d7ba-45b8-91b6-a841c9940da8',Pleurotus ostreatus,Pleurotus pulmonarius
+802,802,0.8365495204925537,b'497710',Mycena pura,Mycena pura
+121,121,0.7123361229896545,b'36884',Arrhenia retiruga,Arrhenia retiruga
+728,728,0.9997467398643494,b'341859',Lycogala epidendrum,Lycogala epidendrum
+689,689,0.9998261332511902,b'28564db6-26ee-4bf9-b18c-059aae23de1f',Leotia lubrica,Leotia lubrica
+440,440,0.9967845678329468,b'292098',Galerina marginata,Galerina marginata
+502,502,0.7506570219993591,b'33703',Hebeloma crustuliniforme,Hebeloma crustuliniforme
+445,445,0.950281023979187,b'429356',Ganoderma curtisii,Ganoderma curtisii
+338,339,0.6614077687263489,b'1327595',Craterellus tubaeformis,Craterellus neotubaeformis
+765,765,0.9986296892166138,b'0e837ffa-35d3-4b3a-b778-3a8d8df72f1f',Microporus xanthopus,Microporus xanthopus
+665,930,0.13139818608760834,b'1032296',Pleurotus pulmonarius,Laetiporus sulphureus
+697,697,0.46396657824516296,b'987656',Lepista sordida,Lepista sordida
+152,152,0.9918068647384644,b'582976',Bolbitius titubans,Bolbitius titubans
+1144,1144,0.8991100788116455,b'1226468',Stropharia hornemannii,Stropharia hornemannii
+1274,1274,0.99700528383255,b'374132',Xanthoria parietina,Xanthoria parietina
+712,712,0.9851001501083374,b'1288412',Leucoagaricus rubrotinctus,Leucoagaricus rubrotinctus
+1050,1050,0.9995666146278381,b'f6d21798-f661-464a-9d56-4d851452fcd2',Rickenella fibula,Rickenella fibula
+925,917,0.2855595052242279,b'340826',Picipes badius,Pleurocybella porrigens
+1105,1105,0.9950998425483704,b'551078',Schizophyllum commune,Schizophyllum commune
+1258,1258,0.9950140118598938,b'b6b20008-05e0-4877-a89c-8bfe5af39ef7',Usnea strigosa,Usnea strigosa
+880,880,0.8084167838096619,b'b800caea-30bf-48b6-b862-44b59a4c7b21',Phallus indusiatus,Phallus indusiatus
+675,675,0.995730459690094,b'772987',Leccinum longicurvipes,Leccinum longicurvipes
+399,399,0.9998247027397156,b'647286',Entoloma quadratum,Entoloma quadratum
+41,77,0.2672446072101593,b'382627',Amanita pantherina,Amanita aprica
+408,408,0.9986808896064758,b'513206c3-3e2c-41d4-9fd3-c8e59b53466b',Evernia mesomorpha,Evernia mesomorpha
+486,486,0.9987629652023315,b'130c7607-a155-4dff-89d5-727b0c786472',Gymnopus dryophilus,Gymnopus dryophilus
+764,485,0.38003891706466675,b'344100',Gymnopus brassicolens,Micromphale arbuticola
+1238,1238,0.8045925498008728,b'361313',Turbinellus floccosus,Turbinellus floccosus
+735,735,0.8227860331535339,b'809523',Lyophyllum decastes,Lyophyllum decastes
+1209,1209,0.8496073484420776,b'382394',Tricholoma equestre,Tricholoma equestre
+1137,1137,0.8052511215209961,b'1201585',Strobilomyces strobilaceus,Strobilomyces strobilaceus
+1275,1275,0.49010905623435974,b'1159510',Xerocomellus chrysenteron,Xerocomellus chrysenteron
+321,321,0.7589613199234009,b'445294',Cortinarius bolaris,Cortinarius bolaris
+316,316,0.8024885058403015,b'1241971',Coprinus comatus,Coprinus comatus
+1016,1016,0.8683214783668518,b'944115',Punctularia atropurpurascens,Punctularia atropurpurascens
+713,534,0.9539978504180908,b'501451',Hohenbuehelia petaloides,Leucocoprinus birnbaumii
+784,784,0.7666568160057068,b'494601',Mycena californiensis,Mycena californiensis
+498,1246,0.9392663836479187,b'129450',Tylopilus rubrobrunneus,Gyroporus castaneus
+1264,1264,0.9934730529785156,b'307992',Volvariella bombycina,Volvariella bombycina
+469,469,0.9999734163284302,b'204162',Gomphus clavatus,Gomphus clavatus
+874,874,0.9294490814208984,b'562956',Phaeolus schweinitzii,Phaeolus schweinitzii
+594,594,0.9995712637901306,b'238857',Icmadophila ericetorum,Icmadophila ericetorum
+824,824,0.9389627575874329,b'ada9186361d9ecf65fd4009fb10b9187',Niebla combeoides,Niebla combeoides
+828,828,0.997380256652832,b'722007',Non-Diagnostic,Non-Diagnostic
+236,236,0.7461979985237122,b'945709',Chlorophyllum molybdites,Chlorophyllum molybdites
+842,842,0.5579121708869934,b'332232',Panaeolus foenisecii,Panaeolus foenisecii
+1155,1155,0.5189218521118164,b'1121025',Suillus fuscotomentosus,Suillus fuscotomentosus
+1286,1286,0.9074580669403076,b'826056',Xylobolus frustulatus,Xylobolus frustulatus
+100,100,0.9818676710128784,b'259884',Amanita thiersii,Amanita thiersii
+347,347,0.9563747644424438,b'879028',Cryptoporus volvatus,Cryptoporus volvatus
+1054,1054,0.5750384330749512,b'289890',Rubroboletus eastwoodiae,Rubroboletus eastwoodiae
+774,774,0.9975395202636719,b'1035164',Morchella punctipes,Morchella punctipes
+369,369,0.9677832722663879,b'928201',Daedalea quercina,Daedalea quercina
+43,43,0.9992730021476746,b'1516363',Amanita augusta,Amanita augusta
+224,224,0.8504335284233093,b'337192',Cerioporus leptocephalus,Cerioporus leptocephalus
+236,236,0.9949443936347961,b'258153',Chlorophyllum molybdites,Chlorophyllum molybdites
+932,798,0.3357166647911072,b'1519661',Mycena maculata,Pluteus americanus
+202,236,0.21189509332180023,b'84116a54-ce56-43ef-8a19-51d67e4f0c78',Chlorophyllum molybdites,Calvatia gigantea
+828,828,0.9876534342765808,b'963447',Non-Diagnostic,Non-Diagnostic
+914,913,0.27861037850379944,b'a024346b-5b27-443a-9a5d-952adcb0e44d',Physcia aipolia,Physcia millegrana
+113,113,0.9748849868774414,b'1e2aa834-5106-46c3-b602-f1eb5e210608',Armillaria mellea,Armillaria mellea
+817,817,0.9598875641822815,b'580943',Neofavolus alveolaris,Neofavolus alveolaris
+476,476,0.9531521201133728,b'205074',Gymnopilus junonius,Gymnopilus junonius
+81,81,0.9944043755531311,b'549823',Amanita polypyramis,Amanita polypyramis
+380,380,0.999221920967102,b'282977',Dibaeis baeomyces,Dibaeis baeomyces
+732,730,0.664580225944519,b'1467945',Lycoperdon marginatum,Lycoperdon perlatum
+587,587,0.977997362613678,b'1355053',Hypomyces hyalinus,Hypomyces hyalinus
+665,665,0.8952078819274902,b'170905',Laetiporus sulphureus,Laetiporus sulphureus
+1091,1063,0.17799977958202362,b'19200',Russula cerolens,Russula sororia
+849,849,0.8359056115150452,b'125466',Panus conchatus,Panus conchatus
+428,428,0.7754395008087158,b'1260922',Fomes fomentarius,Fomes fomentarius
+623,623,0.6382766366004944,b'574114',Laccaria amethysteo-occidentalis,Laccaria amethysteo-occidentalis
+828,828,0.9988701343536377,b'1033879',Non-Diagnostic,Non-Diagnostic
+34,34,0.99853515625,b'1358085',Amanita abrupta,Amanita abrupta
+774,774,0.5558914542198181,b'421487',Morchella punctipes,Morchella punctipes
+452,452,0.9960311055183411,b'530086',Ganoderma tsugae,Ganoderma tsugae
+828,828,0.9956047534942627,b'121605',Non-Diagnostic,Non-Diagnostic
+63,38,0.5008804798126221,b'1215425',Amanita amerifulva,Amanita fulva
+440,191,0.08698966354131699,b'817683',Callistosporium luteo-olivaceum,Galerina marginata
+154,154,0.89403235912323,b'551002',Boletellus chrysenteroides,Boletellus chrysenteroides
+828,828,0.9935439825057983,b'179733',Non-Diagnostic,Non-Diagnostic
+911,1202,0.3235362470149994,b'1254866',Trichaptum abietinum,Phyllotopsis nidulans
+828,828,0.999901533126831,b'510699',Non-Diagnostic,Non-Diagnostic
+874,874,0.9994592070579529,b'358085',Phaeolus schweinitzii,Phaeolus schweinitzii
+816,816,0.900154173374176,b'255427',Neoboletus erythropus,Neoboletus erythropus
+952,952,0.9425563216209412,b'1189325',Polyporus umbellatus,Polyporus umbellatus
+990,990,0.9974417686462402,b'951824',Psilocybe caerulescens,Psilocybe caerulescens
+828,828,0.9831807017326355,b'77509',Non-Diagnostic,Non-Diagnostic
+753,753,0.9962884187698364,b'1197031',Megacollybia rodmanii,Megacollybia rodmanii
+828,828,0.8515887260437012,b'849501',Non-Diagnostic,Non-Diagnostic
+287,287,0.846177875995636,b'955553',Clitocybe tarda,Clitocybe tarda
+442,443,0.6470102071762085,b'930390',Ganoderma australe,Ganoderma applanatum
+828,828,0.9998879432678223,b'1255517',Non-Diagnostic,Non-Diagnostic
+971,971,0.9995427131652832,b'286553',Psathyrella longistriata,Psathyrella longistriata
+436,436,0.9998729228973389,b'165377',Fuligo septica,Fuligo septica
+145,145,0.9642277956008911,b'575098',Baeospora myosura,Baeospora myosura
+772,772,0.9452752470970154,b'1034937',Morchella diminutiva,Morchella diminutiva
+118,830,0.6266649961471558,b'674098',Omphalotus illudens,Armillaria tabescens
+92,92,0.892865002155304,b'1487159',Amanita rubescens,Amanita rubescens
+747,747,0.9975482821464539,b'480795',Marasmius oreades,Marasmius oreades
+539,539,0.8430500626564026,b'574935',Hydnellum aurantiacum,Hydnellum aurantiacum
+828,828,0.7303148508071899,b'605885',Non-Diagnostic,Non-Diagnostic
+113,117,0.5059683322906494,b'1214081',Armillaria solidipes,Armillaria mellea
+828,828,0.9910123348236084,b'515011',Non-Diagnostic,Non-Diagnostic
+51,51,0.9038470387458801,b'05ff3266-c13d-4656-bf30-e7c5303bec54',Amanita citrina,Amanita citrina
+118,636,0.29786837100982666,b'838986',Lactarius camphoratus,Armillaria tabescens
+753,753,0.6629776358604431,b'1468144',Megacollybia rodmanii,Megacollybia rodmanii
+828,828,0.9999865293502808,b'1349835',Non-Diagnostic,Non-Diagnostic
+828,828,0.9997820258140564,b'1412172',Non-Diagnostic,Non-Diagnostic
+24,281,0.2213437557220459,b'1517967',Clitocybe nuda,Agrocybe pediades
+1185,1185,0.9963447451591492,b'1113680',Trametes betulina,Trametes betulina
+578,578,0.8785578608512878,b'1225090',Hypholoma fasciculare,Hypholoma fasciculare
+665,828,0.8634376525878906,b'62676',Non-Diagnostic,Laetiporus sulphureus
+445,445,0.9910368323326111,b'1d72f4a8-0d0c-4142-b0fe-4f983d10422b',Ganoderma curtisii,Ganoderma curtisii
+1048,1048,0.9976254105567932,b'88dcaae8-a3ae-4bea-9274-c1d005b0ad92',Rhytisma acerinum,Rhytisma acerinum
+1186,1186,0.9865445494651794,b'421153',Trametes cinnabarina,Trametes cinnabarina
+1190,1193,0.5707331895828247,b'1026610',Trametes pubescens,Trametes hirsuta
+1108,1108,0.5682372450828552,b'247535',Scleroderma cepa,Scleroderma cepa
+1195,1195,0.5105859637260437,b'692176',Trametes versicolor,Trametes versicolor
+914,582,0.5098340511322021,b'3f1889c2-9320-4faa-a217-7ac07bccd0d0',Hypogymnia physodes,Physcia millegrana
+828,828,0.9997227787971497,b'345685',Non-Diagnostic,Non-Diagnostic
+656,1077,0.5291902422904968,b'80615',Russula mariae,Lactifluus corrugis
+309,309,0.9941737055778503,b'1330581',Coprinellus micaceus,Coprinellus micaceus
+678,1275,0.7634713649749756,b'220429',Xerocomellus chrysenteron,Leccinum rugosiceps
+859,859,0.6052794456481934,b'427402',Parmelia sulcata,Parmelia sulcata
+1233,1233,0.9832471013069153,b'81468',Tubaria furfuracea,Tubaria furfuracea
+1190,1193,0.3434365689754486,b'1524138',Trametes pubescens,Trametes hirsuta
+270,270,0.9477152824401855,b'298771',Clavulina rugosa,Clavulina rugosa
+586,586,0.9989582300186157,b'64df6972-2bce-4e18-b463-807a7a6cedec',Hypomyces chrysospermus,Hypomyces chrysospermus
+1165,1165,0.984846293926239,b'946472',Suillus spraguei,Suillus spraguei
+335,335,0.9942528605461121,b'dd49616f-cfed-4696-9660-0b40029b3d44',Craterellus fallax,Craterellus fallax
+1003,1003,0.8928525447845459,b'1128852',Psilocybe semilanceata,Psilocybe semilanceata
+1060,1083,0.6262120604515076,b'1341239',Russula pectinatoides,Russula amoenolens
+1004,1004,0.9824793934822083,b'375655',Psilocybe stuntzii,Psilocybe stuntzii
+1189,1189,0.9622792601585388,b'330536',Trametes gibbosa,Trametes gibbosa
+160,160,0.9993218183517456,b'434816',Boletus chippewaensis,Boletus chippewaensis
+828,828,0.9958875775337219,b'10853',Non-Diagnostic,Non-Diagnostic
+828,828,0.44481250643730164,b'1100290',Non-Diagnostic,Non-Diagnostic
+1018,1018,0.5940904021263123,b'1236258',Pycnoporellus fulgens,Pycnoporellus fulgens
+540,540,0.9379391074180603,b'1359367',Hydnellum caeruleum,Hydnellum caeruleum
+471,471,0.9994519352912903,b'679470',Grifola frondosa,Grifola frondosa
+640,640,0.7574331760406494,b'3a4fafd7-74b6-4338-9325-f399a0fa9650',Lactarius deliciosus,Lactarius deliciosus
+1202,1202,0.940743088722229,b'77091',Trichaptum abietinum,Trichaptum abietinum
+794,794,0.7165537476539612,b'1188199',Mycena inclinata,Mycena inclinata
+478,478,0.2556283473968506,b'64109',Gymnopilus luteofolius,Gymnopilus luteofolius
+476,359,0.30406975746154785,b'ee1c6f1e-f67e-4a3e-a491-78196a4c3841',Cyclocybe parasitica,Gymnopilus junonius
+828,889,0.3251320421695709,b'959218',Phlebia tremellosa,Non-Diagnostic
+78,78,0.9974523186683655,b'876556',Amanita parcivolvata,Amanita parcivolvata
+674,674,0.9915237426757812,b'1087341',Leccinum insigne,Leccinum insigne
+536,146,0.4122323989868164,b'1231576',Baorangia bicolor,Hortiboletus rubellus
+828,113,0.2633797526359558,b'1249786',Armillaria mellea,Non-Diagnostic
+828,828,0.9871437549591064,b'895846',Non-Diagnostic,Non-Diagnostic
+445,445,0.9969141483306885,b'1066112',Ganoderma curtisii,Ganoderma curtisii
+1188,1188,0.992153525352478,b'9155bc9f-7d68-46d0-bf76-3915bab3b1ed',Trametes conchifer,Trametes conchifer
+830,830,0.9981021285057068,b'1041245',Omphalotus illudens,Omphalotus illudens
+136,136,0.998137354850769,b'903657',Aureoboletus russellii,Aureoboletus russellii
+500,500,0.945438027381897,b'1210750',Hapalopilus rutilans,Hapalopilus rutilans
+617,617,0.9592482447624207,b'1246741',Ischnoderma resinosum,Ischnoderma resinosum
+951,817,0.396301805973053,b'954795',Neofavolus alveolaris,Polyporus tuberaster
+305,305,0.9999641180038452,b'690758',Cookeina tricholoma,Cookeina tricholoma
+1036,1036,0.4533666670322418,b'783444',Retiboletus ornatipes,Retiboletus ornatipes
+93,93,0.9785681366920471,b'680663',Amanita silvicola,Amanita silvicola
+922,922,0.9985969662666321,b'324eda98-8c92-4ec5-a2ad-c79ba380ca1e',Platismatia glauca,Platismatia glauca
+24,24,0.764818012714386,b'1349472',Agrocybe pediades,Agrocybe pediades
+90,65,0.5640357136726379,b'754028',Amanita insinuans,Amanita rooseveltensis
+689,689,0.9961493015289307,b'945223',Leotia lubrica,Leotia lubrica
+2,2,0.3057619035243988,b'79573',Agaricus albolutescens,Agaricus albolutescens
+43,43,0.673816442489624,b'303745',Amanita augusta,Amanita augusta
+594,594,0.9997087121009827,b'5c84b062-c216-4a81-a1a5-1ed449aa2b68',Icmadophila ericetorum,Icmadophila ericetorum
+773,773,0.998242974281311,b'1453852',Morchella importuna,Morchella importuna
+1233,1233,0.9751914143562317,b'312699',Tubaria furfuracea,Tubaria furfuracea
+721,721,0.9698211550712585,b'9b0092fa-e063-44dd-8ec1-cf08379b9fca',Lichenomphalia umbellifera,Lichenomphalia umbellifera
+463,463,0.9917229413986206,b'303315',Globifomes graveolens,Globifomes graveolens
+1281,1281,0.9848159551620483,b'188613',Xeromphalina kauffmanii,Xeromphalina kauffmanii
+724,724,0.9975524544715881,b'32c2e46e-1bc1-47ef-b4ff-85c8211ec37e',Lobaria anthraspis,Lobaria anthraspis
+661,661,0.9564700126647949,b'349630',Lactifluus volemus,Lactifluus volemus
+725,725,0.9839505553245544,b'1717a40c-c55b-4ec8-89a1-6b93a13cdcbb',Lobaria pulmonaria,Lobaria pulmonaria
+828,151,0.236119344830513,b'990261',Bolbitius reticulatus,Non-Diagnostic
+1002,1002,0.9958833456039429,b'1292917',Psilocybe pelliculosa,Psilocybe pelliculosa
+211,211,0.9852747917175293,b'47ae36eb-31ce-44f6-ab40-bbccfb1b14c4',Cantharellus californicus,Cantharellus californicus
+63,63,0.8506351709365845,b'b6737a40-9ee6-4a3e-9656-a78445b9a2e6',Amanita fulva,Amanita fulva
+874,874,0.9500796794891357,b'390133',Phaeolus schweinitzii,Phaeolus schweinitzii
+1222,1222,0.8778620958328247,b'575221',Tricholoma subresplendens,Tricholoma subresplendens
+828,77,0.1737312227487564,b'148386',Amanita pantherina,Non-Diagnostic
+289,289,0.3925768733024597,b'1093972',Clitocybula abundans,Clitocybula abundans
+830,830,0.9994425177574158,b'1071898',Omphalotus illudens,Omphalotus illudens
+743,743,0.7165974974632263,b'816496',Marasmiellus candidus,Marasmiellus candidus
+770,517,0.45453229546546936,b'1510007',Helvella vespertina,Morchella americana
+1158,828,0.25769004225730896,b'74505',Non-Diagnostic,Suillus lakei
+11,11,0.9959625601768494,b'737049',Agaricus deserticola,Agaricus deserticola
+521,521,0.8718250393867493,b'1506579',Hemipholiota populnea,Hemipholiota populnea
+1066,1066,0.25810718536376953,b'841501',Russula cremoricolor,Russula cremoricolor
+738,783,0.17090073227882385,b'34028',Mycena aurantiomarginata,Macrocystidia cucumis
+434,434,0.9101166725158691,b'804ed367-3396-4c16-8259-c960c8920fe3',Fomitopsis pinicola,Fomitopsis pinicola
+461,461,0.8901010155677795,b'1358121',Gliophorus perplexus,Gliophorus perplexus
+371,371,0.5674427151679993,b'154317',Deconica coprophila,Deconica coprophila
+8,8,0.4553271532058716,b'459825',Agaricus bitorquis,Agaricus bitorquis
+135,135,0.9981542229652405,b'1366564',Aureoboletus roxanae,Aureoboletus roxanae
+901,901,0.9741149544715881,b'689419',Pholiota squarrosoides,Pholiota squarrosoides
+322,322,0.99708491563797,b'145615',Cortinarius caperatus,Cortinarius caperatus
+113,113,0.4713138937950134,b'318307',Armillaria mellea,Armillaria mellea
+398,398,0.9996606111526489,b'181212',Entoloma murrayi,Entoloma murrayi
+1100,930,0.34485942125320435,b'e37923f6-f20b-4b48-be4a-535807dae3a2',Pleurotus pulmonarius,Sarcomyxa serotina
+88,88,0.7451915740966797,b'428448',Amanita rhacopus,Amanita rhacopus
+609,609,0.8780335783958435,b'f01919cb75cf4bf01cf74c3f701713e3',Inonotus dryadeus,Inonotus dryadeus
+1119,1119,0.9994755387306213,b'545833',Sparassis spathulata,Sparassis spathulata
+578,578,0.9393360018730164,b'869833',Hypholoma fasciculare,Hypholoma fasciculare
+92,92,0.7770734429359436,b'106392',Amanita rubescens,Amanita rubescens
+347,347,0.9963979125022888,b'329686',Cryptoporus volvatus,Cryptoporus volvatus
+1214,613,0.49385368824005127,b'152170',Inosperma calamistratum,Tricholoma imbricatum
+1199,1199,0.9878979921340942,b'5dd09c09-ef3a-48ea-b652-7f7bbd485c1f',Tremella fuciformis,Tremella fuciformis
+940,940,0.9605718851089478,b'88759',Pluteus petasatus,Pluteus petasatus
+905,905,0.9429910182952881,b'1451775',Pholiotina rugosa,Pholiotina rugosa
+495,495,0.9982744455337524,b'3021b06e-0483-45a4-a00f-0c65e162642d',Gyromitra infula,Gyromitra infula
+745,745,0.3806719481945038,b'1383291',Marasmius capillaris,Marasmius capillaris
+109,109,0.9994226694107056,b'ac02033c-f2dd-4d32-8351-a91c19cd1d83',Apiosporina morbosa,Apiosporina morbosa
+796,796,0.9930048584938049,b'738660',Mycena leaiana,Mycena leaiana
+1157,1157,0.9910999536514282,b'676358',Suillus hirtellus,Suillus hirtellus
+998,998,0.9591950178146362,b'1046057',Psilocybe muliercula,Psilocybe muliercula
+842,842,0.7451089024543762,b'1192474',Panaeolus foenisecii,Panaeolus foenisecii
+828,828,0.9979775547981262,b'1473190',Non-Diagnostic,Non-Diagnostic
+451,452,0.6435056328773499,b'1336790',Ganoderma tsugae,Ganoderma sessile
+828,828,0.8564222455024719,b'1269236',Non-Diagnostic,Non-Diagnostic
+523,523,0.9646615386009216,b'529936',Hemitrichia calyculata,Hemitrichia calyculata
+997,997,0.7133920788764954,b'635297',Psilocybe mexicana,Psilocybe mexicana
+1175,1175,0.469795286655426,b'375776',Terana coerulea,Terana coerulea
+769,769,0.9885395765304565,b'4ed7d6048102c31255d4a3419e0aecec',Montagnea arenaria,Montagnea arenaria
+1266,1266,0.9984527826309204,b'ad1b3b64-35fd-46c1-881e-59c10cef59f3',Vulpicida pinastri,Vulpicida pinastri
+828,842,0.881631076335907,b'1228128',Panaeolus foenisecii,Non-Diagnostic
+583,583,0.5871846079826355,b'2e138bc6a8ac9aac4b81ac66c9bd9959',Hypogymnia tubulosa,Hypogymnia tubulosa
+422,422,0.977074384689331,b'1294443',Flammulina velutipes,Flammulina velutipes
+1170,1170,0.9961274266242981,b'11ed79ca-1623-4efd-9044-2a1fc448085f',Tapinella atrotomentosa,Tapinella atrotomentosa
+1012,1276,0.40654298663139343,b'1542649',Xerocomellus dryophilus,Pulchroboletus sclerotiorum
+1199,1199,0.9999713897705078,b'0178e521-705c-43f7-994f-ce1f01aeb03d',Tremella fuciformis,Tremella fuciformis
+272,272,0.9609094858169556,b'1356001',Clavulinopsis fusiformis,Clavulinopsis fusiformis
+828,1185,0.33642077445983887,b'578557',Trametes betulina,Non-Diagnostic
+689,689,0.999993085861206,b'300214',Leotia lubrica,Leotia lubrica
+578,578,0.4922395944595337,b'821106',Hypholoma fasciculare,Hypholoma fasciculare
+901,900,0.6340534090995789,b'100914',Pholiota squarrosa,Pholiota squarrosoides
+693,712,0.35395991802215576,b'250411',Leucoagaricus rubrotinctus,Lepiota rubrotinctoides
+828,828,0.9999510049819946,b'338428',Non-Diagnostic,Non-Diagnostic
+1199,1199,0.9993472695350647,b'711622',Tremella fuciformis,Tremella fuciformis
+1132,1132,0.5257647633552551,b'4fccfe1c-858b-4820-ac8e-2e3943cde576',Stereum versicolor,Stereum versicolor
+1146,1146,0.5656462907791138,b'493695',Suillellus amygdalinus,Suillellus amygdalinus
+183,182,0.6220373511314392,b'300088',Bovista pila,Bovista plumbea
+900,893,0.5471609234809875,b'df56c9a7-bfff-4664-b2a9-036654313199',Pholiota aurivella,Pholiota squarrosa
+634,634,0.8703319430351257,b'1347552',Lactarius argillaceifolius,Lactarius argillaceifolius
+627,627,0.9610098600387573,b'855393',Laccaria ochropurpurea,Laccaria ochropurpurea
+793,793,0.9981619715690613,b'393778',Mycena haematopus,Mycena haematopus
+886,886,0.9957745671272278,b'437ecb96-753b-4cf0-97cd-c2ab0940c87a',Phellinus tremulae,Phellinus tremulae
+963,963,0.9564422965049744,b'197586',Protoparmeliopsis muralis,Protoparmeliopsis muralis
+578,578,0.8701873421669006,b'299360',Hypholoma fasciculare,Hypholoma fasciculare
+549,549,0.9986916184425354,b'882954',Hygrocybe acutoconica,Hygrocybe acutoconica
+407,830,0.6633382439613342,b'550765',Omphalotus illudens,Entonaema liquescens
+665,663,0.20793341100215912,b'544491',Laetiporus conifericola,Laetiporus sulphureus
+462,462,0.9961344003677368,b'67904',Gliophorus psittacinus,Gliophorus psittacinus
+817,817,0.9986567497253418,b'1247939',Neofavolus alveolaris,Neofavolus alveolaris
+623,623,0.8090433478355408,b'186367',Laccaria amethysteo-occidentalis,Laccaria amethysteo-occidentalis
+22,685,0.2899584174156189,b'142785',Lentinus arcularius,Agrocybe firma
+1047,1047,0.9438349008560181,b'1502444',Rhodotus palmatus,Rhodotus palmatus
+1256,1256,0.9745112657546997,b'9e9dcefb-74ff-44ce-a7e5-d30ae9232313',Usnea longissima,Usnea longissima
+828,828,0.9998735189437866,b'1033428',Non-Diagnostic,Non-Diagnostic
+985,985,0.937359631061554,b'33269',Psilocybe allenii,Psilocybe allenii
+733,733,0.9907558560371399,b'282541',Lycoperdon pyriforme,Lycoperdon pyriforme
+205,205,0.9994565844535828,b'68009',Calycina citrina,Calycina citrina
+161,161,0.9959534406661987,b'8c2c305b-34a5-4c89-a17a-cee06f89a8c8',Boletus edulis,Boletus edulis
+479,479,0.7106493711471558,b'1391129',Gymnopilus luteus,Gymnopilus luteus
+569,569,0.9332287907600403,b'1127539',Hygrophorus pustulatus,Hygrophorus pustulatus
+695,695,0.8925746083259583,b'589247',Lepiota subincarnata,Lepiota subincarnata
+154,154,0.7102886438369751,b'890899',Boletellus chrysenteroides,Boletellus chrysenteroides
+1269,1269,0.8944608569145203,b'1423606',Xanthomendoza fallax,Xanthomendoza fallax
+281,281,0.9804058074951172,b'703899',Clitocybe nuda,Clitocybe nuda
+842,838,0.36550113558769226,b'139363',Panaeolus acuminatus,Panaeolus foenisecii
+1170,1170,0.9580969214439392,b'767095',Tapinella atrotomentosa,Tapinella atrotomentosa
+576,576,0.8673495650291443,b'476148',Hypholoma capnoides,Hypholoma capnoides
+1195,1131,0.42323341965675354,b'308844',Stereum ostrea,Trametes versicolor
+92,92,0.8175210952758789,b'13b16263-fce2-49d7-b5ec-bdd5d47fdb86',Amanita rubescens,Amanita rubescens
+35,35,0.6490273475646973,b'96762',Amanita aestivalis,Amanita aestivalis
+317,317,0.8791248798370361,b'45039',Cordyceps militaris,Cordyceps militaris
+1113,1113,0.9996880292892456,b'892003',Sebacina schweinitzii,Sebacina schweinitzii
+239,239,0.6361580491065979,b'40672cc7-da46-494d-9b0c-a7575423e114',Chondrostereum purpureum,Chondrostereum purpureum
+319,319,0.9061622023582458,b'224895',Cortinarius alboviolaceus,Cortinarius alboviolaceus
+827,827,0.9980520009994507,b'895505',Niveoporofomes spraguei,Niveoporofomes spraguei
+724,724,0.9992916584014893,b'5bf14f9d-a534-4f7d-bdd8-bae6dc6a211f',Lobaria anthraspis,Lobaria anthraspis
+744,351,0.5723722577095032,b'390000',Cuphophyllus russocoriaceus,Marasmius calhouniae
+496,496,0.9992067217826843,b'732256',Gyromitra korfii,Gyromitra korfii
+828,828,0.9644296169281006,b'887873',Non-Diagnostic,Non-Diagnostic
+785,785,0.5382748246192932,b'1532649',Mycena capillaripes,Mycena capillaripes
+1021,1021,0.9375860095024109,b'225585',Radulomyces confluens,Radulomyces confluens
+649,649,0.9980441331863403,b'126262',Lactarius rubrilacteus,Lactarius rubrilacteus
+1036,1036,0.9960010647773743,b'6606f2b4-344d-4629-b429-34215a3f3161',Retiboletus ornatipes,Retiboletus ornatipes
+361,361,0.5460751056671143,b'221784',Cyptotrama asprata,Cyptotrama asprata
+708,708,0.9973616003990173,b'1483777',Leucoagaricus americanus,Leucoagaricus americanus
+666,666,0.4506315290927887,b'1368572',Lanmaoa pallidorosea,Lanmaoa pallidorosea
+1262,197,0.3600882589817047,b'98daad33-f5d0-489e-9be0-ece6350432dc',Calocera viscosa,Verpa bohemica
+1092,1092,0.789950430393219,b'598518',Russula variata,Russula variata
+869,869,0.9391531944274902,b'332396',Peniophora incarnata,Peniophora incarnata
+828,828,0.997827410697937,b'1323360',Non-Diagnostic,Non-Diagnostic
+80,67,0.5843560695648193,b'1527426',Amanita lavendula,Amanita phalloides
+1265,1265,0.9994891881942749,b'614342',Volvopluteus gloiocephalus,Volvopluteus gloiocephalus
+1140,1140,0.9977491497993469,b'321dfbb0-e49b-46bb-9833-0dd8e7508722',Stropharia ambigua,Stropharia ambigua
+306,306,0.9997681975364685,b'1206807',Coprinellus disseminatus,Coprinellus disseminatus
+828,828,0.4633675217628479,b'191712',Non-Diagnostic,Non-Diagnostic
+956,956,0.9040354490280151,b'279959',Porphyrellus porphyrosporus,Porphyrellus porphyrosporus
+1195,928,0.4011024832725525,b'149021',Pleurotus ostreatus,Trametes versicolor
+1100,1100,0.999735414981842,b'504466',Sarcomyxa serotina,Sarcomyxa serotina
+193,193,0.9873626828193665,b'645761',Caloboletus inedulis,Caloboletus inedulis
+418,418,0.701401948928833,b'1035746',Fistulina hepatica,Fistulina hepatica
+207,1271,0.8581241369247437,b'933977',Xanthomendoza weberi,Candelaria concolor
+1149,1149,0.9991094470024109,b'124937',Suillus americanus,Suillus americanus
+113,113,0.9610492587089539,b'107882',Armillaria mellea,Armillaria mellea
+828,828,0.8956336975097656,b'277984',Non-Diagnostic,Non-Diagnostic
+495,495,0.9944016337394714,b'34994',Gyromitra infula,Gyromitra infula
+1023,1024,0.662743091583252,b'86c0302a-1e71-4cce-92ea-e39cb29c7b1c',Ramalina farinacea,Ramalina celastri
+1156,1156,0.7760283946990967,b'803061',Suillus granulatus,Suillus granulatus
+1018,1018,0.7812485098838806,b'935893',Pycnoporellus fulgens,Pycnoporellus fulgens
+22,684,0.36586794257164,b'308033',Lentinula edodes,Agrocybe firma
+87,87,0.5986504554748535,b'1216130',Amanita ravenelii,Amanita ravenelii
+324,324,0.6374754309654236,b'768227',Cortinarius distans,Cortinarius distans
+793,793,0.9955291152000427,b'1d86ba68-cad4-4d96-acc4-e3b2d979d5f5',Mycena haematopus,Mycena haematopus
+482,482,0.9516185522079468,b'32990',Gymnopilus sapineus,Gymnopilus sapineus
+1138,1138,0.9981550574302673,b'275344',Strobilurus trullisatus,Strobilurus trullisatus
+836,836,0.9929879903793335,b'56621',Oudemansiella furfuracea,Oudemansiella furfuracea
+663,662,0.24229282140731812,b'108158',Laetiporus cincinnatus,Laetiporus conifericola
+264,264,0.9998156428337097,b'1351101',Clavaria zollingeri,Clavaria zollingeri
+72,72,0.9996764659881592,b'56d649c2eae1b032803c4c0ef7273ca7',Amanita muscaria,Amanita muscaria
+1195,1195,0.6103999614715576,b'500249',Trametes versicolor,Trametes versicolor
+828,828,0.9504991769790649,b'75902',Non-Diagnostic,Non-Diagnostic
+1002,1002,0.5057052969932556,b'1411828',Psilocybe pelliculosa,Psilocybe pelliculosa
+421,421,0.6193448901176453,b'442749',Flammulaster muricatus,Flammulaster muricatus
+793,793,0.998090922832489,b'163387',Mycena haematopus,Mycena haematopus
+632,632,0.9895042181015015,b'124033',Lacrymaria lacrymabunda,Lacrymaria lacrymabunda
+828,484,0.5308708548545837,b'419972',Gymnopilus ventricosus,Non-Diagnostic
+394,394,0.9612460732460022,b'608032',Entoloma holoconiotum,Entoloma holoconiotum
+268,268,0.9726020693778992,b'165344',Clavulina coralloides,Clavulina coralloides
+1230,1230,0.9761523008346558,b'269671',Tricholomopsis rutilans,Tricholomopsis rutilans
+958,958,0.6494229435920715,b'861187',Porpidia albocaerulescens,Porpidia albocaerulescens
+431,431,0.785789430141449,b'5edb93db-4276-4613-9641-8323c82f84b1',Fomitopsis mounceae,Fomitopsis mounceae
+364,364,0.7739404439926147,b'286165',Cystoderma carcharias var. fallax,Cystoderma carcharias var. fallax
+1101,1101,0.9733272194862366,b'204940',Sarcoscypha austriaca,Sarcoscypha austriaca
+301,300,0.5985681414604187,b'268334',Coltricia cinnamomea,Coltricia perennis
+470,470,0.9999632835388184,b'8da17117-3764-427d-bb71-dc0209a0f63b',Graphis scripta,Graphis scripta
+538,538,0.42704063653945923,b'1077999',Humidicutis marginata,Humidicutis marginata
+986,986,0.4538221061229706,b'968530',Psilocybe aztecorum,Psilocybe aztecorum
+1,1,0.9997499585151672,b'be6aabf4-7dae-4ea6-8462-0d3e8f5f79fe',Acarospora socialis,Acarospora socialis
+1149,25,0.3076663911342621,b'734023',Agrocybe praecox,Suillus americanus
+828,828,0.9999679327011108,b'883033',Non-Diagnostic,Non-Diagnostic
+214,214,0.9995632767677307,b'8fab7332-5d7d-44c5-b6d4-5110dbd3da44',Cantharellus cinnabarinus,Cantharellus cinnabarinus
+158,170,0.4587324261665344,b'88883',Boletus rex-veris,Boletus barrowsii
+893,897,0.6107502579689026,b'395758',Pholiota limonella,Pholiota aurivella
+874,874,0.9996885061264038,b'e588f681-5662-4ba1-98ec-d467f3a9b169',Phaeolus schweinitzii,Phaeolus schweinitzii
+828,828,0.9855844378471375,b'1319272',Non-Diagnostic,Non-Diagnostic
+830,830,0.9979087114334106,b'245589',Omphalotus illudens,Omphalotus illudens
+310,310,0.6089872121810913,b'c149b8c5-e353-493b-bded-716986bc7be0',Coprinopsis atramentaria,Coprinopsis atramentaria
+888,888,0.5443894863128662,b'681909',Phlebia radiata,Phlebia radiata
+59,59,0.8597560524940491,b'1064318',Amanita flavoconia,Amanita flavoconia
+689,689,0.9989051818847656,b'853161',Leotia lubrica,Leotia lubrica
+243,828,0.967300295829773,b'59342',Non-Diagnostic,Chroogomphus tomentosus
+73,73,0.5415732860565186,b'487449',Amanita novinupta,Amanita novinupta
+1002,1002,0.5902189612388611,b'396784',Psilocybe pelliculosa,Psilocybe pelliculosa
+473,813,0.7465499043464661,b'7ff3e650-008d-4b08-b996-40c33fef2cd2',Myxarium nucleatum,Guepiniopsis alpina
+587,587,0.6448596119880676,b'1087761',Hypomyces hyalinus,Hypomyces hyalinus
+887,887,0.9999817609786987,b'498016',Phlebia incarnata,Phlebia incarnata
+718,718,0.702045202255249,b'75416',Leucopaxillus gentianeus,Leucopaxillus gentianeus
+928,929,0.4429719150066376,b'524377',Pleurotus populinus,Pleurotus ostreatus
+436,889,0.3030693829059601,b'1387401',Phlebia tremellosa,Fuligo septica
+828,828,0.9600170254707336,b'69596',Non-Diagnostic,Non-Diagnostic
+1172,1172,0.9966486096382141,b'15633401-1b47-43c2-bc52-df1871f062f4',Teloschistes chrysophthalmus,Teloschistes chrysophthalmus
+236,236,0.7206380367279053,b'324291',Chlorophyllum molybdites,Chlorophyllum molybdites
+579,579,0.7816203832626343,b'850419',Hypholoma lateritium,Hypholoma lateritium
+753,753,0.9165507555007935,b'1462188',Megacollybia rodmanii,Megacollybia rodmanii
+134,134,0.9882882237434387,b'912892',Aureoboletus innixus,Aureoboletus innixus
+617,617,0.9919970035552979,b'5076bbaa-3426-46fb-af7e-084cfceebdcb',Ischnoderma resinosum,Ischnoderma resinosum
+51,51,0.8203002214431763,b'2c5bda13-186a-440e-b9d5-2d5da8d2e861',Amanita citrina,Amanita citrina
+84,84,0.8708688020706177,b'1164575',Amanita protecta,Amanita protecta
+440,440,0.4369748830795288,b'839661',Galerina marginata,Galerina marginata
+926,926,0.33714187145233154,b'1392850',Pleurotus dryinus,Pleurotus dryinus
+788,788,0.9290372133255005,b'1268984',Mycena epipterygia,Mycena epipterygia
+828,828,0.49952778220176697,b'485879',Non-Diagnostic,Non-Diagnostic
+390,589,0.24490806460380554,b'1310458',Hypomyces lateritius,Entoloma abortivum
+1264,1264,0.9945375323295593,b'646294',Volvariella bombycina,Volvariella bombycina
+1113,1113,0.9995570778846741,b'874227',Sebacina schweinitzii,Sebacina schweinitzii
+1018,1018,0.8480960726737976,b'311193',Pycnoporellus fulgens,Pycnoporellus fulgens
+161,161,0.9995666146278381,b'7fd6149b-8c0b-4487-8cd9-6a39b3f3f179',Boletus edulis,Boletus edulis
+139,139,0.7194911241531372,b'3373faf0-e52e-4ebf-8e79-be5a24afbead',Auricularia auricula-judae,Auricularia auricula-judae
+391,391,0.2372804582118988,b'897879',Entoloma conicum,Entoloma conicum
+659,659,0.9767652750015259,b'1224431',Lactifluus hygrophoroides,Lactifluus hygrophoroides
+828,817,0.2962211072444916,b'741350',Neofavolus alveolaris,Non-Diagnostic
+531,531,0.9994025230407715,b'ff675ba0-bc44-40ca-932c-6bfe5a4a3ff2',Hexagonia hydnoides,Hexagonia hydnoides
+431,432,0.39292705059051514,b'877534',Fomitopsis ochracea,Fomitopsis mounceae
+988,988,0.5883598327636719,b'377591',Psilocybe baeocystis,Psilocybe baeocystis
+68,68,0.8684335350990295,b'587338',Amanita magniverrucata,Amanita magniverrucata
+1149,1152,0.4791218936443329,b'366308',Suillus clintonianus,Suillus americanus
+680,679,0.3383127748966217,b'629701',Leccinum scabrum,Leccinum snellii
+306,306,0.9975036978721619,b'680590',Coprinellus disseminatus,Coprinellus disseminatus
+437,437,0.9022474884986877,b'721944',Fulvifomes robiniae,Fulvifomes robiniae
+656,656,0.6535497307777405,b'1066938',Lactifluus corrugis,Lactifluus corrugis
+326,828,0.9240305423736572,b'929090',Non-Diagnostic,Cortinarius iodes
+739,739,0.993839681148529,b'249d588b-b8fc-4169-8bf4-76e6f5d57d8e',Macrolepiota clelandii,Macrolepiota clelandii
+172,172,0.8051505088806152,b'479431',Boletus rubriceps,Boletus rubriceps
+281,828,0.6328694820404053,b'996059',Non-Diagnostic,Clitocybe nuda
+582,582,0.7007509469985962,b'5e115869-8d2e-49ae-9840-1e6a33c65783',Hypogymnia physodes,Hypogymnia physodes
+842,842,0.8192352652549744,b'1468586',Panaeolus foenisecii,Panaeolus foenisecii
+390,390,0.9636237621307373,b'2a307517-9def-4af8-b400-8ff467da7da9',Entoloma abortivum,Entoloma abortivum
+449,449,0.9977553486824036,b'691051',Ganoderma oregonense,Ganoderma oregonense
+440,440,0.984757125377655,b'378440',Galerina marginata,Galerina marginata
+231,231,0.9847205281257629,b'1108556',Chalciporus piperatus,Chalciporus piperatus
+828,331,0.8868299722671509,b'990771',Cortinarius traganus,Non-Diagnostic
+464,464,0.9642465114593506,b'a5eeccab-3b26-4d94-a28d-a47717ff01f5',Gloeophyllum sepiarium,Gloeophyllum sepiarium
+1203,1203,0.9993348121643066,b'266827',Trichaptum biforme,Trichaptum biforme
+611,611,0.999985933303833,b'2f80a66f-6bc0-436a-bddc-a9dc1705014f',Inonotus obliquus,Inonotus obliquus
+624,624,0.999152660369873,b'1361261',Laccaria amethystina,Laccaria amethystina
+49,49,0.9895831346511841,b'891565',Amanita canescens,Amanita canescens
+339,339,0.9215134382247925,b'367252',Craterellus tubaeformis,Craterellus tubaeformis
+306,306,0.9998223185539246,b'359886',Coprinellus disseminatus,Coprinellus disseminatus
+452,452,0.9187359809875488,b'a150408d-b832-4cc2-a0fa-9e0bfce738b7',Ganoderma tsugae,Ganoderma tsugae
+1230,1230,0.999177873134613,b'868311',Tricholomopsis rutilans,Tricholomopsis rutilans
+452,452,0.7792686820030212,b'c86fa6e7-1e23-450a-903e-f7c1bae681df',Ganoderma tsugae,Ganoderma tsugae
+1065,828,0.4603842794895172,b'1209849',Non-Diagnostic,Russula compacta
+627,627,0.9998275637626648,b'c682c0fe-4cff-4846-a539-1c9bf67bc4e3',Laccaria ochropurpurea,Laccaria ochropurpurea
+743,743,0.9997856020927429,b'873708',Marasmiellus candidus,Marasmiellus candidus
+562,562,0.9731322526931763,b'191866',Hygrophorus eburneus,Hygrophorus eburneus
+965,705,0.5183963179588318,b'584148',Leratiomyces riparius,Protostropharia semiglobata
+445,445,0.9781205654144287,b'da115247-39cd-4380-8d2d-3a01af4f6a42',Ganoderma curtisii,Ganoderma curtisii
+326,326,0.9991048574447632,b'22466',Cortinarius iodes,Cortinarius iodes
+1002,1002,0.9796768426895142,b'1401678',Psilocybe pelliculosa,Psilocybe pelliculosa
+565,565,0.9833403825759888,b'328553',Hygrophorus hypothejus,Hygrophorus hypothejus
+310,309,0.35210028290748596,b'1041395',Coprinellus micaceus,Coprinopsis atramentaria
+340,340,0.9978820085525513,b'1195342',Crepidotus applanatus,Crepidotus applanatus
+526,526,0.9919924736022949,b'782650',Hericium coralloides,Hericium coralloides
+193,1156,0.2508503496646881,b'742844',Suillus granulatus,Caloboletus inedulis
+419,578,0.6365386247634888,b'562335',Hypholoma fasciculare,Flammula alnicola
+662,662,0.7506546378135681,b'1066233',Laetiporus cincinnatus,Laetiporus cincinnatus
+828,828,0.9997739195823669,b'590780',Non-Diagnostic,Non-Diagnostic
+471,471,0.9943277835845947,b'175168',Grifola frondosa,Grifola frondosa
+888,888,0.9989930987358093,b'1410034',Phlebia radiata,Phlebia radiata
+315,315,0.9969416856765747,b'8bc54d14-b731-4ae6-85f8-09d9398bd261',Coprinopsis variegata,Coprinopsis variegata
+969,748,0.25768986344337463,b'708166',Marasmius plicatulus,Psathyrella corrugis
+347,347,0.9703589677810669,b'43b6722f-c732-4854-839e-894270cf16f1',Cryptoporus volvatus,Cryptoporus volvatus
+1105,1105,0.9967119693756104,b'132874',Schizophyllum commune,Schizophyllum commune
+828,828,0.9794642329216003,b'1089341',Non-Diagnostic,Non-Diagnostic
+246,246,0.9998416900634766,b'f6ffe18d-00fa-45e7-9c03-4d5c6bd0b4a4',Chrysothrix candelaris,Chrysothrix candelaris
+588,588,0.6857565641403198,b'1469994',Hypomyces lactifluorum,Hypomyces lactifluorum
+278,278,0.8722794651985168,b'1179109',Clitocybe glacialis,Clitocybe glacialis
+356,356,0.9961326122283936,b'1158633',Cyathus striatus,Cyathus striatus
+312,312,0.964165210723877,b'490211',Coprinopsis lignicola,Coprinopsis lignicola
+732,732,0.9941046833992004,b'ce74a48c-4c65-4f87-8115-8fe9fe820490',Lycoperdon perlatum,Lycoperdon perlatum
+614,614,0.9982008337974548,b'994045',Ionomidotis irregularis,Ionomidotis irregularis
+1285,1285,0.6984456777572632,b'846f868b-10e7-4486-96df-7bb6e6eb1255',Xylaria polymorpha,Xylaria polymorpha
+802,802,0.998437225818634,b'4011d042-8f33-40c1-906f-d660e1d24a25',Mycena pura,Mycena pura
+43,43,0.9965316653251648,b'1399577',Amanita augusta,Amanita augusta
+664,664,0.8445155024528503,b'687574',Laetiporus gilbertsonii,Laetiporus gilbertsonii
+1194,1194,0.5892302989959717,b'111e2753-8141-4aeb-99cd-355aab5989f9',Trametes sanguinea,Trametes sanguinea
+1195,1195,0.933493435382843,b'765551',Trametes versicolor,Trametes versicolor
+1024,1024,0.6257344484329224,b'ecd2e717-636f-43e0-be9b-bcb1e20f98a7',Ramalina farinacea,Ramalina farinacea
+1200,1200,0.5545016527175903,b'406981',Tremella mesenterica,Tremella mesenterica
+508,508,0.6633017659187317,b'518119',Helvella acetabulum,Helvella acetabulum
+49,49,0.9943546652793884,b'454581',Amanita canescens,Amanita canescens
+415,415,0.998991072177887,b'246956',Exsudoporus frostii,Exsudoporus frostii
+1082,1082,0.9582813382148743,b'157623',Russula parvovirescens,Russula parvovirescens
+1203,1203,0.7877205014228821,b'846118',Trichaptum biforme,Trichaptum biforme
+277,277,0.7624636888504028,b'1290750',Clitocybe fragrans,Clitocybe fragrans
+679,679,0.4558357000350952,b'978a7e2a-80c9-40d1-917b-aa63de6578bc',Leccinum scabrum,Leccinum scabrum
+680,678,0.30750772356987,b'540233',Leccinum rugosiceps,Leccinum snellii
+10,10,0.9902939796447754,b'199588',Agaricus campestris,Agaricus campestris
+82,82,0.7380446791648865,b'1194585',Amanita porphyria,Amanita porphyria
+664,664,0.7973456382751465,b'1257803',Laetiporus gilbertsonii,Laetiporus gilbertsonii
+411,184,0.6704840064048767,b'715617',Bulgaria inquinans,Exidia glandulosa
+527,527,0.9927113056182861,b'62818',Hericium erinaceus,Hericium erinaceus
+1246,1240,0.14932507276535034,b'752455',Tylopilus alboater,Tylopilus rubrobrunneus
+122,122,0.9999005794525146,b'875273',Artomyces pyxidatus,Artomyces pyxidatus
+417,417,0.9504463076591492,b'60221',Favolus brasiliensis,Favolus brasiliensis
+945,945,0.9999938011169434,b'50c49882-6695-48ec-81e9-d338ed316233',Podaxis pistillaris,Podaxis pistillaris
+1173,1173,0.972899854183197,b'9602dd63-7c98-4783-8d43-6cb06ad06ed9',Teloschistes exilis,Teloschistes exilis
+828,828,0.9053294658660889,b'662770',Non-Diagnostic,Non-Diagnostic
+452,452,0.9947299957275391,b'635634',Ganoderma tsugae,Ganoderma tsugae
+833,833,0.9999202489852905,b'69809',Omphalotus olivascens,Omphalotus olivascens
+828,79,0.8169515132904053,b'676548',Amanita persicina,Non-Diagnostic
+885,885,0.9887565970420837,b'f7cf1bd0-fcac-4dc0-9872-9e9e372bc748',Phellinus robiniae,Phellinus robiniae
+998,998,0.31233254075050354,b'287977',Psilocybe muliercula,Psilocybe muliercula
+78,78,0.4308839440345764,b'1049483',Amanita parcivolvata,Amanita parcivolvata
+150,150,0.8829970955848694,b'610732',Bjerkandera adusta,Bjerkandera adusta
+803,803,0.9281250238418579,b'321849',Mycena purpureofusca,Mycena purpureofusca
+273,273,0.745370090007782,b'16bb7572f219c2d7eb03f047319a1954',Clavulinopsis laeticolor,Clavulinopsis laeticolor
+828,828,0.9946579933166504,b'114759',Non-Diagnostic,Non-Diagnostic
+586,586,0.9765479564666748,b'878836',Hypomyces chrysospermus,Hypomyces chrysospermus
+411,411,0.8688093423843384,b'71e5e8f8-2d0f-4157-aca5-29a3a96d5790',Exidia glandulosa,Exidia glandulosa
+779,779,0.9938040971755981,b'c94ad942-5ffb-4e53-a1ae-a50921c92ecb',Mutinus elegans,Mutinus elegans
+136,136,0.9912381768226624,b'902437',Aureoboletus russellii,Aureoboletus russellii
+1254,1254,0.8950856924057007,b'840881',Urnula padeniana,Urnula padeniana
+30,30,0.9976341724395752,b'41699b30-1b12-41e4-ba42-8ba92f9898ae',Aleuria aurantia,Aleuria aurantia
+1240,1240,0.9950049519538879,b'895570',Tylopilus alboater,Tylopilus alboater
+905,905,0.9973834156990051,b'1156959',Pholiotina rugosa,Pholiotina rugosa
+1094,1089,0.6986566781997681,b'1120310',Russula silvestris,Russula vinacea
+1044,1044,0.9904728531837463,b'664171',Rhodocollybia maculata,Rhodocollybia maculata
+1131,1131,0.8991361260414124,b'1007989',Stereum ostrea,Stereum ostrea
+678,677,0.6225104331970215,b'454915',Leccinum pseudoscabrum,Leccinum rugosiceps
+1098,1098,0.846727192401886,b'307046',Sarcodon fuscoindicus,Sarcodon fuscoindicus
+584,584,0.9213730692863464,b'131681',Hypomyces aurantius,Hypomyces aurantius
+282,282,0.9486048817634583,b'53222',Clitocybe odora,Clitocybe odora
+1186,1186,0.8780462741851807,b'e8cb587d-8d04-485d-9852-c11a476d4c94',Trametes cinnabarina,Trametes cinnabarina
+1192,1195,0.797473669052124,b'1147250',Trametes versicolor,Trametes ochracea
+828,828,0.998921275138855,b'1300497',Non-Diagnostic,Non-Diagnostic
+146,146,0.9733297228813171,b'760781',Baorangia bicolor,Baorangia bicolor
+619,619,0.852323055267334,b'bc4514ed-0617-400c-8261-092194b79437',Kretzschmaria deusta,Kretzschmaria deusta
+32,32,0.9999954700469971,b'8428574e-fe5a-4403-80a8-60fdef152d7f',Allodus podophylli,Allodus podophylli
+482,241,0.16331948339939117,b'595707',Chromosera cyanophylla,Gymnopilus sapineus
+374,374,0.9928817749023438,b'980966',Deconica montana,Deconica montana
+979,979,0.986423671245575,b'553077',Pseudohydnum gelatinosum,Pseudohydnum gelatinosum
+344,344,0.4640823304653168,b'500246',Crucibulum crucibuliforme,Crucibulum crucibuliforme
+370,1185,0.6773942112922668,b'7d15e194-929c-4a2a-88a7-50813829c00e',Trametes betulina,Daedaleopsis confragosa
+1233,1233,0.9982947707176208,b'391647',Tubaria furfuracea,Tubaria furfuracea
+77,64,0.9014878869056702,b'3c458732-296f-4c0f-8fd0-4c78d6e41164',Amanita gemmata,Amanita pantherina
+446,446,0.36249104142189026,b'1047352',Ganoderma lobatum,Ganoderma lobatum
+662,662,0.9962426424026489,b'1381620',Laetiporus cincinnatus,Laetiporus cincinnatus
+452,521,0.19492635130882263,b'1513479',Hemipholiota populnea,Ganoderma tsugae
+828,691,0.5702372789382935,b'814134',Lepiota cristata,Non-Diagnostic
+566,566,0.9920503497123718,b'1418139',Hygrophorus occidentalis,Hygrophorus occidentalis
+510,510,0.938461184501648,b'849270',Helvella crispa,Helvella crispa
+316,316,0.9919997453689575,b'295695',Coprinus comatus,Coprinus comatus
+776,776,0.9960681200027466,b'232927',Morchella snyderi,Morchella snyderi
+309,309,0.9789180159568787,b'977465',Coprinellus micaceus,Coprinellus micaceus
+992,839,0.5163968205451965,b'24076bc7-f974-4563-8770-e3a2f42910b9',Panaeolus antillarum,Psilocybe cubensis
+521,521,0.9962247610092163,b'676442',Hemipholiota populnea,Hemipholiota populnea
+263,263,0.997191846370697,b'1390136',Clavaria fragilis,Clavaria fragilis
+796,796,0.9999629259109497,b'737583',Mycena leaiana,Mycena leaiana
+1189,1189,0.9998326301574707,b'3b22cc64-ec88-48e9-9480-cfcebf12d5db',Trametes gibbosa,Trametes gibbosa
+842,842,0.878520667552948,b'0631e073-787b-46e9-8129-5361cea9a9b9',Panaeolus foenisecii,Panaeolus foenisecii
+839,839,0.9927301406860352,b'1178730',Panaeolus antillarum,Panaeolus antillarum
+136,136,0.9993417859077454,b'1054958',Aureoboletus russellii,Aureoboletus russellii
+1175,1175,0.9945405125617981,b'1506833',Terana coerulea,Terana coerulea
+648,648,0.9985546469688416,b'1287245',Lactarius rubidus,Lactarius rubidus
+451,451,0.9343221187591553,b'1107717',Ganoderma sessile,Ganoderma sessile
+452,452,0.9652250409126282,b'597371',Ganoderma tsugae,Ganoderma tsugae
+583,583,0.7733046412467957,b'99372c2f-bd5d-4913-95fd-7b7e12393706',Hypogymnia tubulosa,Hypogymnia tubulosa
+254,254,0.6935559511184692,b'9b25116c-f74a-4ef8-9bd4-a62ebb82689f',Cladonia macilenta,Cladonia macilenta
+550,556,0.8760344386100769,b'126940',Hygrocybe miniata,Hygrocybe cantharellus
+142,142,0.9994298219680786,b'425308',Auricularia nigricans,Auricularia nigricans
+8,8,0.48347124457359314,b'494298',Agaricus bitorquis,Agaricus bitorquis
+44,44,0.9952541589736938,b'91277',Amanita banningiana,Amanita banningiana
+828,828,0.9829797148704529,b'452946',Non-Diagnostic,Non-Diagnostic
+1266,1266,0.9994269609451294,b'c20b9f00-25a8-40ea-8669-80aca024f469',Vulpicida pinastri,Vulpicida pinastri
+1230,1230,0.9219865202903748,b'656763',Tricholomopsis rutilans,Tricholomopsis rutilans
+887,887,0.951738715171814,b'1205076',Phlebia incarnata,Phlebia incarnata
+1210,1210,0.8835555911064148,b'827227',Tricholoma focale,Tricholoma focale
+103,103,0.99224454164505,b'84433',Amanita velosa,Amanita velosa
+526,526,0.8904724717140198,b'020698be-af86-4d00-82d2-630073dd3514',Hericium coralloides,Hericium coralloides
+263,263,0.8170198202133179,b'111089',Clavaria fragilis,Clavaria fragilis
+527,275,0.2789898216724396,b'1344119',Climacodon septentrionalis,Hericium erinaceus
+1209,1209,0.9962617754936218,b'303387',Tricholoma equestre,Tricholoma equestre
+409,409,0.759903609752655,b'23231',Evernia prunastri,Evernia prunastri
+516,516,0.3756246864795685,b'287565',Helvella solitaria,Helvella solitaria
+828,828,0.4541769325733185,b'247018',Non-Diagnostic,Non-Diagnostic
+641,641,0.9957247972488403,b'440814',Lactarius griseus,Lactarius griseus
+465,465,0.9953550100326538,b'1034902',Gloeoporus dichrous,Gloeoporus dichrous
+263,263,0.9999629259109497,b'9409cdda-27be-41d3-b2e7-64eaeb7f4189',Clavaria fragilis,Clavaria fragilis
+621,26,0.6642130613327026,b'736417',Agrocybe putaminum,Kuehneromyces marginellus
+967,967,0.6647490859031677,b'1163363',Psathyrella bipellis,Psathyrella bipellis
+881,881,0.9981661438941956,b'6b7cc98e-2e66-43f1-b178-f24da82e32e8',Phallus ravenelii,Phallus ravenelii
+916,916,0.6886501908302307,b'242899',Physconia enteroxantha,Physconia enteroxantha
+1002,1002,0.9973583221435547,b'678884',Psilocybe pelliculosa,Psilocybe pelliculosa
+1002,1002,0.999627947807312,b'1277638',Psilocybe pelliculosa,Psilocybe pelliculosa
+32,32,0.9977188110351562,b'874407',Allodus podophylli,Allodus podophylli
+146,666,0.8188259601593018,b'844868',Lanmaoa pallidorosea,Baorangia bicolor
+1069,1069,0.7707034349441528,b'767063',Russula densifolia,Russula densifolia
+491,491,0.9966263771057129,b'283340',Gymnosporangium juniperi-virginianae,Gymnosporangium juniperi-virginianae
+1186,1186,0.8974220156669617,b'539841',Trametes cinnabarina,Trametes cinnabarina
+634,634,0.9847161173820496,b'1346477',Lactarius argillaceifolius,Lactarius argillaceifolius
+840,840,0.3552728593349457,b'148643',Panaeolus cinctulus,Panaeolus cinctulus
+662,662,0.9842232465744019,b'1186522',Laetiporus cincinnatus,Laetiporus cincinnatus
+985,985,0.8722987174987793,b'59388',Psilocybe allenii,Psilocybe allenii
+657,647,0.5337638258934021,b'1476271',Lactarius psammicola,Lactifluus deceptivus
+337,337,0.9897544980049133,b'690647',Craterellus lutescens,Craterellus lutescens
+165,165,0.30125218629837036,b'243871',Boletus nobilis,Boletus nobilis
+1264,1264,0.9998408555984497,b'227630',Volvariella bombycina,Volvariella bombycina
+661,828,0.9897266626358032,b'841212',Non-Diagnostic,Lactifluus volemus
+559,559,0.9999873638153076,b'1383712',Hygrophoropsis aurantiaca,Hygrophoropsis aurantiaca
+828,177,0.4747939705848694,b'765908',Boletus variipes,Non-Diagnostic
+1233,1233,0.9490770101547241,b'c8d5efac-83ae-432e-a1a9-0c5156f837da',Tubaria furfuracea,Tubaria furfuracea
+59,1013,0.32833629846572876,b'1485009',Pulveroboletus curtisii,Amanita flavoconia
+578,578,0.9709750413894653,b'73c72267-c9ee-4461-ae0e-595caa9d189b',Hypholoma fasciculare,Hypholoma fasciculare
+46,46,0.5154727101325989,b'447843',Amanita brunnescens,Amanita brunnescens
+796,796,0.9998471736907959,b'1079555',Mycena leaiana,Mycena leaiana
+92,92,0.9927743673324585,b'406302',Amanita rubescens,Amanita rubescens
+731,731,0.5868455171585083,b'1146412',Lycoperdon molle,Lycoperdon molle
+268,268,0.9790507555007935,b'928429',Clavulina coralloides,Clavulina coralloides
+539,539,0.5116778612136841,b'194527',Hydnellum aurantiacum,Hydnellum aurantiacum
+1089,1089,0.9323433637619019,b'673292',Russula silvestris,Russula silvestris
+223,223,0.9362836480140686,b'1334879',Ceratiomyxa fruticulosa,Ceratiomyxa fruticulosa
+445,445,0.8837180137634277,b'643925',Ganoderma curtisii,Ganoderma curtisii
+46,46,0.3985711634159088,b'1358820',Amanita brunnescens,Amanita brunnescens
+828,827,0.516736626625061,b'1506214',Niveoporofomes spraguei,Non-Diagnostic
+828,828,0.9893233776092529,b'1089339',Non-Diagnostic,Non-Diagnostic
+378,378,0.8797101974487305,b'83912a93-ce9b-4664-a180-b019017ac1c6',Desarmillaria tabescens,Desarmillaria tabescens
+72,72,0.9243838787078857,b'7629d0876d9420ebf7ec116d39e21d7e',Amanita muscaria,Amanita muscaria
+316,316,0.90958571434021,b'1545406',Coprinus comatus,Coprinus comatus
+215,215,0.9339761734008789,b'1501455',Cantharellus formosus,Cantharellus formosus
+1071,1071,0.6329379081726074,b'166447',Russula flavida,Russula flavida
+985,985,0.45092904567718506,b'821096',Psilocybe allenii,Psilocybe allenii
+979,278,0.9579788446426392,b'163171',Clitocybe glacialis,Pseudohydnum gelatinosum
+679,680,0.7913205027580261,b'242969',Leccinum snellii,Leccinum scabrum
+1268,1267,0.5847693681716919,b'757199',Xanthoconium affine,Xanthoconium purpureum
+1263,1263,0.9959512948989868,b'1180577',Verpa conica,Verpa conica
+1273,1273,0.7028384208679199,b'226311',Xanthoparmelia plittii,Xanthoparmelia plittii
+424,424,0.44277361035346985,b'78148f4a-3dbf-4638-b6ac-e59bd58c593b',Flavoparmelia caperata,Flavoparmelia caperata
+768,768,0.9997804760932922,b'349230',Monotropa uniflora,Monotropa uniflora
+527,527,0.9654590487480164,b'de36eb3a-f083-4e1f-b510-e9c2cde031b1',Hericium erinaceus,Hericium erinaceus
+611,611,0.9996789693832397,b'09f04dcf-26e6-44e4-8e07-4ef7e508bf20',Inonotus obliquus,Inonotus obliquus
+1203,1203,0.9764111638069153,b'231320',Trichaptum biforme,Trichaptum biforme
+1195,1195,0.9557044506072998,b'1496174',Trametes versicolor,Trametes versicolor
+215,215,0.9395735859870911,b'235673',Cantharellus formosus,Cantharellus formosus
+1156,1156,0.988327145576477,b'664588',Suillus granulatus,Suillus granulatus
+1044,1044,0.9998910427093506,b'463169',Rhodocollybia maculata,Rhodocollybia maculata
+1195,1195,0.5611193180084229,b'924866',Trametes versicolor,Trametes versicolor
+1048,1048,0.9999382495880127,b'b5700403-816e-492e-ab7c-96043a96789e',Rhytisma acerinum,Rhytisma acerinum
+935,935,0.73561030626297,b'1249410',Pluteus cervinus,Pluteus cervinus
+1000,1000,0.7143288850784302,b'638812',Psilocybe ovoideocystidiata,Psilocybe ovoideocystidiata
+382,828,0.9678230285644531,b'242130',Non-Diagnostic,Diploschistes scruposus
+597,597,0.2876458764076233,b'54679',Imleria pallida,Imleria pallida
+1267,1267,0.7794480323791504,b'1062912',Xanthoconium affine,Xanthoconium affine
+366,1200,0.9419816136360168,b'279434',Tremella mesenterica,Dacrymyces chrysospermus
+828,505,0.7712341547012329,b'426960',Heimiomyces tenuipes,Non-Diagnostic
+170,170,0.482942670583725,b'1332524',Boletus rex-veris,Boletus rex-veris
+311,311,0.9417609572410583,b'1286966',Coprinopsis lagopus,Coprinopsis lagopus
+568,570,0.46724799275398254,b'182217',Hygrophorus russula,Hygrophorus purpurascens
+456,456,0.9424379467964172,b'1379324',Geastrum triplex,Geastrum triplex
+735,471,0.5090437531471252,b'775923',Grifola frondosa,Lyophyllum decastes
+1058,718,0.22620488703250885,b'1301278',Leucopaxillus gentianeus,Russula aeruginea
+368,368,0.9881502389907837,b'17846b5c-b713-4f4d-8644-43302dabdfcf',Dacryopinax spathularia,Dacryopinax spathularia
+440,440,0.5852871537208557,b'1323827',Galerina marginata,Galerina marginata
+706,706,0.9992232322692871,b'beb47c6a-1b45-40c7-acf6-7f0f88af4155',Letharia columbiana,Letharia columbiana
+627,627,0.4330402612686157,b'1394758',Laccaria ochropurpurea,Laccaria ochropurpurea
+711,711,0.9978703260421753,b'69882a75-3f12-4fd8-aab0-e5cb7b8ab7f9',Leucoagaricus leucothites,Leucoagaricus leucothites
+113,113,0.968701958656311,b'1011296',Armillaria mellea,Armillaria mellea
+59,59,0.9542333483695984,b'1390207',Amanita flavoconia,Amanita flavoconia
+713,713,0.9839901328086853,b'd9f48b0a-46e5-4f4c-85df-06ea70334963',Leucocoprinus birnbaumii,Leucocoprinus birnbaumii
+587,587,0.9987909197807312,b'351912',Hypomyces hyalinus,Hypomyces hyalinus
+1195,584,0.34610679745674133,b'1463537',Hypomyces aurantius,Trametes versicolor
+825,823,0.45641496777534485,b'fac663e94d143d8d3fafd5952160b61a',Niebla cephalota,Niebla homalea
+828,828,0.880972146987915,b'512708',Non-Diagnostic,Non-Diagnostic
+1171,1170,0.23746420443058014,b'1133957',Tapinella atrotomentosa,Tapinella panuoides
+1000,1000,0.9827710390090942,b'613435',Psilocybe ovoideocystidiata,Psilocybe ovoideocystidiata
+344,354,0.44339749217033386,b'79163',Cyathus olla,Crucibulum crucibuliforme
+347,347,0.9971070885658264,b'31ea4ec6-e3f5-46bc-abc0-a917d01b7902',Cryptoporus volvatus,Cryptoporus volvatus
+1031,1031,0.856326162815094,b'877800',Ramaria rasilispora,Ramaria rasilispora
+449,449,0.754858672618866,b'182481b3-af6d-48ab-9ac2-821512066263',Ganoderma oregonense,Ganoderma oregonense
+1195,1195,0.7954460382461548,b'83ec6702-a302-4c4e-8276-0c8935d6c609',Trametes versicolor,Trametes versicolor
+979,979,0.9853503108024597,b'504031',Pseudohydnum gelatinosum,Pseudohydnum gelatinosum
+970,970,0.9826555848121643,b'119124',Psathyrella longipes,Psathyrella longipes
+1033,1033,0.7065727710723877,b'497370',Ramariopsis kunzei,Ramariopsis kunzei
+828,828,0.8981992602348328,b'79115',Non-Diagnostic,Non-Diagnostic
+828,828,0.6970882415771484,b'663961',Non-Diagnostic,Non-Diagnostic
+538,796,0.49922433495521545,b'706423',Mycena leaiana,Humidicutis marginata
