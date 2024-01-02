@@ -5,10 +5,11 @@ variable "gcp_region" {
 
 variable "gcp_project_id" {
   description = "Project ID in GCP"
+  default = "tform-intro"
 }
 
 variable "gcp_credentials" {
-  default = "./terraform-account.json"
+  default = "./tform-intro-main.json"
 }
 variable "prefix" {
   description = "Prefix for the services"
@@ -16,7 +17,7 @@ variable "prefix" {
 }
 
 variable "credentials" {
-  default = "./terraform-account.json"
+  default = "./tform-intro-main.json"
 }
 variable "service-account" {
 }

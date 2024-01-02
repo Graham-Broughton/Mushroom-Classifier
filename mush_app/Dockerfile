@@ -23,12 +23,9 @@ FROM python:3.11-slim as final
 WORKDIR /mush_app
 
 ENV PATH $PATH:/usr/local/gcloud/google-cloud-sdk/bin
-# ENV GOOGLE_APPLICATION_CREDENTIALS=/mush_app/mush-classifier-main.json
-# ENV GCP_PROJECT_ID=mush-classifier
 ENV HOME=/mush_app
 
 ARG GOOGLE_APPLICATION_CREDENTIALS=/mush_app/mush-classifier-main.json
-# ARG GCP_PROJECT_ID=mush-classifier
 
 COPY --from=build /mush_app/requirements.txt .
 

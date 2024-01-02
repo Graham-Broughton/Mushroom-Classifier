@@ -1,7 +1,7 @@
 import hashlib
 import io
-from os import environ
 from pathlib import Path
+from datetime import datetime
 
 import numpy as np
 import requests
@@ -93,8 +93,9 @@ def insert_image_data(
         # Create the table if it doesn't exist
         table_ref = dataset.table(table_name)
         schema = [
+            bigquery.SchemaField("timestamp", "DATETIME", mode="REQUIRED"),
             bigquery.SchemaField("hash_id", "STRING", mode="REQUIRED"),
-            bigquery.SchemaField("image", "BYTES", mode="REQUIRED"),
+            bigquery.SchemaField("image", "BYTES", mode="REQUIRED", default_value_expression="CURRENT_DATETIME"),
         ]
         table = bigquery.Table(table_ref, schema=schema)
         table = client.create_table(table, exists_ok=True)

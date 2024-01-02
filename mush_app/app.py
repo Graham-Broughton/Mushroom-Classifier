@@ -136,12 +136,14 @@ async def sms(request: Request):
         dataset = preprocessing.load_dataset(urls, sender, IMAGE_SIZE)
         predictions = model_predictions(dataset)
         msg = evaluate_preds(predictions[0])
+        print(msg)
 
         # Create a TwiML response object
         twiml = MessagingResponse()
 
         # Add a message to the response
         twiml.message(msg)
+        print(twiml, type(twiml))
         # Return the TwiML response as a string
         return Response(content=str(twiml), media_type="application/xml")
 
