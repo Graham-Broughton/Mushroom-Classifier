@@ -5,7 +5,7 @@ from os import environ
 
 load_dotenv()
 
-root = Path(environ.get("PYTHONPATH"))
+root = Path(environ.get("PROJECTPATH"))
 deploy_model_path = root / "mush_app" / "model"
 deploy_model_path.mkdir(parents=True, exist_ok=False)
 

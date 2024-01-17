@@ -70,7 +70,7 @@ def model_predictions(dataset):
     return predictions
 
 
-def evaluate_preds(preds, upper_lim=0.90, middle_lim=0.60, lower_lim=0.30):
+def evaluate_preds(preds, upper_lim=0.80, middle_lim=0.60, lower_lim=0.30):
     """Evaluate the predictions made by a classifier and return a message describing the predicted class.
 
     Args:
