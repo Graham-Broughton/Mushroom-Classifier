@@ -1,4 +1,5 @@
 import hashlib
+import re
 import io
 from pathlib import Path
 from datetime import datetime
@@ -9,51 +10,85 @@ import tensorflow as tf
 from google.cloud import bigquery
 import google.auth
 from PIL import Image
+from urllib.parse import urlparse
+import logging
 
 credentials, project = google.auth.default()
 
 
 def get_model(path: Path):
-    return tf.keras.models.load_model(path)
+    try:
+        model = tf.keras.models.load_model(path)
+        logging.info(f"Model loaded successfully from {path}")
+        return model
+    except IOError:
+        logging.error(f"Failed to load model from {path}. File not found or inaccessible.")
+        return None
+    except Exception as e:
+        logging.error(f"An error occurred while loading the model: {e}")
+        return None
 
+
+def is_valid_url(url: str) -> bool:
+    """Check if the URL is valid and well-formed."""
+    try:
+        result = urlparse(url)
+        return all([result.scheme, result.netloc])
+    except:
+        return False
 
 def get_image(url: str):
     """Retrieves an image from the specified URL and returns it as a PIL Image object.
-
+    
     Args:
         url (str): The URL of the image to retrieve.
 
     Returns:
-        PIL.Image.Image: The retrieved image.
+        PIL.Image.Image: The retrieved image, or None if an error occurs.
     """
-    response = requests.get(url, stream=True)
-    response.raise_for_status()  # Ensure that the request was successful
+    if not is_valid_url(url):
+        logging.warning(f"Invalid URL provided: {url}")
+        return None
 
-    # Save the image to a BytesIO object (in-memory file)
-    img_file = io.BytesIO(response.content)
-    img = Image.open(img_file)
+    try:
+        response = requests.get(url, stream=True)
+        response.raise_for_status()
+        img_file = io.BytesIO(response.content)
+        img = Image.open(img_file)
+        # Optional: Check image properties here (size, format, etc.)
+        return img
+    except requests.RequestException as e:
+        logging.error(f"Network error occurred while retrieving image: {e}")
+        return None
+    except IOError:
+        logging.error("Invalid image data received.")
+        return None
+    except Exception as e:
+        logging.error(f"An error occurred while processing the image: {e}")
+        return None
 
-    return img
 
+def is_valid_phone_number(phone_number: str) -> bool:
+    """Validate the phone number format. Adjust the regex according to the expected format."""
+    pattern = re.compile(r"^\+\d{1,3}\s?\d{4,14}$")  # Example pattern for international numbers
+    return pattern.match(phone_number) is not None
 
-def hash_phone_number(phone_number):
-    """Hashes a phone number using the SHA-256 algorithm.
+def hash_phone_number(phone_number: str, salt: str):
+    """Hashes a phone number using the SHA-256 algorithm, with added salt for security.
 
     Args:
-        phone_number (str): The phone number to be hashed.
+        phone_number (str): The phone number to hash.
+        salt (str): A salt value for additional security.
 
     Returns:
-        str: The hexadecimal representation of the hashed phone number.
+        str: The hashed phone number.
     """
-    # Create a new SHA-256 hash object
-    hasher = hashlib.sha256()
+    if not is_valid_phone_number(phone_number):
+        logging.warning(f"Invalid phone number format: {phone_number}")
+        return None
 
-    # Update the hash object with the phone number
-    # Encode the phone number to bytes
-    hasher.update(phone_number.encode("utf-8"))
-
-    # Return the hexadecimal representation of the digest
-    return hasher.hexdigest()
+    salted_number = phone_number + salt
+    return hashlib.sha256(salted_number.encode()).hexdigest()
 
 
 def insert_image_data(
